@@ -1258,6 +1258,7 @@ function DataGrid(props, ref) {
       <FilterContext.Provider value={filters}>
         <DataGridDefaultComponentsProvider value={defaultGridComponents}>
           <HeaderRow
+            rows={rawRows}
             columns={getRowViewportColumns(-1)}
             selectedPosition={selectedPosition}
             selectedCellHeaderStyle={selectedCellHeaderStyle}

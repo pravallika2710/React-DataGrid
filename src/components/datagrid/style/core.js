@@ -141,7 +141,6 @@ export const focusSinkClassname = css`
 
 export const filterColumnClassName = 'filter-cell';
 
-
 export const filterContainerClassname = css`
   .${filterColumnClassName} {
     line-height: 35px;

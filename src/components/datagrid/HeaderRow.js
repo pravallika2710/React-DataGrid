@@ -34,6 +34,7 @@ const headerRowClassname = `rdg-header-row ${headerRow}`;
 
 function HeaderRow({
   columns,
+  rows,
   allRowsSelected,
   onAllRowsSelectionChange,
   onColumnResize,
@@ -46,6 +47,7 @@ function HeaderRow({
   selectedPosition,
   shouldFocusGrid,
   direction,
+  setFilters
 }) {
   const cells = [];
   for (let index = 0; index < columns.length; index++) {
@@ -61,6 +63,7 @@ function HeaderRow({
       <HeaderCell
         key={column.key}
         column={column}
+        rows={rows}
         colSpan={colSpan}
         selectedPosition={selectedPosition}
         selectedCellHeaderStyle={selectedCellHeaderStyle}
@@ -73,6 +76,7 @@ function HeaderRow({
         selectCell={selectCell}
         shouldFocusGrid={shouldFocusGrid && index === 0}
         direction={direction}
+        setFilters={setFilters}
       />
     );
   }

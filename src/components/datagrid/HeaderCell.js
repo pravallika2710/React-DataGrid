@@ -4,6 +4,7 @@ import { css } from "@linaria/core";
 import defaultHeaderRenderer from "./headerRenderer";
 import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks";
+import { filterColumnClassName } from './style'
 
 const cellResizable = css`
   @layer rdg.HeaderCell {
@@ -25,6 +26,7 @@ const cellResizableClassname = `rdg-cell-resizable ${cellResizable}`;
 
 export default function HeaderCell({
   column,
+  rows,
   colSpan,
   isCellSelected,
   onColumnResize,
@@ -37,6 +39,7 @@ export default function HeaderCell({
   selectedPosition,
   selectedCellHeaderStyle,
   direction,
+  setFilters
 }) {
   const isRtl = direction === "rtl";
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
@@ -66,6 +69,7 @@ export default function HeaderCell({
   const className = getCellClassname(
     column,
     column.headerCellClass,
+    column.filter && filterColumnClassName,
     {
       [cellResizableClassname]: column.resizable,
     },
@@ -196,12 +200,14 @@ export default function HeaderCell({
     >
       {headerRenderer({
         column,
+        rows,
         sortDirection,
         priority,
         onSort,
         allRowsSelected,
         onAllRowsSelectionChange,
         isCellSelected,
+        setFilters
       })}
     </div>
   );

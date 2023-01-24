@@ -179,7 +179,11 @@ function createRows() {
 export default function AllFeatures({ direction }) {
   const [rows, setRows] = useState(createRows);
   const [selectedRows, setSelectedRows] = useState(() => new Set());
-
+  
+  const selectedCellHeaderStyle = {
+    backgroundColor: 'red',
+    fontSize: "12px"
+  }
   function handlePaste({
     sourceColumnKey,
     sourceRow,
@@ -216,7 +220,7 @@ export default function AllFeatures({ direction }) {
       onCopy={handleCopy}
       onPaste={handlePaste}
       rowHeight={30}
-      // headerRowHeight={144}
+      selectedCellHeaderStyle={selectedCellHeaderStyle}
       selectedRows={selectedRows}
       onSelectedRowsChange={setSelectedRows}
       className="fill-grid"
