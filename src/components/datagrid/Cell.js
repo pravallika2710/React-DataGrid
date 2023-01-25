@@ -80,7 +80,7 @@ function Cell({
 
   // -----------
   var style = getCellStyle(column, colSpan);
-  const rowSpan = column.rowSpan?.({ type: 'ROW', row }) ?? undefined;
+  const rowSpan = column.rowSpan?.({ type: "ROW", row }) ?? undefined;
 
   if (column.validation) {
     const validationStyle = column.validation.style

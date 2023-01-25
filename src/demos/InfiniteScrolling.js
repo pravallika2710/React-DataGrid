@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
-
+import textEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
 
 const loadMoreRowsClassname = css`
@@ -23,24 +23,27 @@ function rowKeyGetter(row) {
 const columns = [
   {
     field: "id",
-   headerName: "ID",
+    headerName: "ID",
     width: 30,
   },
   {
     field: "title",
-   headerName: "Title",
+    headerName: "Title",
+    editable: true,
   },
   {
     field: "firstName",
-   headerName: "First Name",
+    headerName: "First Name",
+    cellRenderer: textEditor,
   },
   {
     field: "lastName",
-   headerName: "Last Name",
+    headerName: "Last Name",
   },
   {
     field: "email",
-   headerName: "Email",
+    headerName: "Email",
+    valueFormatter: ({ row, column }) => `Email: ${row[column.key]}`,
   },
 ];
 

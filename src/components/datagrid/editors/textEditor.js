@@ -32,10 +32,6 @@ const textEditorInternalClassname = css`
 
 export const textEditorClassname = `rdg-text-editor ${textEditorInternalClassname}`;
 
-function autoFocusAndSelect(input) {
-  input?.focus();
-  input?.select();
-}
 
 export default function textEditor({
   row,
@@ -54,7 +50,6 @@ export default function textEditor({
     <input
       spellCheck="false"
       className={textEditorClassname}
-      ref={autoFocusAndSelect}
       type={type}
       disabled={column.editable ? column.editable : false}
       value={row[column.key]}

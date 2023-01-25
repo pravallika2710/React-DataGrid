@@ -44,7 +44,7 @@ export default function ColumnSpanning({ direction }) {
         headerName: key,
         // frozen: i < 5,
         resizable: true,
-        formatter: cellFormatter,
+        cellRenderer: cellFormatter,
         colSpan(args) {
           if (args.type === 'ROW') {
             if (key === '2' && args.row === 2) return 3;

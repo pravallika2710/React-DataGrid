@@ -28,6 +28,12 @@ export const cell = css`
       outline: 2px solid var(--rdg-selection-color);
       outline-offset: -2px;
     }
+    & > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
   }
 `;
 

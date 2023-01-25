@@ -115,9 +115,9 @@ export default function EditCell({
       onKeyDown={onKeyDown}
       onMouseDownCapture={commitOnOutsideClick ? cancelFrameRequest : undefined}
     >
-      {column.cellRenderer != null && (
+      {column.editor != null && (
         <>
-          {column.cellRenderer({
+          {column.editor({
             column,
             row,
             onRowChange,
