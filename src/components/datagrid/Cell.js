@@ -224,9 +224,13 @@ function Cell({
         <>
           {column.formatter({
             column,
+            colDef: column,
             row,
+            data: row,
+            onRowChange,
             allrow,
             rowIndex,
+            value: row[column.key],
             isCellSelected,
             onRowChange: handleRowChange,
           })}

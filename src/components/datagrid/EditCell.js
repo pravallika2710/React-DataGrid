@@ -115,20 +115,29 @@ export default function EditCell({
       onKeyDown={onKeyDown}
       onMouseDownCapture={commitOnOutsideClick ? cancelFrameRequest : undefined}
     >
-      {column.editor != null && (
+      {column.cellEditor != null && (
         <>
-          {column.editor({
+          {column.cellEditor({
             column,
+            colDef: column,
             row,
+            data: row,
             onRowChange,
+            value: row[column.key],
+            valueFormatted: column.valueFormatter,
             allrow,
             rowIndex,
             onClose,
           })}
           {column.editorOptions?.renderFormatter &&
             column.formatter({
+              colDef: column,
               column,
+              data: row,
               row,
+              value: row[column.key],
+              valueFormatted: column.valueFormatter,
+              onRowChange,
               isCellSelected: true,
               onRowChange,
             })}

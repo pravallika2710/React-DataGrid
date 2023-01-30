@@ -34,7 +34,10 @@ const columns = [
   {
     field: "firstName",
     headerName: "First Name",
-    cellRenderer: textEditor,
+    cellRenderer: (props) => {
+      console.log(props);
+      return textEditor(props);
+    },
   },
   {
     field: "lastName",
