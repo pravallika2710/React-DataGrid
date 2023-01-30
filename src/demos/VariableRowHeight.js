@@ -25,7 +25,7 @@ export default function VariableRowHeight({ direction }) {
         headerName: key,
         frozen: i < 5,
         resizable: true,
-        formatter: cellFormatter
+        valueFormatter: cellFormatter
       });
     }
 

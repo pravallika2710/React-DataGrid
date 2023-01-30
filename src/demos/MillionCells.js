@@ -25,7 +25,7 @@ export default function MillionCells({ direction }) {
         frozen: i < 5,
         width: 80,
         resizable: true,
-        formatter: cellFormatter
+        valueFormatter: cellFormatter
       });
     }
 

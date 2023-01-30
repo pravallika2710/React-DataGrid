@@ -64,7 +64,7 @@ export default function MasterDetail({ direction }) {
               `
             : undefined;
         },
-        formatter({ row, isCellSelected, onRowChange }) {
+        valueFormatter({ row, isCellSelected, onRowChange }) {
           if (row.type === 'DETAIL') {
             return (
               <ProductGrid

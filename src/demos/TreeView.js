@@ -117,7 +117,7 @@ export default function TreeView({ direction }) {
       {
         field: 'format',
         headerName: 'format',
-        formatter({ row, isCellSelected }) {
+        valueFormatter({ row, isCellSelected }) {
           const hasChildren = row.children !== undefined;
           const style = !hasChildren ? { marginInlineStart: 30 } : undefined;
           return (

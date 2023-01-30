@@ -40,7 +40,7 @@ const columns = [
     width: 40,
     resizable: true,
     headerRenderer: () => <ImageFormatter value={faker.image.cats()} />,
-    formatter: ({ row }) => <ImageFormatter value={row.avatar} />,
+    valueFormatter: ({ row }) => <ImageFormatter value={row.avatar} />,
   },
   {
     field: "title",

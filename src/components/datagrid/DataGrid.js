@@ -125,7 +125,9 @@ function DataGrid(props, ref) {
    * defaults
    */
 
-  const enableColumnSort = rawColumns?.map(i => i.sortable === true).includes(true)
+  const enableColumnSort = rawColumns
+    ?.map((i) => i.sortable === true)
+    .includes(true);
   const enableFilter = rawColumns?.map((i) => i.filter === true).includes(true);
   const contextMenuItems =
     getContextMenuItems !== undefined ? getContextMenuItems() : [];
@@ -212,10 +214,11 @@ function DataGrid(props, ref) {
   }
 
   useEffect(() => {
-     if(enableColumnSort)
-    return setRawRows(sortedRows);
+    if (enableColumnSort) return setRawRows(sortedRows);
   });
-
+  useEffect(() => {
+    setRawRows(raawRows);
+  }, [raawRows]);
   /**
    * refs
    */

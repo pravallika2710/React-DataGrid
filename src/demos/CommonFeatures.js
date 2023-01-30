@@ -50,10 +50,18 @@ function TimestampFormatter({ timestamp }) {
 function CurrencyFormatter({ value }) {
   return <>{currencyFormatter.format(value)}</>;
 }
+const selectCellClassname = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  > input {
+    margin: 0;
+  }
+`;
 function getColumns(countries, direction) {
   return [
-    SelectColumn,
+    { ...SelectColumn, headerCellClass: selectCellClassname, cellClass: selectCellClassname },
     {
       field: "id",
       headerName: "ID",
@@ -327,7 +335,7 @@ export default function CommonFeatures({ direction }) {
       return 0;
     });
   }, [rows, sortColumns]);
- 
+
   const gridElement = (
     <DataGrid
       rowKeyGetter={rowKeyGetter}

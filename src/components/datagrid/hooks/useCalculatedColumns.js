@@ -48,7 +48,9 @@ export function useCalculatedColumns({
           maxWidth: rawColumn.maxWidth ?? defaultMaxWidth,
           sortable: rawColumn.sortable ?? defaultSortable,
           resizable: rawColumn.resizable ?? defaultResizable,
-          formatter: rawColumn.formatter ?? defaultFormatter,
+          formatter: rawColumn.cellRenderer
+            ? rawColumn.cellRenderer
+            : rawColumn.valueFormatter ?? defaultFormatter,
           filter: rawColumn.filter ?? defaultFilter,
         };
 

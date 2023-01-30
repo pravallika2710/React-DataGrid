@@ -80,7 +80,7 @@ function Cell({
 
   // -----------
   var style = getCellStyle(column, colSpan);
-  const rowSpan = column.rowSpan?.({ type: 'ROW', row }) ?? undefined;
+  const rowSpan = column.rowSpan?.({ type: "ROW", row }) ?? undefined;
 
   if (column.validation) {
     const validationStyle = column.validation.style
@@ -224,9 +224,13 @@ function Cell({
         <>
           {column.formatter({
             column,
+            colDef: column,
             row,
+            data: row,
+            onRowChange,
             allrow,
             rowIndex,
+            value: row[column.key],
             isCellSelected,
             onRowChange: handleRowChange,
           })}

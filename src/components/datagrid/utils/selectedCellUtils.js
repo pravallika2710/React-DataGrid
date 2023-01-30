@@ -14,7 +14,7 @@ export function isSelectedCellEditable({
 
 export function isCellEditable(column, row) {
   return (
-    column.cellRenderer != null &&
+    column.cellEditor != null &&
     !column.rowGroup &&
     (typeof column.editable === "function"
       ? column.editable(row)
