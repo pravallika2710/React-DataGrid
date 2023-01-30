@@ -61,6 +61,7 @@ import {
   scrollIntoView,
 } from "./utils";
 import FilterContext from "./filterContext";
+import { Parser, SUPPORTED_FORMULAS } from 'hot-formula-parser';
 
 const initialPosition = {
   idx: -1,
@@ -140,6 +141,29 @@ function DataGrid(props, ref) {
       </ContextMenuTrigger>
     );
   }
+
+  const parser = new Parser();
+  console.log(SUPPORTED_FORMULAS);
+  parser.on('callRangeValue', function(startCellCoord, endCellCoord, done) {
+    var data =  raawRows.map(obj => Object.values(obj));
+    var fragment = [];
+  
+    for (var row = startCellCoord.row.index; row <= endCellCoord.row.index; row++) {
+      var rowData = data[row];
+      var colFragment = [];
+  
+      for (var col = startCellCoord.column.index; col <= endCellCoord.column.index; col++) {
+        colFragment.push(rowData[col]);
+      }
+      fragment.push(colFragment);
+    }  
+    if (fragment) {
+      done(fragment);
+    }
+  });
+
+  parser.parse('COLUMNS(A1:E2)')
+  console.log(parser.parse('SUM(C1:C4)'));
 
   const defaultComponents = useDefaultComponents();
   const rowHeight = rawRowHeight ?? 24;
