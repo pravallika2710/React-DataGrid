@@ -5,33 +5,45 @@ import DataGrid from "../components/datagrid/DataGrid";
 const columns = [
   {
     field: "id",
+    topHeader: "id",
     headerName: "ID",
-    width: 80,
+    cellWidth: 80,
   },
   {
     field: "task",
+    topHeader: "task",
     headerName: "Title",
+    cellWidth: 200,
   },
   {
     field: "priority",
+    topHeader: "priority",
     headerName: "Priority",
+    cellWidth: 200,
   },
   {
     field: "issueType",
+    topHeader: "issueType",
     headerName: "Issue Type",
+    cellWidth: 200,
   },
   {
     field: "complete",
+    topHeader: "complete",
     headerName: "% Complete",
+    cellWidth: 200,
   },
   {
     field: "startDate",
+    topHeader: "startDate",
     headerName: "Start Date",
+    cellWidth: 200,
   },
   {
     field: "completeDate",
+    topHeader: "completeDate",
     headerName: "Expected Complete",
-    width: 200,
+    cellWidth: 200,
   },
 ];
 
@@ -101,6 +113,7 @@ export default function CellNavigation({ direction }) {
       <DataGrid
         columnData={columns}
         rowData={rows}
+        headerRowHeight={24}
         cellNavigationMode={cellNavigationMode}
         direction={direction}
       />

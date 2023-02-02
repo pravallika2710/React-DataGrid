@@ -4,11 +4,11 @@ import clsx from "clsx";
 import Cell from "./Cell";
 import { RowSelectionProvider, useLatestFunc } from "./hooks";
 import { getColSpan, getRowStyle } from "./utils";
-import { rowClassname, rowSelectedClassname } from "./style";
+import { rowClassname, rowSelectedClassname ,wholeRowFridge} from "./style";
 
 function Row(
   {
-    className,
+    className,headerHeight,singleRowFridgeIndex,summaryRowHeight,rows,rowFridgeIndexEnd,      //need to be changed
     rowIdx,
     gridRowStart,
     height,
@@ -18,7 +18,7 @@ function Row(
     draggedOverCellIdx,
     lastFrozenColumnIndex,
     row,
-    rows,
+   
     viewportColumns,
     selectedCellEditor,
     selectedCellDragHandle,
@@ -48,6 +48,7 @@ function Row(
     {
       [rowSelectedClassname]: selectedCellIdx === -1,
     },
+   
     rowClass?.(row),
     className
   );
@@ -56,6 +57,9 @@ function Row(
 
   for (let index = 0; index < viewportColumns.length; index++) {
     const column = viewportColumns[index];
+    // const column = viewportColumns[3].children[0]
+    // const column = viewportColumns.haveChildren===true?viewportColumns.children[index]:viewportColumns[index]
+  
     const { idx } = column;
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "ROW",
@@ -76,8 +80,12 @@ function Row(
           column={column}
           colSpan={colSpan}
           row={row}
-          allrow={rows}
-          rowIndex={rowIdx}
+          rowFridgeIndexEnd={rowFridgeIndexEnd}                    //need to be changed
+          singleRowFridgeIndex={singleRowFridgeIndex}              //need to be changed
+          summaryRowHeight={summaryRowHeight}                     //need to be changed
+          headerHeight={headerHeight}                             //need to be changed
+          allrow={rows}                                          //need to be changed
+          rowIndex={rowIdx}                                        //need to be changed
           isCopied={copiedCellIdx === idx}
           isDraggedOver={draggedOverCellIdx === idx}
           isCellSelected={isCellSelected}
@@ -98,7 +106,7 @@ function Row(
         ref={ref}
         className={className}
         onMouseEnter={handleDragEnter}
-        style={getRowStyle(gridRowStart, height)}
+        style={{...getRowStyle(gridRowStart, height)}}
         {...props}
       >
         {cells}

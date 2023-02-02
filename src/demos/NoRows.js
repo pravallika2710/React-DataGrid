@@ -3,20 +3,23 @@ import { createContext, useContext, useMemo, useState } from "react";
 import { SelectColumn } from "../components/datagrid/Columns";
 
 import DataGrid from "../components/datagrid/DataGrid";
-import { useFocusRef } from "../components/datagrid/hooks";
+import dropDownEditor from "../components/datagrid/editors/textEditor";
 import { css } from "@linaria/core";
+import textEditor from "../components/datagrid/editors/textEditor";
 
-function EmptyRowsRenderer() {
-  return (
-    <div style={{ textAlign: "center", gridColumn: "1/-1" }}>
-      Nothing to show{" "}
-      <span lang="ja" title="ショボーン">
-        (´・ω・`)
-      </span>
-    </div>
-  );
-}
+const highlightClassName = css`
+  .rdg-cell {
+    background-color: #9370db;
+    color: white;
+    position: sticky;
+    top: 30px;
+    z-index: 2;
+  }
 
+  &:hover .rdg-cell {
+    background-color: #800080;
+  }
+`;
 const FilterContext = createContext(undefined);
 
 function rowKeyGetter(row) {
@@ -37,11 +40,14 @@ export default function NoRows({ direction }) {
       {
         field: "id",
         headerName: "ID",
-        width: 50,
+
         haveChildren: false,
         topHeader: "id",
         cellWidth: 60,
         frozen: true,
+        summaryFormatter() {
+          return <strong>Total</strong>;
+        },
       },
       {
         field: "rdrd",
@@ -49,17 +55,38 @@ export default function NoRows({ direction }) {
         haveChildren: false,
         topHeader: "rdrd",
         cellWidth: 60,
+        frozen: true,
+        cellRenderer: dropDownEditor,
+        editorOptions: {
+          editOnClick: true,
+        },
+        summaryFormatter({ row }) {
+          return <>{row.totalCount} records</>;
+        },
       },
+      {
+        field: "rdsrd",
+        headerName: "AASS",
+        haveChildren: false,
+        topHeader: "rdsrd",
+        cellWidth: 60,
+        frozen: true,
+        // filter: true,
+      },
+    
 
       {
         field: "title",
         headerName: "Title",
         haveChildren: true,
-        // frozen: true,
+        frozen: true,
+        // cellWidth: 727,
+        topHeader: "title",
 
         children: [
           // SelectColumn,
           {
+            // frozen: true,
             field: "aaaa",
             headerName: "AAAA",
 
@@ -71,6 +98,11 @@ export default function NoRows({ direction }) {
                 haveChildren: false,
                 cellWidth: 100,
                 topHeader: "title",
+                frozen: true,
+                cellRenderer:textEditor,
+                editorOptions: {
+                  editOnClick: true,
+                },
               },
 
               {
@@ -79,6 +111,7 @@ export default function NoRows({ direction }) {
                 haveChildren: false,
                 cellWidth: 100,
                 topHeader: "title",
+                frozen: true,
               },
               {
                 field: "uuuu",
@@ -86,10 +119,12 @@ export default function NoRows({ direction }) {
                 haveChildren: false,
                 cellWidth: 100,
                 topHeader: "title",
+                frozen: true,
               },
             ],
           },
           {
+            frozen: true,
             field: "bbbb",
             headerName: "BBBB",
             haveChildren: true,
@@ -100,6 +135,7 @@ export default function NoRows({ direction }) {
                 haveChildren: false,
                 cellWidth: 100,
                 topHeader: "title",
+                frozen: true,
               },
               {
                 field: "yugd",
@@ -107,54 +143,63 @@ export default function NoRows({ direction }) {
                 haveChildren: false,
                 cellWidth: 100,
                 topHeader: "title",
+                frozen: true,
               },
             ],
           },
           {
             field: "cccc",
             headerName: "CCCC",
-            cellWidth: 100,
+            
             haveChildren: true,
+            topHeader: "title",
+            frozen: true,
             children: [
               {
-                field: "yugd",
+                field: "yuwgd",
                 headerName: "HGFBGV",
                 haveChildren: false,
                 cellWidth: 100,
                 topHeader: "title",
+                frozen: true,
               },
               {
-                field: "yugd",
+                field: "yqugd",
                 headerName: "HGFBGV",
                 haveChildren: true,
                 topHeader: "title",
-                cellWidth: 100,
-                children:[
+                
+                frozen: true,
+                children: [
                   {
                     field: "cvdcv",
                     headerName: "FGHT",
                     haveChildren: false,
                     topHeader: "title",
                     cellWidth: 60,
-                  },  {
+                    frozen: true,
+                  },
+                  {
                     field: "cvacv",
                     headerName: "FGHT",
                     haveChildren: false,
                     topHeader: "title",
                     cellWidth: 60,
+                    frozen: true,
                   },
-                ]
+                ],
               },
             ],
           },
         ],
       },
       {
-        field: "cvcv",
-        headerName: "FGHT",
+        field: "rdsrd11",
+        headerName: "AASS",
         haveChildren: false,
-        topHeader: "cvcv",
+        topHeader: "rdsrd11",
         cellWidth: 60,
+        frozen: true,
       },
       {
         field: "erer",
@@ -162,6 +207,7 @@ export default function NoRows({ direction }) {
         haveChildren: false,
         topHeader: "erer",
         cellWidth: 60,
+        // frozen: true,
       },
       {
         field: "count",
@@ -211,7 +257,7 @@ export default function NoRows({ direction }) {
                         haveChildren: true,
                         children: [
                           {
-                            field: "eeee",
+                            field: "eee2e",
                             headerName: "EEEE",
                             haveChildren: false,
                             cellWidth: 100,
@@ -225,18 +271,43 @@ export default function NoRows({ direction }) {
                             topHeader: "count",
                             children: [
                               {
-                                field: "eeee",
+                                field: "ee6ee",
                                 headerName: "EEEE",
                                 haveChildren: false,
                                 cellWidth: 100,
                                 topHeader: "count",
+                                
                               },
                               {
                                 field: "pppp",
                                 headerName: "PPPP",
-                                haveChildren: false,
-                                cellWidth: 100,
+                                haveChildren: true,
+
                                 topHeader: "count",
+                                children: [
+                                  {
+                                    field: "ee6ee",
+                                    headerName: "EEEE",
+                                    haveChildren: false,
+                                    cellWidth: 100,
+                                    topHeader: "count",
+                                    cellRenderer:textEditor,
+                editorOptions: {
+                  editOnClick: true,
+                },
+                                  },
+                                  {
+                                    field: "pppp",
+                                    headerName: "PPPP",
+                                    haveChildren: false,
+                                    cellWidth: 100,
+                                    topHeader: "count",
+                                    cellRenderer:textEditor,
+                editorOptions: {
+                  editOnClick: true,
+                },
+                                  },
+                                ],
                               },
                             ],
                           },
@@ -267,7 +338,41 @@ export default function NoRows({ direction }) {
     ];
   }, []);
 
-  const rows = [
+  const rowss = [
+    {
+      id: 1,
+      oooo: "JGRF",
+      aaaa: "wsws",
+      vvvv: "Ssss",
+      nnnn: "gege",
+      qqqq: "kjkj",
+      llll: "llll",
+      rrrrr: "thgf",
+      uuuu: "iugy",
+      bbbb: "vfvf",
+      cccc: "sdsd",
+      xxxx: "sdsa",
+      ffff: "aqaq",
+      eeee: "tyty",
+      pppp: "frfr",rdsrd:"ererer"
+    },
+    {
+      id: 2,
+      oooo: "JGRF",
+      aaaa: "wsws",
+      vvvv: "Ssss",
+      nnnn: "gege",
+      qqqq: "kjkj",
+      llll: "llll",
+      rrrrr: "thgf",
+      uuuu: "iugy",
+      bbbb: "vfvf",
+      cccc: "sdsd",
+      xxxx: "sdsa",
+      ffff: "aqaq",
+      eeee: "tyty",
+      pppp: "frfr",rdsrd:"frtrtr"
+    },
     {
       id: 3,
       oooo: "JGRF",
@@ -283,7 +388,7 @@ export default function NoRows({ direction }) {
       xxxx: "sdsa",
       ffff: "aqaq",
       eeee: "tyty",
-      pppp: "frfr",
+      pppp: "frfr",rdsrd:"ghhtyt"
     },
     {
       id: 4,
@@ -298,7 +403,7 @@ export default function NoRows({ direction }) {
       xxxx: "sdsa",
       ffff: "aqaq",
       eeee: "tyty",
-      pppp: "frfr",
+      pppp: "frfr",rdsrd:"eertr"
     },
     {
       id: 5,
@@ -313,7 +418,7 @@ export default function NoRows({ direction }) {
       xxxx: "sdsa",
       ffff: "aqaq",
       eeee: "tyty",
-      pppp: "frfr",
+      pppp: "frfr",rdsrd:"qwqwqw"
     },
     {
       id: 6,
@@ -329,7 +434,7 @@ export default function NoRows({ direction }) {
       xxxx: "sdsa",
       ffff: "aqaq",
       eeee: "tyty",
-      pppp: "frfr",
+      pppp: "frfr",rdsrd:"trtrt"
     },
     {
       id: 7,
@@ -782,21 +887,191 @@ export default function NoRows({ direction }) {
       eeee: "tyty",
       pppp: "frfr",
     },
+    {
+      id: 37,
+      vvvv: "Ssss",
+      nnnn: "gege",
+      qqqq: "kjkj",
+      llll: "llll",
+      rrrrr: "thgf",
+      uuuu: "iugy",
+      bbbb: "vfvf",
+      cccc: "sdsd",
+      xxxx: "sdsa",
+      ffff: "aqaq",
+      eeee: "tyty",
+      pppp: "frfr",
+    },
+    {
+      id: 38,
+      vvvv: "Ssss",
+      nnnn: "gege",
+      qqqq: "kjkj",
+      llll: "llll",
+      rrrrr: "thgf",
+      uuuu: "iugy",
+      bbbb: "vfvf",
+      cccc: "sdsd",
+      xxxx: "sdsa",
+      ffff: "aqaq",
+      eeee: "tyty",
+      pppp: "frfr",
+    },
+    {
+      id: 39,
+      vvvv: "Ssss",
+      nnnn: "gege",
+      qqqq: "kjkj",
+      llll: "llll",
+      rrrrr: "thgf",
+      uuuu: "iugy",
+      bbbb: "vfvf",
+      cccc: "sdsd",
+      xxxx: "sdsa",
+      ffff: "aqaq",
+      eeee: "tyty",
+      pppp: "frfr",
+    },
+    {
+      id: 40,
+      vvvv: "Ssss",
+      nnnn: "gege",
+      qqqq: "kjkj",
+      llll: "llll",
+      rrrrr: "thgf",
+      uuuu: "iugy",
+      bbbb: "vfvf",
+      cccc: "sdsd",
+      xxxx: "sdsa",
+      ffff: "aqaq",
+      eeee: "tyty",
+      pppp: "frfr",
+    },
+    {
+      id: 41,
+      vvvv: "Ssss",
+      nnnn: "gege",
+      qqqq: "kjkj",
+      llll: "llll",
+      rrrrr: "thgf",
+      uuuu: "iugy",
+      bbbb: "vfvf",
+      cccc: "sdsd",
+      xxxx: "sdsa",
+      ffff: "aqaq",
+      eeee: "tyty",
+      pppp: "frfr",
+    },
+    {
+      id: 42,
+      vvvv: "Ssss",
+      nnnn: "gege",
+      qqqq: "kjkj",
+      llll: "llll",
+      rrrrr: "thgf",
+      uuuu: "iugy",
+      bbbb: "vfvf",
+      cccc: "sdsd",
+      xxxx: "sdsa",
+      ffff: "aqaq",
+      eeee: "tyty",
+      pppp: "frfr",
+    },
+    {
+      id: 43,
+      vvvv: "Ssss",
+      nnnn: "gege",
+      qqqq: "kjkj",
+      llll: "llll",
+      rrrrr: "thgf",
+      uuuu: "iugy",
+      bbbb: "vfvf",
+      cccc: "sdsd",
+      xxxx: "sdsa",
+      ffff: "aqaq",
+      eeee: "tyty",
+      pppp: "frfr",
+    },
+    {
+      id: 44,
+      vvvv: "Ssss",
+      nnnn: "gege",
+      qqqq: "kjkj",
+      llll: "llll",
+      rrrrr: "thgf",
+      uuuu: "iugy",
+      bbbb: "vfvf",
+      cccc: "sdsd",
+      xxxx: "sdsa",
+      ffff: "aqaq",
+      eeee: "tyty",
+      pppp: "frfr",
+    },
   ];
 
+  const [rows, setRows] = useState(rowss);
+  
+
+  const summaryRows = useMemo(() => {
+    const summaryRow = {
+      id: "total_0",
+      totalCount: rows.length,
+      yesCount: rows.filter((r) => r.id).length,
+    };
+    return [summaryRow];
+  }, [rows]);
+
+  const selectedCellHeaderStyle = {
+    backgroundColor: 'red',
+    fontSize: "12px"
+  }
+  function handlePaste({
+    sourceColumnKey,
+    sourceRow,
+    targetColumnKey,
+    targetRow,
+  }) {
+    const incompatibleColumns = ["email", "zipCode", "date"];
+    if (
+      sourceColumnKey === "avatar" ||
+      ["id", "avatar"].includes(targetColumnKey) ||
+      ((incompatibleColumns.includes(targetColumnKey) ||
+        incompatibleColumns.includes(sourceColumnKey)) &&
+        sourceColumnKey !== targetColumnKey)
+    ) {
+      return targetRow;
+    }
+
+    return { ...targetRow, [targetColumnKey]: sourceRow[sourceColumnKey] };
+  }
+
+  function handleCopy({ sourceRow, sourceColumnKey }) {
+    if (window.isSecureContext) {
+      navigator.clipboard.writeText(sourceRow[sourceColumnKey]);
+    }
+  }
+
   return (
-    <FilterContext.Provider value={filters}>
-      <DataGrid
-        columnData={columns}
-        rowData={rows}
-        renderers={{ noRowsFallback: <EmptyRowsRenderer /> }}
-        selectedRows={selectedRows}
-        onSelectedRowsChange={onSelectedRowsChange}
-        headerRowHeight={24}
-        rowKeyGetter={rowKeyGetter}
-        className="fill-grid"
-        // direction={direction}
-      />
-    </FilterContext.Provider>
+    // <FilterContext.Provider value={filters}>
+    <DataGrid
+      columnData={columns}
+      rowData={rows}
+      onRowsChange={setRows}
+      onFill={true}
+      onCopy={handleCopy}
+      onPaste={handlePaste}
+      // rowHeight={30}
+      headerRowHeight={24}
+      summaryRowHeight={24}
+      selectedCellHeaderStyle={selectedCellHeaderStyle}
+      selectedRows={selectedRows}
+      // onSelectedRowsChange={setSelectedRows}
+      rowFridgeIndexEnd={7}
+      topSummaryRows={summaryRows}
+      // bottomSummaryRows={summaryRows}
+      singleRowFridgeIndex={11}
+      // direction={direction}
+    />
+    // </FilterContext.Provider>
   );
 }

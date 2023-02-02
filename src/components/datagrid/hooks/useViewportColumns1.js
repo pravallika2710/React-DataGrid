@@ -3,35 +3,35 @@ import { useMemo } from "react"
 
 import { getColSpan } from "../utils"
 
-export function useViewportColumns({
-  columns,
-  colSpanColumns,
+export function useViewportColumns1({
+  columnss,dataFor,
+  colSpanColumnss,
   rows,
   topSummaryRows,
   bottomSummaryRows,
-  colOverscanStartIdx,
-  colOverscanEndIdx,
+  colOverscanStartIdxx,
+  colOverscanEndIdxx,
   lastFrozenColumnIndex,
   rowOverscanStartIdx,
   rowOverscanEndIdx,
   columnWidths,
   isGroupRow
 }) {
-  // find the column that spans over a column within the visible columns range and adjust colOverscanStartIdx
+  // find the column that spans over a column within the visible columnss range and adjust colOverscanStartIdxx
   const startIdx = useMemo(() => {
-    if (colOverscanStartIdx === 0) return 0
+    if (colOverscanStartIdxx === 0) return 0
 
-    let startIdx = colOverscanStartIdx
+    let startIdx = colOverscanStartIdxx
 
     const updateStartIdx = (colIdx, colSpan) => {
-      if (colSpan !== undefined && colIdx + colSpan > colOverscanStartIdx) {
+      if (colSpan !== undefined && colIdx + colSpan > colOverscanStartIdxx) {
         startIdx = colIdx
         return true
       }
       return false
     }
 
-    for (const column of colSpanColumns) {
+    for (const column of colSpanColumnss) {
       // check header row
       const colIdx = column.idx
       if (colIdx >= startIdx) break
@@ -103,37 +103,37 @@ export function useViewportColumns({
     rows,
     topSummaryRows,
     bottomSummaryRows,
-    colOverscanStartIdx,
+    colOverscanStartIdxx,
     lastFrozenColumnIndex,
-    colSpanColumns,
+    colSpanColumnss,
     isGroupRow
   ])
 
-  const { viewportColumns, flexWidthViewportColumns } = useMemo(() => {
-    const viewportColumns = []
-    const flexWidthViewportColumns = []
-    for (let colIdx = 0; colIdx <= colOverscanEndIdx; colIdx++) {
-      const column = columns[colIdx]
+  const { viewportColumnss, flexWidthViewportColumnss } = useMemo(() => {
+    const viewportColumnss = []
+    const flexWidthViewportColumnss = []
+    for (let colIdx = 0; colIdx <= colOverscanEndIdxx; colIdx++) {
+      const column = columnss[colIdx]
 
       if (colIdx < startIdx && !column.frozen) continue
       
-      viewportColumns.push(column)
+      viewportColumnss.push(column)
       if (typeof column.width === "string") {
-        flexWidthViewportColumns.push(column)
+        flexWidthViewportColumnss.push(column)
       }
     }
 
-    return { viewportColumns, flexWidthViewportColumns }
-  }, [startIdx, colOverscanEndIdx, columns])
+    return { viewportColumnss, flexWidthViewportColumnss }
+  }, [startIdx, colOverscanEndIdxx, columnss])
 
-  const unsizedFlexWidthViewportColumns = useMemo(() => {
-    return flexWidthViewportColumns.filter(
+  const unsizedFlexWidthViewportColumnss = useMemo(() => {
+    return flexWidthViewportColumnss.filter(
       column => !columnWidths.has(column.key)
     )
-  }, [flexWidthViewportColumns, columnWidths])
-
+  }, [flexWidthViewportColumnss, columnWidths])
+  
   return {
-    viewportColumns,
-    flexWidthViewportColumns: unsizedFlexWidthViewportColumns
+    viewportColumnss,dataFor,
+    flexWidthViewportColumnss: unsizedFlexWidthViewportColumnss
   }
 }

@@ -1,15 +1,12 @@
-import { useState, useReducer, useMemo } from 'react';
-import { CellExpanderFormatter } from './CellExpanderFormatter';
-import { ChildRowDeleteButton } from './ChildRowDeleteButton';
+import { useState, useReducer, useMemo } from "react";
+import { CellExpanderFormatter } from "./CellExpanderFormatter";
+import { ChildRowDeleteButton } from "./ChildRowDeleteButton";
 
-import DataGrid from '../components/datagrid/DataGrid';
+import DataGrid from "../components/datagrid/DataGrid";
 
-// import { CellExpanderFormatter, ChildRowDeleteButton } from './components/Formatters';
+// import { CellExpanderFormatter, ChildRowDeleteButton } from '../components/Formatters';
 
-
-
-
-function createRows(){
+function createRows() {
   const rows = [];
   for (let i = 0; i < 100; i++) {
     const price = Math.random() * 30;
@@ -18,35 +15,35 @@ function createRows(){
       id,
       name: `supplier ${i}`,
       format: `package ${i}`,
-      position: 'Run of site',
+      position: "Run of site",
       price,
       children: [
         {
           id: `${id}-0`,
           parentId: id,
           name: `supplier ${i}`,
-          format: '728x90',
-          position: 'run of site',
-          price: price / 2
+          format: "728x90",
+          position: "run of site",
+          price: price / 2,
         },
         {
           id: `${id}-1`,
           parentId: id,
           name: `supplier ${i}`,
-          format: '480x600',
-          position: 'run of site',
-          price: price * 0.25
+          format: "480x600",
+          position: "run of site",
+          price: price * 0.25,
         },
         {
           id: `${id}-2`,
           parentId: id,
           name: `supplier ${i}`,
-          format: '328x70',
-          position: 'run of site',
-          price: price * 0.25
-        }
+          format: "328x70",
+          position: "run of site",
+          price: price * 0.25,
+        },
       ],
-      isExpanded: false
+      isExpanded: false,
     };
     rows.push(row);
   }
@@ -81,7 +78,10 @@ function deleteSubRow(rows, id) {
   const { children } = newRows[parentRowIndex];
   if (children) {
     const newChildren = children.filter((sr) => sr.id !== id);
-    newRows[parentRowIndex] = { ...newRows[parentRowIndex], children: newChildren };
+    newRows[parentRowIndex] = {
+      ...newRows[parentRowIndex],
+      children: newChildren,
+    };
   }
 
   return newRows;
@@ -89,9 +89,9 @@ function deleteSubRow(rows, id) {
 
 function reducer(rows, { type, id }) {
   switch (type) {
-    case 'toggleSubRow':
+    case "toggleSubRow":
       return toggleSubRow(rows, id);
-    case 'deleteSubRow':
+    case "deleteSubRow":
       return deleteSubRow(rows, id);
     default:
       return rows;
@@ -106,17 +106,23 @@ export default function TreeView({ direction }) {
   const columns = useMemo(() => {
     return [
       {
-        field: 'id',
-        headerName: 'id',
-        frozen: true
+        field: "id",
+        topHeader: "id",
+        headerName: "id",
+        frozen: true,
+        cellWidth: 100,
       },
       {
-        field: 'name',
-        headerName: 'Name'
+        field: "name",
+        topHeader: "name",
+        headerName: "Name",
+        cellWidth: 100,
       },
       {
-        field: 'format',
-        headerName: 'format',
+        field: "format",
+        topHeader: "format",
+        headerName: "format",
+        cellWidth: 200,
         valueFormatter({ row, isCellSelected }) {
           const hasChildren = row.children !== undefined;
           const style = !hasChildren ? { marginInlineStart: 30 } : undefined;
@@ -126,7 +132,9 @@ export default function TreeView({ direction }) {
                 <CellExpanderFormatter
                   isCellSelected={isCellSelected}
                   expanded={row.isExpanded === true}
-                  onCellExpand={() => dispatch({ id: row.id, type: 'toggleSubRow' })}
+                  onCellExpand={() =>
+                    dispatch({ id: row.id, type: "toggleSubRow" })
+                  }
                 />
               )}
               <div className="rdg-cell-value">
@@ -134,23 +142,29 @@ export default function TreeView({ direction }) {
                   <ChildRowDeleteButton
                     isCellSelected={isCellSelected}
                     isDeleteSubRowEnabled={allowDelete}
-                    onDeleteSubRow={() => dispatch({ id: row.id, type: 'deleteSubRow' })}
+                    onDeleteSubRow={() =>
+                      dispatch({ id: row.id, type: "deleteSubRow" })
+                    }
                   />
                 )}
                 <div style={style}>{row.format}</div>
               </div>
             </>
           );
-        }
+        },
       },
       {
-        field: 'position',
-        headerName: 'position'
+        field: "position",
+        topHeader: "position",
+        headerName: "position",
+        cellWidth: 200,
       },
       {
-        field: 'price',
-        headerName: 'price'
-      }
+        field: "price",
+        topHeader: "price",
+        headerName: "price",
+        cellWidth: 200,
+      },
     ];
   }, [allowDelete]);
 
@@ -164,7 +178,13 @@ export default function TreeView({ direction }) {
           onChange={() => setAllowDelete(!allowDelete)}
         />
       </label>
-      <DataGrid columnData={columns} rowData={rows} className="big-grid" direction={direction} />
+      <DataGrid
+        columnData={columns}
+        rowData={rows}
+        headerRowHeight={25}
+        className="big-grid"
+        direction={direction}
+      />
     </>
   );
 }

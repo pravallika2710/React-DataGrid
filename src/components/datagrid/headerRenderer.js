@@ -1,9 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { css } from "@linaria/core"
-
-import { useFocusRef } from "./hooks"
-import { useDefaultComponents } from "./DataGridDefaultComponentsProvider"
-import FilterContext from './filterContext';
+import React, { useContext, useEffect, useState } from 'react';	
+import { css } from "@linaria/core"	
+import { useFocusRef } from "./hooks"	
+import { useDefaultComponents } from "./DataGridDefaultComponentsProvider"	
+import FilterContext from './filterContext';	
 import FiltersDropdown from './FiltersDropdown'
 
 const headerSortCell = css`
@@ -15,9 +14,9 @@ const headerSortCell = css`
       outline: none;
     }
   }
-`
+`;
 
-const headerSortCellClassname = `rdg-header-sort-cell ${headerSortCell}`
+const headerSortCellClassname = `rdg-header-sort-cell ${headerSortCell}`;
 
 const headerSortName = css`
   @layer rdg.SortableHeaderCellName {
@@ -28,7 +27,6 @@ const headerSortName = css`
   }
 `
 
-const headerSortNameClassname = `rdg-header-sort-name ${headerSortName}`
 
 const filterClassname = css`
   display: grid;
@@ -38,7 +36,7 @@ const filterClassname = css`
   font-size: 14px;
   inline-size: 100%;
 `;
-
+const headerSortNameClassname = `rdg-header-sort-name ${headerSortName}`;
 export default function headerRenderer({
   column,
   rows,
@@ -46,7 +44,11 @@ export default function headerRenderer({
   priority,
   onSort,
   isCellSelected,
-  setFilters
+  setFilters,
+   cellHeight,
+   cellData,
+   selectedPosition,
+   selectedCellHeaderStyle,
 }) {
 
   const unique = [...new Set(rows?.map(item => item?.[column.key]))]
@@ -65,22 +67,227 @@ export default function headerRenderer({
 
   const [open, setOpen] = useState(false)
 
-  if (!column.sortable && !column.filter) return <>{column.headerName}</>
-  if (column.sortable && !column.filter)
-    return (
-      <SortableHeaderCell
-        onSort={onSort}
-        sortDirection={sortDirection}
-        priority={priority}
-        isCellSelected={isCellSelected}
-        column={column}
-      >
-        {column.headerName}
-      </SortableHeaderCell>
-    )
-  if (column.filter && !column.sortable)
-    return (
-      <FilterRenderer column={column} isCellSelected={isCellSelected}>
+  if (!column.sortable && !column.filter) {
+    if (column.haveChildren === true && !column.filter) {
+      return (
+        <div>
+          <div
+            style={{
+              borderBlockEnd: "1px solid var(--rdg-border-color)",
+              height: "24px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                height: "inherit",
+                justifyContent: "center",
+              }}
+            >
+              {column.headerName}
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+
+              // gridTemplateColumns:"1fr 1fr 1fr",
+              boxSizing: "border-box",
+            }}
+          >
+            {column.children.map((info, index) => {
+              var ddd;
+              if (index === column.children.length - 1) {
+                ddd = "none";
+              } else {
+                ddd = "1px solid var(--rdg-border-color)";
+              }
+              return (
+                <div
+                  style={{
+                    margin: "",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderInlineEnd: ddd,
+                  }}
+                >
+                  {RecursiveScan(column.children, info, cellHeight, index)}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    } else {
+      var style={
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "inherit",  
+      }
+      // selectedCellHeaderStyle && selectedPosition.idx === column.idx
+      // ? (style = { ...style, ...selectedCellHeaderStyle })
+      // : style;
+      return (
+        <div style={{ height: `${cellHeight}px` }}>
+          <div
+            style={{...style,}}
+          >
+            {column.headerName}
+          </div>
+        </div>
+      );
+    }
+  }
+  if (column.sortable && !column.filter) {
+    if (column.haveChildren === true && !column.filter) {
+      return (
+        <div>
+          <div
+            style={{
+              borderBlockEnd: "1px solid var(--rdg-border-color)",
+              height: "24px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                height: "inherit",
+                justifyContent: "center",
+              }}
+            >
+              {column.headerName}
+            </div>
+          </div>
+
+          <div
+            style={{
+              display: "flex",
+
+              // gridTemplateColumns:"1fr 1fr 1fr",
+              boxSizing: "border-box",
+            }}
+          >
+            {column.children.map((info, index) => {
+              var ddd;
+              if (index === column.children.length - 1) {
+                ddd = "none";
+              } else {
+                ddd = "1px solid var(--rdg-border-color)";
+              }
+              return (
+                <div
+                  style={{
+                    margin: "",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    borderInlineEnd: ddd,
+                  }}
+                >
+                  {RecursiveScan(column.children, info, cellHeight, index)}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div style={{ height: `${cellHeight}px` }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "inherit",
+            }}
+          >
+            <SortableHeaderCell
+              onSort={onSort}
+              sortDirection={sortDirection}
+              priority={priority}
+              isCellSelected={isCellSelected}
+              column={column}
+            >
+              {column.headerName}
+            </SortableHeaderCell>
+          </div>
+        </div>
+      );
+    }
+  }
+
+  if (column.filter && !column.sortable){
+    if (column.haveChildren === true && !column.filter) {
+        return (
+          <div>
+            <div
+              style={{
+                borderBlockEnd: "1px solid var(--rdg-border-color)",
+                height: "24px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: "inherit",
+                  justifyContent: "center",
+                }}
+              >
+                {column.headerName}
+              </div>
+            </div>
+  
+            <div
+              style={{
+                display: "flex",
+  
+                // gridTemplateColumns:"1fr 1fr 1fr",
+                boxSizing: "border-box",
+              }}
+            >
+              {column.children.map((info, index) => {
+                var ddd;
+                if (index === column.children.length - 1) {
+                  ddd = "none";
+                } else {
+                  ddd = "1px solid var(--rdg-border-color)";
+                }
+                return (
+                  <div
+                    style={{
+                      margin: "",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderInlineEnd: ddd,
+                    }}
+                  >
+                    {RecursiveScan(column.children, info, cellHeight, index)}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div style={{ height: `${cellHeight}px` }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "inherit",
+              }}
+            >
+               <FilterRenderer column={column} isCellSelected={isCellSelected}>
         {({ filters, ...rest }) => (
           <div className={filterClassname}>
             <input
@@ -101,10 +308,77 @@ export default function headerRenderer({
           </div>
         )}
       </FilterRenderer>
-    )
-  if (column.filter && column.sortable)
-    return (
-      <>
+            </div>
+          </div>
+        );
+      }
+  }
+
+  if (column.filter && column.sortable){
+    if (column.haveChildren === true && !column.filter) {
+        return (
+          <div>
+            <div
+              style={{
+                borderBlockEnd: "1px solid var(--rdg-border-color)",
+                height: "24px",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  height: "inherit",
+                  justifyContent: "center",
+                }}
+              >
+                {column.headerName}
+              </div>
+            </div>
+  
+            <div
+              style={{
+                display: "flex",
+  
+                // gridTemplateColumns:"1fr 1fr 1fr",
+                boxSizing: "border-box",
+              }}
+            >
+              {column.children.map((info, index) => {
+                var ddd;
+                if (index === column.children.length - 1) {
+                  ddd = "none";
+                } else {
+                  ddd = "1px solid var(--rdg-border-color)";
+                }
+                return (
+                  <div
+                    style={{
+                      margin: "",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      borderInlineEnd: ddd,
+                    }}
+                  >
+                    {RecursiveScan(column.children, info, cellHeight, index)}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div style={{ height: `${cellHeight}px` }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "inherit",
+              }}
+            >
         <SortableHeaderCell
           onSort={onSort}
           sortDirection={sortDirection}
@@ -134,64 +408,151 @@ export default function headerRenderer({
             </div>
           )}
         </FilterRenderer>
-      </>
-    )
+            </div>
+          </div>
+        );
+      }
+  }
+
+  
 }
+
+const RecursiveScan = (masterData, subData, cellHeight) => {
+  var cellHeight = cellHeight - 24;
+
+  if (subData.haveChildren === true) {
+    return (
+      <div style={{ textAlign: "center" }}>
+        {
+          <div
+            style={{
+              borderBlockEnd: "1px solid var(--rdg-border-color)",
+              height: "24px",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                height: "inherit",
+                justifyContent: "center",
+              }}
+            >
+              {subData.headerName}
+            </div>
+          </div>
+        }
+        <div
+          style={{
+            display: "flex",
+            // gridTemplateColumns: "`100%/Object.keys(subData.children).length` ".repeat(
+            //   Object.keys(subData.children).length
+            // ),
+            boxSizing: "border-box",
+          }}
+        >
+          {subData.children.map((subInfo, index) => {
+            var ddd;
+            if (index === subData.children.length - 1) {
+              ddd = "none";
+            } else {
+              ddd = "1px solid var(--rdg-border-color)";
+            }
+            return (
+              <div
+                style={{
+                  width: "100%",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderInlineEnd: ddd,
+                }}
+              >
+                {RecursiveScan(subData.children, subInfo, cellHeight)}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div
+        style={{
+          color: "red",
+          width: subData.cellWidth,
+          height: `${cellHeight}px`,
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "inherit",
+          }}
+        >
+          {subData.headerName}
+        </div>
+      </div>
+    );
+  }
+};
 
 function SortableHeaderCell({
-  onSort,
-  sortDirection,
-  priority,
-  children,
-  isCellSelected,
-  column
-}) {
-  const sortStatus = useDefaultComponents().sortStatus
-  const { ref, tabIndex } = useFocusRef(isCellSelected)
-
-  function handleKeyDown(event) {
-    if (event.key === " " || event.key === "Enter") {
-      // stop propagation to prevent scrolling
-      event.preventDefault()
+    onSort,
+    sortDirection,
+    priority,
+    children,
+    isCellSelected,
+    column
+  }) {
+    const sortStatus = useDefaultComponents().sortStatus
+    const { ref, tabIndex } = useFocusRef(isCellSelected)
+  
+    function handleKeyDown(event) {
+      if (event.key === " " || event.key === "Enter") {
+        // stop propagation to prevent scrolling
+        event.preventDefault()
+        onSort(event.ctrlKey || event.metaKey)
+      }
+    }
+  
+    function handleClick(event) {
       onSort(event.ctrlKey || event.metaKey)
     }
+  
+    return (
+      <span
+        ref={ref}
+        tabIndex={tabIndex}
+        className={headerSortCellClassname}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
+      >
+        <span className={headerSortNameClassname}>{children}</span>
+        <span>{sortStatus({ sortDirection, priority })}</span>
+      </span>
+    )
   }
-
-  function handleClick(event) {
-    onSort(event.ctrlKey || event.metaKey)
+  
+  function inputStopPropagation(event) {
+    if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
+      event.stopPropagation();
+    }
   }
-
-  return (
-    <span
-      ref={ref}
-      tabIndex={tabIndex}
-      className={headerSortCellClassname}
-      onClick={handleClick}
-      onKeyDown={handleKeyDown}
-    >
-      <span className={headerSortNameClassname}>{children}</span>
-      <span>{sortStatus({ sortDirection, priority })}</span>
-    </span>
-  )
-}
-
-function inputStopPropagation(event) {
-  if (['ArrowLeft', 'ArrowRight'].includes(event.key)) {
-    event.stopPropagation();
+  
+  function FilterRenderer({
+    isCellSelected,
+    column,
+    children,
+  }) {
+    const filters = useContext(FilterContext);
+    const { ref, tabIndex } = useFocusRef(isCellSelected);
+    return (
+      <>
+        {!column.sortable && <div>{column.headerName}</div>}
+        {filters.enabled && <div>{children({ ref, tabIndex, filters })}</div>}
+      </>
+    );
   }
-}
-
-function FilterRenderer({
-  isCellSelected,
-  column,
-  children,
-}) {
-  const filters = useContext(FilterContext);
-  const { ref, tabIndex } = useFocusRef(isCellSelected);
-  return (
-    <>
-      {!column.sortable && <div>{column.headerName}</div>}
-      {filters.enabled && <div>{children({ ref, tabIndex, filters })}</div>}
-    </>
-  );
-}

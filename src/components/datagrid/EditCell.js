@@ -1,9 +1,9 @@
-import React from "react";
-import { useEffect, useRef } from "react";
-import { css } from "@linaria/core";
+import React from 'react';
+import { useEffect, useRef } from "react"
+import { css } from "@linaria/core"
 
-import { useLatestFunc } from "./hooks";
-import { getCellStyle, getCellClassname, onEditorNavigation } from "./utils";
+import { useLatestFunc } from "./hooks"
+import { getCellStyle, getCellClassname, onEditorNavigation } from "./utils"
 
 /*
  * To check for outside `mousedown` events, we listen to all `mousedown` events at their birth,
@@ -25,83 +25,81 @@ const cellEditing = css`
   @layer rdg.EditCell {
     padding: 0;
   }
-`;
+`
 
 export default function EditCell({
   column,
   colSpan,
   row,
-  allrow,
-  rowIndex,
   onRowChange,
-  closeEditor,
+  closeEditor
 }) {
-  const frameRequestRef = useRef();
+  const frameRequestRef = useRef()
   const commitOnOutsideClick =
-    column.editorOptions?.commitOnOutsideClick !== false;
+    column.editorOptions?.commitOnOutsideClick !== false
 
   // We need to prevent the `useEffect` from cleaning up between re-renders,
   // as `onWindowCaptureMouseDown` might otherwise miss valid mousedown events.
   // To that end we instead access the latest props via useLatestFunc.
   const commitOnOutsideMouseDown = useLatestFunc(() => {
-    onClose(true);
-  });
+    onClose(true)
+  })
 
   useEffect(() => {
-    if (!commitOnOutsideClick) return;
+    if (!commitOnOutsideClick) return
 
     function onWindowCaptureMouseDown() {
-      frameRequestRef.current = requestAnimationFrame(commitOnOutsideMouseDown);
+      frameRequestRef.current = requestAnimationFrame(commitOnOutsideMouseDown)
     }
 
     // eslint-disable-next-line no-restricted-globals
-    addEventListener("mousedown", onWindowCaptureMouseDown, { capture: true });
+    addEventListener("mousedown", onWindowCaptureMouseDown, { capture: true })
 
     return () => {
       // eslint-disable-next-line no-restricted-globals
       removeEventListener("mousedown", onWindowCaptureMouseDown, {
-        capture: true,
-      });
-      cancelFrameRequest();
-    };
-  }, [commitOnOutsideClick, commitOnOutsideMouseDown]);
+        capture: true
+      })
+      cancelFrameRequest()
+    }
+  }, [commitOnOutsideClick, commitOnOutsideMouseDown])
 
   function cancelFrameRequest() {
-    cancelAnimationFrame(frameRequestRef.current);
+    cancelAnimationFrame(frameRequestRef.current)
   }
 
   function onKeyDown(event) {
     if (event.key === "Escape") {
-      event.stopPropagation();
+      event.stopPropagation()
       // Discard changes
-      onClose();
+      onClose()
     } else if (event.key === "Enter") {
-      event.stopPropagation();
-      onClose(true);
+      event.stopPropagation()
+      onClose(true)
     } else {
       const onNavigation =
-        column.editorOptions?.onNavigation ?? onEditorNavigation;
+        column.editorOptions?.onNavigation ?? onEditorNavigation
       if (!onNavigation(event)) {
-        event.stopPropagation();
+        event.stopPropagation()
       }
     }
   }
 
   function onClose(commitChanges) {
     if (commitChanges) {
-      onRowChange(row, true);
+      onRowChange(row, true)
     } else {
-      closeEditor();
+      closeEditor()
     }
   }
 
-  const { cellClass } = column;
+  const { cellClass } = column
   const className = getCellClassname(
     column,
     "rdg-editor-container",
     !column.editorOptions?.renderFormatter && cellEditing,
     typeof cellClass === "function" ? cellClass(row) : cellClass
-  );
+  )
 
   return (
     <div
@@ -115,7 +113,9 @@ export default function EditCell({
       onKeyDown={onKeyDown}
       onMouseDownCapture={commitOnOutsideClick ? cancelFrameRequest : undefined}
     >
-      {column.cellEditor != null && (
+      {column.editor != null && (
+        <>
+         {column.cellEditor != null && (
         <>
           {column.cellEditor({
             column,
@@ -139,10 +139,11 @@ export default function EditCell({
               valueFormatted: column.valueFormatter,
               onRowChange,
               isCellSelected: true,
-              onRowChange,
             })}
         </>
       )}
+        </>
+      )}
     </div>
-  );
+  )
 }

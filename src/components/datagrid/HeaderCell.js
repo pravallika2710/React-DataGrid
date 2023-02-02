@@ -28,6 +28,7 @@ export default function HeaderCell({
   column,
   rows,
   colSpan,
+  cellHeight,
   isCellSelected,
   onColumnResize,
   allRowsSelected,
@@ -75,6 +76,7 @@ export default function HeaderCell({
     },
     `rdg-header-column-${column.idx % 2 === 0 ? "even" : "odd"}`
   );
+ 
 
   const headerRenderer = column.headerRenderer ?? defaultHeaderRenderer;
 
@@ -188,8 +190,9 @@ export default function HeaderCell({
       aria-selected={isCellSelected}
       aria-sort={ariaSort}
       aria-colspan={colSpan}
+      
       ref={ref}
-      // set the tabIndex to 0 when there is no selected cell so grid can receive focus
+      // // set the tabIndex to 0 when there is no selected cell so grid can receive focus
       tabIndex={shouldFocusGrid ? 0 : tabIndex}
       className={className}
       style={style}
@@ -199,8 +202,10 @@ export default function HeaderCell({
       onPointerDown={column.resizable ? onPointerDown : undefined}
     >
       {headerRenderer({
-        column,
-        rows,
+        column,rows,
+        selectedPosition,
+  selectedCellHeaderStyle,
+        cellHeight,              //need to be chnaged
         sortDirection,
         priority,
         onSort,

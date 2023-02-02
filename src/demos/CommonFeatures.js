@@ -50,22 +50,15 @@ function TimestampFormatter({ timestamp }) {
 function CurrencyFormatter({ value }) {
   return <>{currencyFormatter.format(value)}</>;
 }
-const selectCellClassname = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  > input {
-    margin: 0;
-  }
-`;
 function getColumns(countries, direction) {
   return [
-    { ...SelectColumn, headerCellClass: selectCellClassname, cellClass: selectCellClassname },
+    { ...SelectColumn, cellWidth: 80 },
     {
       field: "id",
+      topHeader: "id",
       headerName: "ID",
-      width: 60,
+      cellWidth: 60,
       frozen: true,
       resizable: false,
       summaryFormatter() {
@@ -74,8 +67,9 @@ function getColumns(countries, direction) {
     },
     {
       field: "title",
+      topHeader: "title",
       headerName: "Task",
-      width: 120,
+      cellWidth: 120,
       frozen: true,
       cellRenderer: textEditor,
       summaryFormatter({ row }) {
@@ -84,20 +78,24 @@ function getColumns(countries, direction) {
     },
     {
       field: "client",
+      topHeader: "client",
       headerName: "Client",
-      width: "max-content",
+      cellWidth: "max-content",
       cellRenderer: textEditor,
+      cellWidth: 150,
     },
     {
       field: "area",
+      topHeader: "area",
       headerName: "Area",
-      width: 120,
+      cellWidth: 120,
       cellRenderer: textEditor,
     },
     {
       field: "country",
+      topHeader: "country",
       headerName: "Country",
-      width: 180,
+      cellWidth: 180,
       cellRenderer: (p) => (
         <select
           className={textEditorClassname}
@@ -117,21 +115,24 @@ function getColumns(countries, direction) {
     },
     {
       field: "contact",
+      topHeader: "contact",
       headerName: "Contact",
-      width: 160,
+      cellWidth: 160,
       cellRenderer: textEditor,
     },
     {
       field: "assignee",
+      topHeader: "assignee",
       headerName: "Assignee",
-      width: 150,
+      cellWidth: 150,
       cellRenderer: textEditor,
     },
     {
       field: "progress",
+      topHeader: "progress",
       headerName: "Completion",
-      width: 110,
-      formatter(props) {
+      cellWidth: 110,
+      valueFormatter(props) {
         const value = props.row.progress;
         return (
           <>
@@ -140,7 +141,7 @@ function getColumns(countries, direction) {
           </>
         );
       },
-      editor({ row, onRowChange, onClose }) {
+      cellEditor({ row, onRowChange, onClose }) {
         return createPortal(
           <div
             dir={direction}
@@ -176,47 +177,56 @@ function getColumns(countries, direction) {
     },
     {
       field: "startTimestamp",
+      topHeader: "startTimestamp",
       headerName: "Start date",
-      width: 100,
-      formatter(props) {
+      cellWidth: 100,
+      valueFormatter(props) {
         return <TimestampFormatter timestamp={props.row.startTimestamp} />;
       },
     },
     {
       field: "endTimestamp",
+      topHeader: "endTimestamp",
       headerName: "Deadline",
-      width: 100,
-      formatter(props) {
+      cellWidth: 100,
+      valueFormatter(props) {
         return <TimestampFormatter timestamp={props.row.endTimestamp} />;
       },
     },
     {
       field: "budget",
+      topHeader: "budget",
       headerName: "Budget",
-      width: 100,
-      formatter(props) {
+      cellWidth: 100,
+      valueFormatter(props) {
         return <CurrencyFormatter value={props.row.budget} />;
       },
     },
     {
       field: "transaction",
+      topHeader: "transaction",
       headerName: "Transaction type",
+      cellWidth: 150,
     },
     {
       field: "account",
+      topHeader: "account",
       headerName: "Account",
-      width: 150,
+      cellWidth: 150,
     },
     {
       field: "version",
+      topHeader: "version",
       headerName: "Version",
       cellRenderer: textEditor,
+      cellWidth: 150,
     },
     {
       field: "available",
+      topHeader: "available",
       headerName: "Available",
-      width: 80,
-      formatter({ row, onRowChange, isCellSelected }) {
+      cellWidth: 80,
+      valueFormatter({ row, onRowChange, isCellSelected }) {
         return (
           <SelectCellFormatter
             value={row.available}
@@ -343,18 +353,17 @@ export default function CommonFeatures({ direction }) {
       rowData={sortedRows}
       // defaultColumnOptions={{
       //   sortable: true,
-      //   resizable: true
+      //   resizable: true,
       // }}
-      // onRowClicked={(e) => {
-      //   console.log("Row Clicked", e);
-      // }}
-      // selectedRows={selectedRows}
-      // onSelectedRowsChange={setSelectedRows}
+      headerRowHeight={24}
+      summaryRowHeight={24}
+      selectedRows={selectedRows}
+      onSelectedRowsChange={setSelectedRows}
       onRowsChange={setRows}
-      // sortColumns={sortColumns}
-      // onSortColumnsChange={setSortColumns}
-      // topSummaryRows={summaryRows}
-      // bottomSummaryRows={summaryRows}
+      sortColumns={sortColumns}
+      onSortColumnsChange={setSortColumns}
+      topSummaryRows={summaryRows}
+      bottomSummaryRows={summaryRows}
       className="fill-grid"
       direction={direction}
     />

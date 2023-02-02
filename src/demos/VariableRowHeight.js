@@ -21,11 +21,11 @@ export default function VariableRowHeight({ direction }) {
     for (let i = 0; i < 30; i++) {
       const key = String(i);
       columns.push({
-        field:key,
-        headerName: key,
+        key,
+        name: key,
         frozen: i < 5,
         resizable: true,
-        valueFormatter: cellFormatter
+        formatter: cellFormatter
       });
     }
 
@@ -34,8 +34,8 @@ export default function VariableRowHeight({ direction }) {
 
   return (
     <DataGrid
-      columnData={columns}
-      rowData={rows}
+      columns={columns}
+      rows={rows}
       rowHeight={rowHeight}
       className="fill-grid"
       direction={direction}

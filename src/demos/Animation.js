@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { css } from '@linaria/core';
 
-import DataGrid from '../components/datagrid/DataGrid';
+import DataGrid from '.../components/datagrid/DataGrid';
 
 
 const rangeClassname = css`
@@ -38,28 +38,28 @@ function createRows() {
 
 const columns = [
   {
-    field: 'id',
-    headerName: 'ID',
+    key: 'id',
+    name: 'ID',
     width: 80
   },
   {
-    field: 'task',
-    headerName: 'Title',
+    key: 'task',
+    name: 'Title',
     resizable: true
   },
   {
-    field: 'priority',
-    headerName: 'Priority',
+    key: 'priority',
+    name: 'Priority',
     resizable: true
   },
   {
-    field: 'issueType',
-    headerName: 'Issue Type',
+    key: 'issueType',
+    name: 'Issue Type',
     resizable: true
   },
   {
-    field: 'complete',
-    headerName: '% Complete',
+    key: 'complete',
+    name: '% Complete',
     resizable: true
   }
 ];
@@ -79,8 +79,8 @@ export default function ColumnsReordering({ direction }) {
       </div>
       <DataGrid
         className={`${transitionClassname} fill-grid`}
-        columnData={columns}
-        rowData={rows}
+        columns={columns}
+        rows={rows}
         direction={direction}
         rowHeight={rowHeight}
       />

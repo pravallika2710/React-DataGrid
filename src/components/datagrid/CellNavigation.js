@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import DataGrid from './components/datagrid/DataGrid';
+import DataGrid from '../components/datagrid/DataGrid';
 
 
 

@@ -4,7 +4,7 @@ import { css } from "@linaria/core";
 
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks";
-
+import { cell, cellFrozen } from "./style";
 import moment from "moment";
 
 const cellCopied = css`
@@ -26,16 +26,57 @@ const cellDraggedOver = css`
 `;
 
 const cellDraggedOverClassname = `rdg-cell-dragged-over ${cellDraggedOver}`;
+//-----------------------Need to be changed-Start-------------------------------------------------------
+const rowCellClassname = css`
+  @layer rdg.rowCell {
+    position: sticky;
+    z-index: 2;
+    background: var(--rdg-Row-Cell-Color);
+    inset-block-start: var(--rdg-summary-row-top);
+    inset-block-end: var(--rdg-summary-row-bottom);
+  }
+`;
+const rowFridge = css`
+  @layer rdg.rowFridge {
+    position: sticky;
+    z-index: 3;
+    background: var(--rdg-Row-Cell-Color);
+    inset-block-start: var(--rdg-summary-row-top);
+  }
+`;
+
+const rowCellClassname1 = css`
+  @layer rdg.rowCell {
+    position: sticky;
+    z-index: 2;
+    background: var(--rdg-Row-Cell-Color);
+    inset-block-start: var(--rdg-summary-row-top);
+    inset-block-end: var(--rdg-summary-row-bottom);
+  }
+`;
+const rowFridge1 = css`
+  @layer rdg.rowFridge {
+    position: sticky;
+    z-index: 3;
+    background: var(--rdg-Row-Cell-Color);
+    inset-block-start: var(--rdg-summary-row-top);
+  }
+`;
+// --------------------------------End---------------------------------------------------------
 
 function Cell({
   column,
+  headerHeight,
+  allrow, //need to be changed
+  rowFridgeIndexEnd,
+  singleRowFridgeIndex,
+  summaryRowHeight, //need to be changed
+  rowIndex, //need to be changed
   colSpan,
   isCellSelected,
   isCopied,
   isDraggedOver,
   row,
-  rowIndex,
-  allrow,
   dragHandle,
   onRowClick,
   onRowDoubleClick,
@@ -43,18 +84,25 @@ function Cell({
   selectCell,
   ...props
 }) {
+  // const datataa=singleRowFridgeIndex.map((info,index)=>{return info})
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
-
   const { cellClass } = column;
   const className = getCellClassname(
     column,
     `rdg-cell-column-${column.idx % 2 === 0 ? "even" : "odd"}`,
     {
       [cellCopiedClassname]: isCopied,
+      // [rowCellClassname]: rowIndex <= rowFridgeIndexEnd,                               //need to be changed
+      // [rowFridge]: rowIndex <= rowFridgeIndexEnd && column.frozen === true,            //need to be changed
+
+      [rowCellClassname1]: rowIndex === singleRowFridgeIndex, //need to be changed
+      [rowFridge1]: rowIndex === singleRowFridgeIndex && column.frozen === true, //need to be changed
+
       [cellDraggedOverClassname]: isDraggedOver,
     },
     typeof cellClass === "function" ? cellClass(row) : cellClass
   );
+
 
   function selectCellWrapper(openEditor) {
     selectCell(row, column, openEditor);
@@ -78,8 +126,13 @@ function Cell({
     onRowChange(column, newRow);
   }
 
-  // -----------
-  var style = getCellStyle(column, colSpan);
+  var style = {
+    //need to be changed
+    ...getCellStyle(column, colSpan, row), //need to be changed
+    "--rdg-summary-row-top": singleRowFridgeIndex
+      ? `${headerHeight + summaryRowHeight}px`
+      : `${headerHeight + summaryRowHeight + rowIndex * 24}px`, //need to be changed
+  };
   const rowSpan = column.rowSpan?.({ type: "ROW", row }) ?? undefined;
 
   if (column.validation) {
@@ -200,7 +253,7 @@ function Cell({
       ? { ...style, textAlign: column.alignment.align }
       : alignmentUtils({ column, row, style });
   }
-  /// -----------------------
+
   return (
     <div
       role="gridcell"

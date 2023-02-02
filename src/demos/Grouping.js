@@ -1,13 +1,11 @@
-import { useState } from 'react';
-import { groupBy as rowGrouper } from 'lodash';
-import { css } from '@linaria/core';
-import { faker } from '@faker-js/faker';
+import { useState } from "react";
+import { groupBy as rowGrouper } from "lodash";
+import { css } from "@linaria/core";
+import { faker } from "@faker-js/faker";
 
-import { SelectColumn } from '../components/datagrid/Columns';
+import { SelectColumn } from "../components/datagrid/Columns";
 
-
-import DataGrid from '../components/datagrid/DataGrid';
-
+import DataGrid from "../components/datagrid/DataGrid";
 
 const groupingClassname = css`
   display: flex;
@@ -26,88 +24,109 @@ const optionsClassname = css`
   text-transform: capitalize;
 `;
 
-
-
 const sports = [
-  'Swimming',
-  'Gymnastics',
-  'Speed Skating',
-  'Cross Country Skiing',
-  'Short-Track Speed Skating',
-  'Diving',
-  'Cycling',
-  'Biathlon',
-  'Alpine Skiing',
-  'Ski Jumping',
-  'Nordic Combined',
-  'Athletics',
-  'Table Tennis',
-  'Tennis',
-  'Synchronized Swimming',
-  'Shooting',
-  'Rowing',
-  'Fencing',
-  'Equestrian',
-  'Canoeing',
-  'Bobsleigh',
-  'Badminton',
-  'Archery',
-  'Wrestling',
-  'Weightlifting',
-  'Waterpolo',
-  'Wrestling',
-  'Weightlifting'
+  "Swimming",
+  "Gymnastics",
+  "Speed Skating",
+  "Cross Country Skiing",
+  "Short-Track Speed Skating",
+  "Diving",
+  "Cycling",
+  "Biathlon",
+  "Alpine Skiing",
+  "Ski Jumping",
+  "Nordic Combined",
+  "Athletics",
+  "Table Tennis",
+  "Tennis",
+  "Synchronized Swimming",
+  "Shooting",
+  "Rowing",
+  "Fencing",
+  "Equestrian",
+  "Canoeing",
+  "Bobsleigh",
+  "Badminton",
+  "Archery",
+  "Wrestling",
+  "Weightlifting",
+  "Waterpolo",
+  "Wrestling",
+  "Weightlifting",
 ];
 
 const columns = [
   SelectColumn,
   {
-    field: 'country',
-    headerName: 'Country'
+    field: "country",
+    topHeader: "country",
+    headerName: "Country",
+    cellWidth: 100,
   },
   {
-    field: 'year',
-    headerName: 'Year'
+    field: "year",
+    topHeader: "year",
+    headerName: "Year",
+    cellWidth: 100,
   },
   {
-    field: 'sport',
-    headerName: 'Sport'
+    field: "sport",
+    topHeader: "sport",
+    headerName: "Sport",
+    cellWidth: 100,
   },
   {
-    field: 'athlete',
-    headerName: 'Athlete'
+    field: "athlete",
+    topHeader: "athlete",
+    headerName: "Athlete",
+    cellWidth: 100,
   },
   {
-    field: 'gold',
-    headerName: 'Gold',
+    field: "gold",
+    topHeader: "gold",
+    headerName: "Gold",
+    cellWidth: 100,
     groupFormatter({ childRows }) {
       return <>{childRows.reduce((prev, { gold }) => prev + gold, 0)}</>;
-    }
+    },
   },
   {
-    field: 'silver',
-    headerName: 'Silver',
+    field: "silver",
+    topHeader: "silver",
+    headerName: "Silver",
+    cellWidth: 100,
     groupFormatter({ childRows }) {
       return <>{childRows.reduce((prev, { silver }) => prev + silver, 0)}</>;
-    }
+    },
   },
   {
-    field: 'bronze',
-    headerName: 'Bronze',
+    field: "bronze",
+    topHeader: "bronze",
+    headerName: "Bronze",
+    cellWidth: 100,
     groupFormatter({ childRows }) {
       return <>{childRows.reduce((prev, { silver }) => prev + silver, 0)}</>;
-    }
+    },
   },
   {
-    field: 'total',
-    headerName: 'Total',
-    formatter({ row }) {
+    field: "total",
+    topHeader: "total",
+    headerName: "Total",
+    cellWidth: 100,
+    valueFormatter({ row }) {
       return <>{row.gold + row.silver + row.bronze}</>;
     },
     groupFormatter({ childRows }) {
-      return <>{childRows.reduce((prev, row) => prev + row.gold + row.silver + row.bronze, 0)}</>;
-    }
-  }
+      return (
+        <>
+          {childRows.reduce(
+            (prev, row) => prev + row.gold + row.silver + row.bronze,
+            0
+          )}
+        </>
+      );
+    },
+  },
 ];
 
 function rowKeyGetter(row) {
@@ -125,24 +144,25 @@ function createRows() {
       athlete: faker.name.fullName(),
       gold: faker.datatype.number(5),
       silver: faker.datatype.number(5),
-      bronze: faker.datatype.number(5)
+      bronze: faker.datatype.number(5),
     });
   }
 
   return rows.sort((r1, r2) => r2.country.localeCompare(r1.country));
 }
 
-const options = ['country', 'year', 'sport', 'athlete'];
+const options = ["country", "year", "sport", "athlete"];
 
 export default function Grouping({ direction }) {
   const [rows] = useState(createRows);
   const [selectedRows, setSelectedRows] = useState(() => new Set());
   const [selectedOptions, setSelectedOptions] = useState([
     options[0],
-    options[1]
+    options[1],
   ]);
   const [expandedGroupIds, setExpandedGroupIds] = useState(
-    () => new Set(['United States of America', 'United States of America__2015'])
+    () =>
+      new Set(["United States of America", "United States of America__2015"])
   );
 
   function toggleOption(option, enabled) {
@@ -171,7 +191,7 @@ export default function Grouping({ direction }) {
               type="checkbox"
               checked={selectedOptions.includes(option)}
               onChange={(event) => toggleOption(option, event.target.checked)}
-            />{' '}
+            />{" "}
             {option}
           </label>
         ))}
@@ -185,9 +205,11 @@ export default function Grouping({ direction }) {
         onSelectedRowsChange={setSelectedRows}
         groupBy={selectedOptions}
         rowGrouper={rowGrouper}
+        headerRowHeight={24}
         expandedGroupIds={expandedGroupIds}
         onExpandedGroupIdsChange={setExpandedGroupIds}
         defaultColumnOptions={{ resizable: true }}
+        summaryRowHeight={24}
         direction={direction}
       />
     </div>
