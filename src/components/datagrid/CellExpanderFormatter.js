@@ -1,5 +1,5 @@
 import { css } from '@linaria/core';
-import { useFocusRef } from '../components/datagrid/hooks';
+import { useFocusRef } from './components/datagrid/hooks';
 
 
 const cellExpandClassname = css`

@@ -4,7 +4,6 @@ import { css } from "@linaria/core";
 
 import { getCellStyle, getCellClassname, isCellEditable } from "./utils";
 import { useRovingCellRef } from "./hooks";
-import { cell, cellFrozen } from "./style";
 import moment from "moment";
 
 const cellCopied = css`
@@ -66,10 +65,10 @@ const rowFridge1 = css`
 
 function Cell({
   column,
-  headerHeight,
+  headerHeight,//need to be addaed
   allrow, //need to be changed
-  rowFridgeIndexEnd,
-  singleRowFridgeIndex,
+  rowFridgeIndexEnd,//need to be addaed
+  singleRowFridgeIndex, //need to be addaed
   summaryRowHeight, //need to be changed
   rowIndex, //need to be changed
   colSpan,
@@ -84,8 +83,8 @@ function Cell({
   selectCell,
   ...props
 }) {
-  // const datataa=singleRowFridgeIndex.map((info,index)=>{return info})
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
+ 
   const { cellClass } = column;
   const className = getCellClassname(
     column,
@@ -102,6 +101,7 @@ function Cell({
     },
     typeof cellClass === "function" ? cellClass(row) : cellClass
   );
+
 
 
   function selectCellWrapper(openEditor) {

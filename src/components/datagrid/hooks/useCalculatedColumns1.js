@@ -5,11 +5,11 @@ import { valueFormatter, toggleGroupFormatter } from "../formatters";
 import { SELECT_COLUMN_KEY } from "../Columns";
 import { clampColumnWidth, max, min } from "../utils";
 
-const DEFAULT_COLUMN_WIDTH = "auto";
-const DEFAULT_COLUMN_MIN_WIDTH = 80;
+const DEFAULT_COLUMN_WIDTH = "auto"
+const DEFAULT_COLUMN_MIN_WIDTH = 80
 
 export function useCalculatedColumns1({
-  rowArray,
+  rowCol,
   columnWidths,
   viewportWidth,
   scrollLeft,
@@ -30,28 +30,30 @@ export function useCalculatedColumns1({
       // Filter rawGroupBy and ignore keys that do not match the columnss prop
       const groupBy = [];
       let lastFrozenColumnIndexx = -1;
-      const columnss = rowArray.map((rawColumn) => {
+      const columnss = rowCol.map((rawColumn,pos) => {
         const rowGroup = rawGroupBy?.includes(rawColumn.field) ?? false;
         const frozen = rowGroup || rawColumn.frozen;
 
         const column = {
           ...rawColumn,
-          idx: 0,
+          idx: 0, 
           frozen,
+          index:pos,
           key: rawColumn.field,
-          topHeader: rawColumn.field,
           isLastFrozenColumn: false,
           rowGroup,
-          width: rawColumn.cellWidth ? rawColumn.cellWidth : defaultWidth,
+          width: rawColumn.width ?? defaultWidth,
           minWidth: rawColumn.minWidth ?? defaultMinWidth,
           maxWidth: rawColumn.maxWidth ?? defaultMaxWidth,
           sortable: rawColumn.sortable ?? defaultSortable,
           resizable: rawColumn.resizable ?? defaultResizable,
           formatter: rawColumn.cellRenderer
-            ? rawColumn.cellRenderer
-            : rawColumn.valueFormatter ?? defaultFormatter,
-          filter: rawColumn.filter ?? defaultFilter,
+          ? rawColumn.cellRenderer
+          : rawColumn.valueFormatter ?? defaultFormatter,
+        filter: rawColumn.filter ?? defaultFilter,
         };
+
+        
 
         if (rowGroup) {
           column.groupFormatter ??= toggleGroupFormatter;
@@ -115,7 +117,7 @@ export function useCalculatedColumns1({
         groupBy,
       };
     }, [
-      rowArray,
+      rowCol,
       defaultWidth,
       defaultMinWidth,
       defaultMaxWidth,
@@ -161,12 +163,12 @@ export function useCalculatedColumns1({
 
     for (let i = 0; i <= lastFrozenColumnIndexx; i++) {
       const column = columnss[i];
-
+     
       layoutCssVarss[`--rdg-frozen-left-${column.idx}`] = `${
         columnMetricss.get(column).left
       }px`;
     }
-
+   
     return {
       templateColumnss,
       layoutCssVarss,
@@ -182,7 +184,7 @@ export function useCalculatedColumns1({
     // get the viewport's left side and right side positions for non-frozen columnss
     const viewportLeft = scrollLeft + totalFrozenColumnWidthh;
     const viewportRight = scrollLeft + viewportWidth;
-
+    
     // get first and last non-frozen column indexes
     const lastColIdx = columnss.length - 1;
     const firstUnfrozenColumnIdx = min(lastFrozenColumnIndexx + 1, lastColIdx);
@@ -232,7 +234,7 @@ export function useCalculatedColumns1({
     viewportWidth,
     enableVirtualization,
   ]);
-
+  
   return {
     columnss,
     colSpanColumnss,

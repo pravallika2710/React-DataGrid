@@ -4,7 +4,7 @@ import { useFocusRef } from "./hooks"
 import { useDefaultComponents } from "./DataGridDefaultComponentsProvider"	
 import FilterContext from './filterContext';	
 import FiltersDropdown from './FiltersDropdown'
-
+import { useRovingCellRef } from "./hooks";
 const headerSortCell = css`
   @layer rdg.SortableHeaderCell {
     cursor: pointer;
@@ -41,14 +41,15 @@ export default function headerRenderer({
   column,
   rows,
   sortDirection,
-  priority,
+  priority,selectCell,
   onSort,
   isCellSelected,
+  shouldFocusGrid,
   setFilters,
    cellHeight,
-   cellData,
    selectedPosition,
    selectedCellHeaderStyle,
+   headerRowHeight,
 }) {
 
   const unique = [...new Set(rows?.map(item => item?.[column.key]))]
@@ -65,7 +66,10 @@ export default function headerRenderer({
     setOptions(dummy)
   }, [column])
 
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+
+
+  const {  onFocus } = useRovingCellRef(isCellSelected);
 
   if (!column.sortable && !column.filter) {
     if (column.haveChildren === true && !column.filter) {
@@ -74,7 +78,7 @@ export default function headerRenderer({
           <div
             style={{
               borderBlockEnd: "1px solid var(--rdg-border-color)",
-              height: "24px",
+              height: `${headerRowHeight}px`,
             }}
           >
             <div
@@ -114,7 +118,7 @@ export default function headerRenderer({
                     borderInlineEnd: ddd,
                   }}
                 >
-                  {RecursiveScan(column.children, info, cellHeight, index)}
+                  {RecursiveScan(column.children, info, cellHeight, index,headerRowHeight, selectedPosition,selectedCellHeaderStyle,column,selectCell,shouldFocusGrid,isCellSelected,onSort,sortDirection,priority,)}
                 </div>
               );
             })}
@@ -123,23 +127,52 @@ export default function headerRenderer({
       );
     } else {
       var style={
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "inherit",  
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "inherit",  
+    }
+    selectedCellHeaderStyle && selectedPosition.idx === column.idx
+    ? (style = { ...style, ...selectedCellHeaderStyle })
+    : style;
+    function onClick() {
+      selectCell(column.idx);
+    }
+    function onDoubleClick(event) {
+      const { right, left } = event.currentTarget.getBoundingClientRect();
+      const offset = isRtl ? event.clientX - left : right - event.clientX;
+  
+      if (offset > 11) {
+        // +1px to account for the border size
+        return;
       }
-      // selectedCellHeaderStyle && selectedPosition.idx === column.idx
-      // ? (style = { ...style, ...selectedCellHeaderStyle })
-      // : style;
-      return (
-        <div style={{ height: `${cellHeight}px` }}>
-          <div
-            style={{...style,}}
-          >
-            {column.headerName}
-          </div>
+  
+      onColumnResize(column, "max-content");
+    }
+  
+    function handleFocus(event) {
+      onFocus?.(event);
+      if (shouldFocusGrid) {
+        // Select the first header cell if there is no selected cell
+        selectCell(0);
+      }
+    }
+    
+    return (
+      // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+      <div style={{ height: `${cellHeight}px` }}
+      onFocus={handleFocus}
+      onClick={onClick}
+      onDoubleClick={column.resizable ? onDoubleClick : undefined}
+      onPointerDown={column.resizable ? onPointerDown : undefined}
+      >
+        <div
+          style={{...style,}}
+        >
+          {column.headerName}
         </div>
-      );
+      </div>
+    );
     }
   }
   if (column.sortable && !column.filter) {
@@ -149,7 +182,7 @@ export default function headerRenderer({
           <div
             style={{
               borderBlockEnd: "1px solid var(--rdg-border-color)",
-              height: "24px",
+              height: `${headerRowHeight}px`,
             }}
           >
             <div
@@ -189,7 +222,7 @@ export default function headerRenderer({
                     borderInlineEnd: ddd,
                   }}
                 >
-                  {RecursiveScan(column.children, info, cellHeight, index)}
+                  {RecursiveScan(column.children, info, cellHeight, index,headerRowHeight, selectedPosition,selectedCellHeaderStyle,column,selectCell,shouldFocusGrid,isCellSelected,onSort,sortDirection,priority,)}
                 </div>
               );
             })}
@@ -197,15 +230,19 @@ export default function headerRenderer({
         </div>
       );
     } else {
+      var style= {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "inherit",
+      }
+      selectedCellHeaderStyle && selectedPosition.idx === column.idx
+      ? (style = { ...style, ...selectedCellHeaderStyle })
+      : style;
       return (
         <div style={{ height: `${cellHeight}px` }}>
           <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "inherit",
-            }}
+          style={{...style,}}
           >
             <SortableHeaderCell
               onSort={onSort}
@@ -229,7 +266,7 @@ export default function headerRenderer({
             <div
               style={{
                 borderBlockEnd: "1px solid var(--rdg-border-color)",
-                height: "24px",
+                height: `${headerRowHeight}px`,
               }}
             >
               <div
@@ -269,7 +306,7 @@ export default function headerRenderer({
                       borderInlineEnd: ddd,
                     }}
                   >
-                    {RecursiveScan(column.children, info, cellHeight, index)}
+                    {RecursiveScan(column.children, info, cellHeight, index,headerRowHeight, selectedPosition,selectedCellHeaderStyle,column,selectCell,shouldFocusGrid,isCellSelected,onSort,sortDirection,priority,)}
                   </div>
                 );
               })}
@@ -321,7 +358,7 @@ export default function headerRenderer({
             <div
               style={{
                 borderBlockEnd: "1px solid var(--rdg-border-color)",
-                height: "24px",
+                height: `${headerRowHeight}px`,
               }}
             >
               <div
@@ -361,7 +398,7 @@ export default function headerRenderer({
                       borderInlineEnd: ddd,
                     }}
                   >
-                    {RecursiveScan(column.children, info, cellHeight, index)}
+                    {RecursiveScan(column.children, info, cellHeight, index,headerRowHeight, selectedPosition,selectedCellHeaderStyle,column,selectCell,shouldFocusGrid,isCellSelected,onSort,sortDirection,priority,)}
                   </div>
                 );
               })}
@@ -417,9 +454,9 @@ export default function headerRenderer({
   
 }
 
-const RecursiveScan = (masterData, subData, cellHeight) => {
-  var cellHeight = cellHeight - 24;
-
+const RecursiveScan = (masterData, subData, cellHeight,index,headerRowHeight, selectedPosition,selectedCellHeaderStyle,column,selectCell,shouldFocusGrid,isCellSelected,onSort,sortDirection,priority,) => {
+  var cellHeight = cellHeight - headerRowHeight;
+  const {  onFocus } = useRovingCellRef(isCellSelected);
   if (subData.haveChildren === true) {
     return (
       <div style={{ textAlign: "center" }}>
@@ -427,7 +464,7 @@ const RecursiveScan = (masterData, subData, cellHeight) => {
           <div
             style={{
               borderBlockEnd: "1px solid var(--rdg-border-color)",
-              height: "24px",
+              height: `${headerRowHeight}px`,
             }}
           >
             <div
@@ -468,7 +505,7 @@ const RecursiveScan = (masterData, subData, cellHeight) => {
                   borderInlineEnd: ddd,
                 }}
               >
-                {RecursiveScan(subData.children, subInfo, cellHeight)}
+                {RecursiveScan(subData.children, subInfo, cellHeight,index,headerRowHeight, selectedPosition,selectedCellHeaderStyle,column,selectCell,shouldFocusGrid,isCellSelected,onSort,sortDirection,priority,)}
               </div>
             );
           })}
@@ -476,25 +513,62 @@ const RecursiveScan = (masterData, subData, cellHeight) => {
       </div>
     );
   } else {
+    var style={
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      height: "inherit",
+      width: subData.width,
+      height: `${cellHeight}px`,
+    }
+    // console.log("subData",subData.idx,)
+    console.log("subData1",selectedPosition.idx)
+     selectedCellHeaderStyle && selectedPosition.idx === subData.idx
+      ? (style = { ...style, ...selectedCellHeaderStyle })
+      : style;
+    
+      function onClick() {
+        selectCell(subData.idx);
+        console.log("subData3",subData.idx,selectedPosition.idx)
+      }
+      function onDoubleClick(event) {
+        const { right, left } = event.currentTarget.getBoundingClientRect();
+        const offset = isRtl ? event.clientX - left : right - event.clientX;
+    
+        if (offset > 11) {
+          // +1px to account for the border size
+          return;
+        }
+    
+        onColumnResize(column, "max-content");
+      }
+    
+      function handleFocus(event) {
+        onFocus?.(event);
+        if (shouldFocusGrid) {
+          // Select the first header cell if there is no selected cell
+          selectCell(0);
+        }
+      }
     return (
-      <div
-        style={{
-          color: "red",
-          width: subData.cellWidth,
-          height: `${cellHeight}px`,
-        }}
-      >
+    // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
         <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "inherit",
-          }}
+          style={{...style}}
+          // onFocus={handleFocus}
+          onClick={onClick}
+          onDoubleClick={column.resizable ? onDoubleClick : undefined}
+          // onPointerDown={column.resizable ? onPointerDown : undefined}
+        >
+          <SortableHeaderCell
+          onSort={onSort}
+          sortDirection={sortDirection}
+          priority={priority}
+          isCellSelected={isCellSelected}
         >
           {subData.headerName}
+        </SortableHeaderCell>
+          
         </div>
-      </div>
     );
   }
 };

@@ -174,7 +174,9 @@ export function useViewportRows({
       rows.length - 1,
       rowVisibleEndIdx + overscanThreshold
     )
-  }  
+    
+  }
+ 
 
   return {
     rowOverscanStartIdx,

@@ -208,7 +208,7 @@ export default function Grouping({ direction }) {
         headerRowHeight={24}
         expandedGroupIds={expandedGroupIds}
         onExpandedGroupIdsChange={setExpandedGroupIds}
-        defaultColumnOptions={{ resizable: true }}
+        // defaultColumnOptions={{ resizable: true }}
         summaryRowHeight={24}
         direction={direction}
       />

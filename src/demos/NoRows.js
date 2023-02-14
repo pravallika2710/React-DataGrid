@@ -40,11 +40,10 @@ export default function NoRows({ direction }) {
       {
         field: "id",
         headerName: "ID",
-
+        sortable: true,
         haveChildren: false,
-        topHeader: "id",
-        cellWidth: 60,
-        frozen: true,
+        width: 60,
+        // frozen: true,
         summaryFormatter() {
           return <strong>Total</strong>;
         },
@@ -53,9 +52,9 @@ export default function NoRows({ direction }) {
         field: "rdrd",
         headerName: "AASS",
         haveChildren: false,
-        topHeader: "rdrd",
-        cellWidth: 60,
-        frozen: true,
+        width: 60,
+        // frozen: true,
+        sortable: true,
         cellRenderer: dropDownEditor,
         editorOptions: {
           editOnClick: true,
@@ -68,21 +67,16 @@ export default function NoRows({ direction }) {
         field: "rdsrd",
         headerName: "AASS",
         haveChildren: false,
-        topHeader: "rdsrd",
-        cellWidth: 60,
-        frozen: true,
+        width: 60,
+        // frozen: true,
         // filter: true,
       },
-    
 
       {
         field: "title",
         headerName: "Title",
         haveChildren: true,
-        frozen: true,
-        // cellWidth: 727,
-        topHeader: "title",
-
+        // frozen: true,
         children: [
           // SelectColumn,
           {
@@ -96,10 +90,11 @@ export default function NoRows({ direction }) {
                 field: "vvvv",
                 headerName: "VVVV",
                 haveChildren: false,
-                cellWidth: 100,
-                topHeader: "title",
-                frozen: true,
-                cellRenderer:textEditor,
+                sortable: true,
+                filter: true,
+                width: 100,
+                // frozen: true,
+                cellRenderer: textEditor,
                 editorOptions: {
                   editOnClick: true,
                 },
@@ -109,22 +104,20 @@ export default function NoRows({ direction }) {
                 field: "rrrr",
                 headerName: "RRRR",
                 haveChildren: false,
-                cellWidth: 100,
-                topHeader: "title",
-                frozen: true,
+                width: 100,
+                // frozen: true,
               },
               {
                 field: "uuuu",
                 headerName: "UUUU",
                 haveChildren: false,
-                cellWidth: 100,
-                topHeader: "title",
-                frozen: true,
+                width: 100,
+                // frozen: true,
               },
             ],
           },
           {
-            frozen: true,
+            // frozen: true,
             field: "bbbb",
             headerName: "BBBB",
             haveChildren: true,
@@ -133,59 +126,55 @@ export default function NoRows({ direction }) {
                 field: "wsdc",
                 headerName: "HGTF",
                 haveChildren: false,
-                cellWidth: 100,
-                topHeader: "title",
-                frozen: true,
+                width: 100,
+                // frozen: true,
               },
               {
                 field: "yugd",
                 headerName: "HGFBGV",
                 haveChildren: false,
-                cellWidth: 100,
-                topHeader: "title",
-                frozen: true,
+                width: 100,
+                // frozen: true,filter:true,
               },
             ],
           },
           {
             field: "cccc",
             headerName: "CCCC",
-            
+
             haveChildren: true,
-            topHeader: "title",
-            frozen: true,
+            // frozen: true,
             children: [
               {
                 field: "yuwgd",
                 headerName: "HGFBGV",
                 haveChildren: false,
-                cellWidth: 100,
-                topHeader: "title",
-                frozen: true,
+                width: 100,
+                // frozen: true,
               },
               {
-                field: "yqugd",
-                headerName: "HGFBGV",
+                field: "yqugd1",
+                headerName: "HGFBGV1",
                 haveChildren: true,
-                topHeader: "title",
-                
-                frozen: true,
+                // frozen: true,
                 children: [
                   {
                     field: "cvdcv",
                     headerName: "FGHT",
                     haveChildren: false,
-                    topHeader: "title",
-                    cellWidth: 60,
-                    frozen: true,
+                    width: 60,
+                    // frozen: true,
+                    cellRenderer: dropDownEditor,
+                    editorOptions: {
+                      editOnClick: true,
+                    },
                   },
                   {
                     field: "cvacv",
                     headerName: "FGHT",
                     haveChildren: false,
-                    topHeader: "title",
-                    cellWidth: 60,
-                    frozen: true,
+                    width: 60,
+                    // frozen: true,
                   },
                 ],
               },
@@ -197,16 +186,15 @@ export default function NoRows({ direction }) {
         field: "rdsrd11",
         headerName: "AASS",
         haveChildren: false,
-        topHeader: "rdsrd11",
-        cellWidth: 60,
-        frozen: true,
+
+        width: 60,
+        // frozen: true,
       },
       {
         field: "erer",
         headerName: "FGHT",
         haveChildren: false,
-        topHeader: "erer",
-        cellWidth: 60,
+        width: 60,
         // frozen: true,
       },
       {
@@ -224,8 +212,11 @@ export default function NoRows({ direction }) {
                 field: "xxxx",
                 headerName: "XXXX",
                 haveChildren: false,
-                cellWidth: 100,
-                topHeader: "count",
+                width: 100,
+                cellRenderer: dropDownEditor,
+                editorOptions: {
+                  editOnClick: true,
+                },
               },
               {
                 field: "jjjj",
@@ -236,11 +227,10 @@ export default function NoRows({ direction }) {
                     field: "ffff",
                     headerName: "FFFF",
                     haveChildren: false,
-                    cellWidth: 100,
-                    topHeader: "count",
+                    width: 100,
                   },
                   {
-                    field: "vvvv",
+                    field: "vvvv1",
                     headerName: "VVVV",
                     haveChildren: true,
                     children: [
@@ -248,8 +238,7 @@ export default function NoRows({ direction }) {
                         field: "llll",
                         headerName: "LLLL",
                         haveChildren: false,
-                        cellWidth: 100,
-                        topHeader: "count",
+                        width: 100,
                       },
                       {
                         field: "pppp",
@@ -260,52 +249,53 @@ export default function NoRows({ direction }) {
                             field: "eee2e",
                             headerName: "EEEE",
                             haveChildren: false,
-                            cellWidth: 100,
-                            topHeader: "count",
+                            width: 100,
                           },
                           {
-                            field: "pppp",
+                            field: "pppp1",
                             headerName: "PPPP",
                             haveChildren: true,
-                            cellWidth: 100,
-                            topHeader: "count",
                             children: [
                               {
-                                field: "ee6ee",
+                                field: "ee6ee2",
                                 headerName: "EEEE",
                                 haveChildren: false,
-                                cellWidth: 100,
-                                topHeader: "count",
-                                
+                                width: 100,
                               },
                               {
-                                field: "pppp",
+                                field: "pppp2",
                                 headerName: "PPPP",
                                 haveChildren: true,
 
-                                topHeader: "count",
                                 children: [
                                   {
-                                    field: "ee6ee",
+                                    field: "ee6ee1",
                                     headerName: "EEEE",
                                     haveChildren: false,
-                                    cellWidth: 100,
-                                    topHeader: "count",
-                                    cellRenderer:textEditor,
-                editorOptions: {
-                  editOnClick: true,
-                },
+                                    width: 100,
+                                    cellRenderer: textEditor,
+                                    editorOptions: {
+                                      editOnClick: true,
+                                    },
                                   },
                                   {
-                                    field: "pppp",
+                                    field: "pppp3",
                                     headerName: "PPPP",
-                                    haveChildren: false,
-                                    cellWidth: 100,
-                                    topHeader: "count",
-                                    cellRenderer:textEditor,
-                editorOptions: {
-                  editOnClick: true,
-                },
+                                    haveChildren: true,
+                                    children: [
+                                      {
+                                        field: "ee6ee5",
+                                        headerName: "EEEE",
+                                        haveChildren: false,
+                                        width: 100,
+                                      },
+                                      {
+                                        field: "ee6ee6",
+                                        headerName: "EEEE",
+                                        haveChildren: false,
+                                        width: 100,
+                                      },
+                                    ],
                                   },
                                 ],
                               },
@@ -322,16 +312,14 @@ export default function NoRows({ direction }) {
           {
             field: "oooo",
             headerName: "OOOO",
-            cellWidth: 100,
+            width: 100,
             haveChildren: false,
-            topHeader: "count",
           },
           {
             field: "qqqq",
             headerName: "QQQQ",
-            cellWidth: 100,
+            width: 100,
             haveChildren: false,
-            topHeader: "count",
           },
         ],
       },
@@ -354,7 +342,8 @@ export default function NoRows({ direction }) {
       xxxx: "sdsa",
       ffff: "aqaq",
       eeee: "tyty",
-      pppp: "frfr",rdsrd:"ererer"
+      pppp: "frfr",
+      rdsrd: "ererer",
     },
     {
       id: 2,
@@ -371,7 +360,8 @@ export default function NoRows({ direction }) {
       xxxx: "sdsa",
       ffff: "aqaq",
       eeee: "tyty",
-      pppp: "frfr",rdsrd:"frtrtr"
+      pppp: "frfr",
+      rdsrd: "frtrtr",
     },
     {
       id: 3,
@@ -388,7 +378,8 @@ export default function NoRows({ direction }) {
       xxxx: "sdsa",
       ffff: "aqaq",
       eeee: "tyty",
-      pppp: "frfr",rdsrd:"ghhtyt"
+      pppp: "frfr",
+      rdsrd: "ghhtyt",
     },
     {
       id: 4,
@@ -403,7 +394,8 @@ export default function NoRows({ direction }) {
       xxxx: "sdsa",
       ffff: "aqaq",
       eeee: "tyty",
-      pppp: "frfr",rdsrd:"eertr"
+      pppp: "frfr",
+      rdsrd: "eertr",
     },
     {
       id: 5,
@@ -418,7 +410,8 @@ export default function NoRows({ direction }) {
       xxxx: "sdsa",
       ffff: "aqaq",
       eeee: "tyty",
-      pppp: "frfr",rdsrd:"qwqwqw"
+      pppp: "frfr",
+      rdsrd: "qwqwqw",
     },
     {
       id: 6,
@@ -434,7 +427,8 @@ export default function NoRows({ direction }) {
       xxxx: "sdsa",
       ffff: "aqaq",
       eeee: "tyty",
-      pppp: "frfr",rdsrd:"trtrt"
+      pppp: "frfr",
+      rdsrd: "trtrt",
     },
     {
       id: 7,
@@ -1010,7 +1004,6 @@ export default function NoRows({ direction }) {
   ];
 
   const [rows, setRows] = useState(rowss);
-  
 
   const summaryRows = useMemo(() => {
     const summaryRow = {
@@ -1022,9 +1015,9 @@ export default function NoRows({ direction }) {
   }, [rows]);
 
   const selectedCellHeaderStyle = {
-    backgroundColor: 'red',
-    fontSize: "12px"
-  }
+    backgroundColor: "red",
+    fontSize: "12px",
+  };
   function handlePaste({
     sourceColumnKey,
     sourceRow,
@@ -1056,16 +1049,19 @@ export default function NoRows({ direction }) {
     <DataGrid
       columnData={columns}
       rowData={rows}
+      selectedRows={selectedRows}
       onRowsChange={setRows}
       onFill={true}
       onCopy={handleCopy}
       onPaste={handlePaste}
-      // rowHeight={30}
+      onSelectedRowsChange={onSelectedRowsChange}
+      rowKeyGetter={rowKeyGetter}
+      selectedCellHeaderStyle={selectedCellHeaderStyle}
       headerRowHeight={24}
       summaryRowHeight={24}
-      selectedCellHeaderStyle={selectedCellHeaderStyle}
-      selectedRows={selectedRows}
-      // onSelectedRowsChange={setSelectedRows}
+      // rowHeight={24}
+      className="fill-grid"
+      rowClass={(row) => (row.id === "7" ? highlightClassName : undefined)}
       rowFridgeIndexEnd={7}
       topSummaryRows={summaryRows}
       // bottomSummaryRows={summaryRows}

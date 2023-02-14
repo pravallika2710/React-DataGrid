@@ -21,13 +21,13 @@ export function getRowStyle(rowIdx, height) {
 }
 
 export function getCellStyle(column, colSpan) {
- 
+
   return {
     // zIndex:2,
-    gridColumnStart: column.idx + 1,
+    gridColumnStart: column.index + 1,
     gridColumnEnd: colSpan !== undefined ? `span ${colSpan}` : undefined,
     insetInlineStart: column.frozen
-      ? `var(--rdg-frozen-left-${column.idx})`
+      ? `var(--rdg-frozen-left-${column.index})`
       : undefined
   }
 }

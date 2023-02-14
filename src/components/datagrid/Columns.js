@@ -37,7 +37,7 @@ function SelectGroupFormatter(props) {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const SelectColumn = {
   key: SELECT_COLUMN_KEY,
-  name: "",cellWidth:34,topHeader:"checkbox",   //need to be changed
+  name: "",   //need to be changed
   width: 35,
   minWidth: 35,
   maxWidth: 35,

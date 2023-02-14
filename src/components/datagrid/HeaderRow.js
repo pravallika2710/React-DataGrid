@@ -1,11 +1,11 @@
-import React from 'react';
-import { memo } from "react"
-import clsx from "clsx"
-import { css } from "@linaria/core"
+import React from "react";
+import { memo } from "react";
+import clsx from "clsx";
+import { css } from "@linaria/core";
 
-import HeaderCell from "./HeaderCell"
-import { getColSpan, getRowStyle } from "./utils"
-import { cell, cellFrozen, rowSelectedClassname } from "./style"
+import HeaderCell from "./HeaderCell";
+import { getColSpan, getRowStyle } from "./utils";
+import { cell, cellFrozen, rowSelectedClassname } from "./style";
 
 const headerRow = css`
   @layer rdg.HeaderRow {
@@ -13,9 +13,9 @@ const headerRow = css`
     line-height: var(--rdg-header-row-height);
     background-color: var(--rdg-header-background-color);
     font-weight: bold;
-    color:var(--rdg-header-row-color);
-    font-size:11px;
-    text-align:center;
+    color: var(--rdg-header-row-color);
+    font-size: 11px;
+    text-align: center;
 
     & > .${cell} {
       /* Should have a higher value than 0 to show up above regular cells */
@@ -28,16 +28,18 @@ const headerRow = css`
       z-index: 2;
     }
   }
-`
+`;
 //need to change line-16-18
-const headerRowClassname = `rdg-header-row ${headerRow}`
+const headerRowClassname = `rdg-header-row ${headerRow}`;
 
 function HeaderRow({
   columns,
-  headerHeight,          //need to be changed
-  headerData,            //need to be changed
+  headerHeight, //need to be changed
+  headerData, //need to be changed
   allRowsSelected,
   rows,
+  lastColumnCell,
+  headerRowHeight,
   onAllRowsSelectionChange,
   onColumnResize,
   sortColumns,
@@ -50,26 +52,27 @@ function HeaderRow({
   direction,
   setFilters,
   selectCell,
-
 }) {
-  const cells = []
+ 
+  const cells = [];
+  
   for (let index = 0; index < columns.length; index++) {
-    const column = columns[index]
-
+    const column = columns[index];
+    console.log("columnsss", column,selectedPosition);
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
-      type: "HEADER"
-    })
+      type: "HEADER",
+    });
     if (colSpan !== undefined) {
-      index += colSpan - 1
+      index += colSpan - 1;
     }
-
-
+    
     cells.push(
       <HeaderCell
         key={column.key}
         column={column}
-        cellHeight={headerHeight}                          //need to be changed
-        cellData={headerData}                              //need to be changed
+        cellHeight={headerHeight}
+        headerRowHeight={headerRowHeight} //need to be changed
+        cellData={headerData} //need to be changed
         rows={rows}
         colSpan={colSpan}
         selectedPosition={selectedPosition}
@@ -85,10 +88,8 @@ function HeaderRow({
         direction={direction}
         setFilters={setFilters}
       />
-    )
+    );
   }
-
-  
 
   return (
     <div
@@ -96,14 +97,13 @@ function HeaderRow({
       // aria-rowindex is 1 based
       aria-rowindex={1}
       className={clsx(headerRowClassname, {
-        [rowSelectedClassname]: selectedCellIdx === 1                      //need to be changed
+        [rowSelectedClassname]: selectedCellIdx === 1, //need to be changed
       })}
       style={getRowStyle(1)}
     >
-      
       {cells}
     </div>
-  )
+  );
 }
 
-export default memo(HeaderRow)
+export default memo(HeaderRow);

@@ -74,6 +74,7 @@ function Row(
     if (isCellSelected && selectedCellEditor) {
       cells.push(selectedCellEditor);
     } else {
+     
       cells.push(
         <Cell
           key={column.key}
@@ -98,6 +99,7 @@ function Row(
       );
     }
   }
+
 
   return (
     <RowSelectionProvider value={isRowSelected}>
