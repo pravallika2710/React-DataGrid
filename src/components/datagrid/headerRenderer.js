@@ -521,15 +521,14 @@ const RecursiveScan = (masterData, subData, cellHeight,index,headerRowHeight, se
       width: subData.width,
       height: `${cellHeight}px`,
     }
-    // console.log("subData",subData.idx,)
-    console.log("subData1",selectedPosition.idx)
+
      selectedCellHeaderStyle && selectedPosition.idx === subData.idx
       ? (style = { ...style, ...selectedCellHeaderStyle })
       : style;
     
       function onClick() {
         selectCell(subData.idx);
-        console.log("subData3",subData.idx,selectedPosition.idx)
+
       }
       function onDoubleClick(event) {
         const { right, left } = event.currentTarget.getBoundingClientRect();

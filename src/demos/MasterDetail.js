@@ -35,20 +35,20 @@ function getProducts(parentId) {
 }
 
 const productColumns = [
-  { field: "id", topHeader: "id", headerName: "ID", cellWidth: 35 },
+  { field: "id", topHeader: "id", headerName: "ID", width: 35 },
   {
     field: "product",
     topHeader: "product",
     headerName: "Product",
-    cellWidth: 100,
+    width: 100,
   },
   {
     field: "description",
     topHeader: "description",
     headerName: "Description",
-    cellWidth: 100,
+    width: 100,
   },
-  { field: "price", topHeader: "price", headerName: "Price", cellWidth: 100 },
+  { field: "price", topHeader: "price", headerName: "Price", width: 100 },
 ];
 
 export default function MasterDetail({ direction }) {
@@ -59,7 +59,7 @@ export default function MasterDetail({ direction }) {
         topHeader: "expanded",
         headerName: "",
         minWidth: 30,
-        cellWidth: 30,
+        width: 30,
         colSpan(args) {
           return args.type === "ROW" && args.row.type === "DETAIL"
             ? 3
@@ -94,12 +94,12 @@ export default function MasterDetail({ direction }) {
           );
         },
       },
-      { field: "id", topHeader: "id", headerName: "ID", cellWidth: 100 },
+      { field: "id", topHeader: "id", headerName: "ID", width: 100 },
       {
         field: "department",
         topHeader: "department",
         headerName: "Department",
-        cellWidth: 400,
+        width: 400,
       },
     ];
   }, [direction]);

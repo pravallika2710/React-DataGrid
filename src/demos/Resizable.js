@@ -16,7 +16,7 @@ for (let i = 0; i < 50; i++) {
   columns.push({
     field: key,
     topHeader: key,
-    cellWidth: 100,
+    width: 100,
     headerName: key,
     valueFormatter: cellFormatter,
   });

@@ -25,31 +25,31 @@ const columns = [
     field: "id",
     topHeader: "id",
     headerName: "ID",
-    cellWidth: 200,
+    // width: 200,
   },
   {
     field: "title",
     topHeader: "title",
     headerName: "Title",
-    cellWidth: 200,
+    // width: 200,
   },
   {
     field: "firstName",
     topHeader: "firstName",
     headerName: "First Name",
-    cellWidth: 200,
+    // width: 200,
   },
   {
     field: "lastName",
     topHeader: "lastName",
     headerName: "Last Name",
-    cellWidth: 200,
+    // width: 200,
   },
   {
     field: "email",
     topHeader: "email",
     headerName: "Email",
-    cellWidth: 200,
+    // width: 200,
   },
 ];
 

@@ -31,7 +31,7 @@ function createColumns() {
       field: "id",
       topHeader: "id",
       headerName: "ID",
-      cellWidth: 80,
+      width: 80,
     },
     {
       field: "task",
@@ -39,7 +39,7 @@ function createColumns() {
       headerName: "Title",
       resizable: true,
       sortable: true,
-      cellWidth: 100,
+      width: 100,
     },
     {
       field: "priority",
@@ -47,7 +47,7 @@ function createColumns() {
       headerName: "Priority",
       resizable: true,
       sortable: true,
-      cellWidth: 100,
+      width: 100,
     },
     {
       field: "issueType",
@@ -55,7 +55,7 @@ function createColumns() {
       headerName: "Issue Type",
       resizable: true,
       sortable: true,
-      cellWidth: 100,
+      width: 100,
     },
     {
       field: "complete",
@@ -63,7 +63,7 @@ function createColumns() {
       headerName: "% Complete",
       resizable: true,
       sortable: true,
-      cellWidth: 100,
+      width: 100,
     },
   ];
 }

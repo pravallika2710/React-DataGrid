@@ -54,7 +54,6 @@ export default function textEditor({
       value={row[column.key]}
       {...column.inputProps}
       onChange={(event) => {
-        console.log(row, "---");
         onRowChange({ ...row, [column.key]: event.target.value });
       }}
       onBlur={() => onClose(true)}

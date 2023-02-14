@@ -62,7 +62,6 @@ const columns = [
     resizable: true,
     frozen: true,
     cellRenderer: (props) => {
-      console.log("props,", props);
       return textEditor(props);
     },
     // cellRenderer: (props) => {

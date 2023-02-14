@@ -65,9 +65,9 @@ const rowFridge1 = css`
 
 function Cell({
   column,
-  headerHeight,//need to be addaed
+  headerHeight, //need to be addaed
   allrow, //need to be changed
-  rowFridgeIndexEnd,//need to be addaed
+  rowFridgeIndexEnd, //need to be addaed
   singleRowFridgeIndex, //need to be addaed
   summaryRowHeight, //need to be changed
   rowIndex, //need to be changed
@@ -84,7 +84,7 @@ function Cell({
   ...props
 }) {
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
- 
+
   const { cellClass } = column;
   const className = getCellClassname(
     column,
@@ -101,8 +101,6 @@ function Cell({
     },
     typeof cellClass === "function" ? cellClass(row) : cellClass
   );
-
-
 
   function selectCellWrapper(openEditor) {
     selectCell(row, column, openEditor);

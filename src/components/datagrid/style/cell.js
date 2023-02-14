@@ -16,6 +16,7 @@ export const cell = css`
     border-block-end: 1px solid var(--rdg-border-color);
     grid-row-start: var(--rdg-grid-row-start);
     background-color: inherit;
+    text-align:center;
 
     white-space: nowrap;
     overflow: hidden;

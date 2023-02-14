@@ -180,7 +180,7 @@ export default function HeaderCell({
       return;
     }
 
-    onColumnResize(column, "max-content");
+    onColumnResize(column);
   }
 
   function handleFocus(event) {

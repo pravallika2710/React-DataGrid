@@ -85,13 +85,13 @@ export default function HeaderFilters({ direction }) {
         field: "id",
         topHeader: "id",
         headerName: "ID",
-        cellWidth: 50,
+        width: 50,
       },
       {
         field: "task",
         topHeader: "task",
         headerName: "Title",
-        cellWidth: 200,
+        width: 200,
         headerCellClass: filterColumnClassName,
         headerRenderer: (p) => (
           <FilterRenderer {...p}>
@@ -116,7 +116,7 @@ export default function HeaderFilters({ direction }) {
         field: "priority",
         topHeader: "priority",
         headerName: "Priority",
-        cellWidth: 200,
+        width: 200,
         headerCellClass: filterColumnClassName,
         headerRenderer: (p) => (
           <FilterRenderer {...p}>
@@ -147,7 +147,7 @@ export default function HeaderFilters({ direction }) {
         field: "issueType",
         topHeader: "issueType",
         headerName: "Issue Type",
-        cellWidth: 200,
+        width: 200,
         headerCellClass: filterColumnClassName,
         headerRenderer: (p) => (
           <FilterRenderer {...p}>
@@ -178,7 +178,7 @@ export default function HeaderFilters({ direction }) {
         field: "developer",
         topHeader: "developer",
         headerName: "Developer",
-        cellWidth: 200,
+        width: 200,
         headerCellClass: filterColumnClassName,
         headerRenderer: (p) => (
           <FilterRenderer {...p}>
@@ -204,7 +204,7 @@ export default function HeaderFilters({ direction }) {
         field: "complete",
         topHeader: "complete",
         headerName: "% Complete",
-        cellWidth: 200,
+        width: 200,
         headerCellClass: filterColumnClassName,
         headerRenderer: (p) => (
           <FilterRenderer {...p}>

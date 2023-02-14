@@ -2,9 +2,9 @@ import { useState, useRef } from "react";
 import DataGrid from "../components/datagrid/DataGrid";
 
 const columns = [
-  { field: "id", topHeader: "id", headerName: "ID", cellWidth: 200 },
-  { field: "title", topHeader: "title", headerName: "Title", cellWidth: 200 },
-  { field: "count", topHeader: "count", headerName: "Count", cellWidth: 200 },
+  { field: "id", topHeader: "id", headerName: "ID", width: 200 },
+  { field: "title", topHeader: "title", headerName: "Title", width: 200 },
+  { field: "count", topHeader: "count", headerName: "Count", width: 200 },
 ];
 
 export default function ScrollToRow({ direction }) {

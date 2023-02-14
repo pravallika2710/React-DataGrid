@@ -39,7 +39,7 @@ export async function exportToPdf(gridElement, fileName) {
     body,
     foot,
     horizontalPageBreak: true,
-    styles: { cellPadding: 1.5, fontSize: 8, cellWidth: "wrap" },
+    styles: { cellPadding: 1.5, fontSize: 8, width: "wrap" },
     tableWidth: "wrap"
   })
   doc.save(fileName)

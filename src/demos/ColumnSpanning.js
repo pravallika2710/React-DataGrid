@@ -30,9 +30,9 @@ export default function ColumnSpanning({ direction }) {
         field:key,
         headerName: key,
         topHeader:key,
-        cellWidth:200,
+        width:200,
         frozen: i < 5,
-        resizable: true,
+        // resizable: true,
         valueFormatter: cellFormatter,
         colSpan(args) {
           if (args.type === 'ROW') {

@@ -153,7 +153,7 @@ function DataGrid(props, ref) {
   }
 
   // ---------------------Need to be added-Start--------------------------------------------------------------------
-  
+
   const arr3 = rawColumns.slice();
 
   const getArrayDepth = (arr) => {
@@ -180,15 +180,15 @@ function DataGrid(props, ref) {
     rawHeaderRowHeight ??
     headerWithFilter ??
     (typeof rowHeight === "number" ? rowHeight : 24);
-   
+
   const summaryRowHeight =
     rawSummaryRowHeight ?? (typeof rowHeight === "number" ? rowHeight : 24); //Need to added--24 instaed of 35
   const rowRenderer =
-  contextMenuItems.length > 0	
-  ? contextMenuRowRenderer	
-  : renderers?.rowRenderer ??	
-    defaultComponents?.rowRenderer ??	
-   defaultRowRenderer;
+    contextMenuItems.length > 0
+      ? contextMenuRowRenderer
+      : renderers?.rowRenderer ??
+        defaultComponents?.rowRenderer ??
+        defaultRowRenderer;
   const sortStatus =
     renderers?.sortStatus ?? defaultComponents?.sortStatus ?? defaultSortStatus;
   const checkboxFormatter =
@@ -216,18 +216,16 @@ function DataGrid(props, ref) {
   const onSortColumnsChange = (sortColumns) => {
     return setSortColumns(sortColumns.slice(-1));
   };
-  var flattedColumns
-  const flat = rawColumns => o => o.children
-    ? o.children.flatMap(flat(rawColumns || o.headerName))
-    : { ...o, rawColumns },
-    response = rawColumns
+  var flattedColumns;
+  const flat = (rawColumns) => (o) =>
+      o.children
+        ? o.children.flatMap(flat(rawColumns || o.headerName))
+        : { ...o, rawColumns },
+    response = rawColumns;
   flattedColumns = response.flatMap(flat());
-
-  
 
   var defaultFilters = {};
   flattedColumns?.map((i) => (defaultFilters[i.field] = ""));
-  console.log("flattedColumns",defaultFilters,flattedColumns)
 
   const [filters, setFilters] = useState({ ...defaultFilters, enabled: true });
 
@@ -249,7 +247,7 @@ function DataGrid(props, ref) {
   function filterFunction(props) {
     return raawRows?.filter(function (val) {
       for (var i = 0; i < props.length; i++)
-      if (!(val[props[i][0]].toString()).includes(props[i][1])) return false;
+        if (!val[props[i][0]].toString().includes(props[i][1])) return false;
       return true;
     });
   }
@@ -272,7 +270,6 @@ function DataGrid(props, ref) {
 
   const [gridRef, gridWidth, gridHeight, isWidthInitialized] =
     useGridDimensions();
-  
 
   const headerRowsCount = 2; //Need to added--2 instaed of 1
   const topSummaryRowsCount = topSummaryRows?.length ?? 0;
@@ -342,29 +339,19 @@ function DataGrid(props, ref) {
   //   return maxDepth;
   // }
 
-  
-
-  const {
-    columns3,
-   
-  } = useCalculatedColumns3({
-    rawColumns,//need to be added
+  const { columns3 } = useCalculatedColumns3({
+    rawColumns, //need to be added
   });
- 
-
-
-
 
   function flatten(into, node) {
     if (node == null) return into;
     if (Array.isArray(node)) return node.reduce(flatten, into);
     into.push(node);
-   
+
     return flatten(into, node.children);
   }
 
   var rowArray = flatten([], columns3);
-  
 
   for (var i = 0; i < cloneArray.length; i++) {
     if (!cloneArray[i].hasChildren) {
@@ -379,16 +366,14 @@ function DataGrid(props, ref) {
       i--;
     }
   }
- 
 
-   var value = false
+  var value = false;
 
-var rowCol = rowArray
+  var rowCol = rowArray;
 
-rowCol = rowCol.filter(function(item) {
-    return item !== value
-})
-console.log("rowArray",rowCol)
+  rowCol = rowCol.filter(function (item) {
+    return item !== value;
+  });
 
 
   const arr = rowCol.slice();
@@ -418,13 +403,11 @@ console.log("rowArray",rowCol)
   var arr2 = groupingViaCommonProperty.map((arr) =>
     arr.reduce((sum, item) => (sum += item), 0)
   );
- 
 
   const totalViewportWidth = mapToPair(arr)
     .flat(1)
     .reduce((partialSum, a) => partialSum + a, 0);
 
-  
   var arr5 = arr2.slice();
 
 
@@ -442,28 +425,25 @@ console.log("rowArray",rowCol)
     totalFrozenColumnWidth,
     groupBy,
   } = useCalculatedColumns({
-    rawColumns, arr5,//need to be added
+    rawColumns,
     columnWidths,
     scrollLeft,
     viewportWidth: gridWidth, //need to be added
     defaultColumnOptions,
     rawGroupBy: rowGrouper ? rawGroupBy : undefined,
     enableVirtualization,
+    arr5, //need to be added
   });
 
-  const {
-    columns5,
-  
-  } = useCalculatedColumns5({
-    columns
+  const { columns5 } = useCalculatedColumns5({
+    columns,
   });
-  
 
   var cloneArray3 = columns.slice();
   let groupingViaCommonProperty1 = Object.values(
     cloneArray3.reduce((acc, current) => {
       acc[current.topHeader] = acc[current.topHeader] ?? [];
-      acc[current.topHeader].push(current.width?current.width + 1:"auto");
+      acc[current.topHeader].push(current.width ? current.width + 1 : "auto");
       return acc;
     }, {})
   );
@@ -472,80 +452,75 @@ console.log("rowArray",rowCol)
   );
   var finalArray = arr6
     .map((v) => v)
-    .map((w) => typeof(w)==="number"?w + "px":"auto")
+    .map((w) => (typeof w === "number" ? w + "px" : "auto"))
     .join(" ");
 
-var colAraay=columns.slice()
-    function flatten1(into, node) {
-      if (node == null) return into;
-      if (Array.isArray(node)) return node.reduce(flatten1, into);
-      into.push(node);
-     
-      return flatten1(into, node.children);
-    }
-  
-    var rowArray1 = flatten1([], colAraay);
-    
-    
-    var value1 = false
+  var colAraay = columns.slice();
+  function flatten1(into, node) {
+    if (node == null) return into;
+    if (Array.isArray(node)) return node.reduce(flatten1, into);
+    into.push(node);
 
-    var rowCol1 = rowArray1
-    
-    rowCol1 = rowCol1.filter(function(item) {
-        return item !== value1
-    })
-    var rowCol2=rowCol1.slice()
-    console.log("parent11",rowCol1)
-    for (var i = 0; i < rowCol2.length; i++) {
-      if (rowCol2[i].haveChildren) {
-        rowCol2.splice(i, 1);
-        i--;
-      }
-    }
+    return flatten1(into, node.children);
+  }
 
-    const {
-      columns4,
-     
-    } = useCalculatedColumns4({
-      rowCol2,//need to be added
+  var rowArray1 = flatten1([], colAraay);
+
+  var value1 = false;
+
+  var rowCol1 = rowArray1;
+
+  rowCol1 = rowCol1.filter(function (item) {
+    return item !== value1;
+  });
+  var rowCol2 = rowCol1.slice();
+  for (var i = 0; i < rowCol2.length; i++) {
+    if (rowCol2[i].haveChildren) {
+      rowCol2.splice(i, 1);
+      i--;
+    }
+  }
+
+  const { columns4 } = useCalculatedColumns4({
+    rowCol2, //need to be added
+  });
+
+
+
+  let merged = [];
+
+  for (let i = 0; i < rowCol1.length; i++) {
+    merged.push({
+      ...rowCol1[i],
+      ...columns4.find((itmInner) => itmInner.field === rowCol1[i].field),
     });
-    
-    console.log("parent3",columns4)
-
-    let merged = [];
-
-for(let i=0; i<rowCol1.length; i++) {
-  merged.push({
-   ...rowCol1[i], 
-   ...(columns4.find((itmInner) => itmInner.field === rowCol1[i].field))}
-  );
-}
-console.log("parent32",columns4)
-
-for (var i = 0, len = merged.length; i < len; i++) {
-  delete merged[i].children;
-}
+  }
 
 
+  for (var i = 0, len = merged.length; i < len; i++) {
+    delete merged[i].children;
+  }
 
-const regroupArray = array => {
-  const map = {};
-  array.forEach(item => {
-    map[item.field] = item;
-    item.children = [];
-  });
-  array.forEach(item => {
-    if (item.parent !== null) {
-      map[item.parent].children.push(item);
-    }
-  });
-  return array.filter(item => item.parent === null);
-};
+  const regroupArray = (array) => {
+    const map = {};
+    array.forEach((item) => {
+      map[item.field] = item;
+      item.children = [];
+    });
+    array.forEach((item) => {
+      if (item.parent !== null) {
+        map[item.parent].children.push(item);
+      }
+    });
+    return array.filter((item) => item.parent === null);
+  };
 
-for (var i = 0, len = regroupArray(merged).length; i < len; i++) {
-  if(regroupArray(merged)[i].haveChildren===true )  regroupArray(merged)[i].idx=regroupArray(merged)[i].index+columns4.length;
-}
-console.log("sdssd",regroupArray(merged));
+  for (var i = 0, len = regroupArray(merged).length; i < len; i++) {
+    if (regroupArray(merged)[i].haveChildren === true)
+      regroupArray(merged)[i].idx =
+        regroupArray(merged)[i].index + columns4.length;
+  }
+ 
   // ---------------------------Need to be added-Start--------------------------------------------------------
 
   const {
@@ -590,7 +565,7 @@ console.log("sdssd",regroupArray(merged));
   });
 
   // ---------------------------End--------------------------------------------------------
-  console.log("111",viewportColumnss)
+
   const {
     rowOverscanStartIdx,
     rowOverscanEndIdx,
@@ -615,7 +590,6 @@ console.log("sdssd",regroupArray(merged));
 
   const { viewportColumns, flexWidthViewportColumns } = useViewportColumns({
     columns,
-
     colSpanColumns,
     colOverscanStartIdx,
     colOverscanEndIdx,
@@ -626,9 +600,9 @@ console.log("sdssd",regroupArray(merged));
     topSummaryRows,
     bottomSummaryRows,
     columnWidths,
-    isGroupRow,
+    isGroupRow
   });
-console.log("viewportColumns",viewportColumns)
+
   const hasGroups = groupBy.length > 0 && typeof rowGrouper === "function";
   const minColIdx = hasGroups ? -1 : 0;
   const maxColIdx = columnss.length - 1;
@@ -638,7 +612,7 @@ console.log("viewportColumns",viewportColumns)
     isCellWithinSelectionBounds(selectedPosition);
   const selectedCellIsWithinViewportBounds =
     isCellWithinViewportBounds(selectedPosition);
-   
+
   /**
    * The identity of the wrapper function is stable so it won't break memoization
    */
@@ -653,7 +627,6 @@ console.log("viewportColumns",viewportColumns)
     (row, column, enableEditor) => {
       const rowIdx = rows.indexOf(row);
       selectCell({ rowIdx, idx: column.idx }, enableEditor);
-      
     }
   );
   const selectGroupLatest = useLatestFunc((rowIdx) => {
@@ -661,7 +634,6 @@ console.log("viewportColumns",viewportColumns)
   });
   const selectHeaderCellLatest = useLatestFunc((idx) => {
     selectCell({ rowIdx: minRowIdx, idx });
-    
   });
   const selectTopSummaryCellLatest = useLatestFunc((summaryRow, column) => {
     const rowIdx = topSummaryRows.indexOf(summaryRow);
@@ -694,9 +666,11 @@ console.log("viewportColumns",viewportColumns)
   });
 
   useLayoutEffect(() => {
+
     if (!isWidthInitialized || flexWidthViewportColumns.length === 0) return;
 
     setColumnWidths((columnWidths) => {
+
       const newColumnWidths = new Map(columnWidths);
       const grid = gridRef.current;
 
@@ -711,7 +685,8 @@ console.log("viewportColumns",viewportColumns)
 
       return newColumnWidths;
     });
-  }, [isWidthInitialized, flexWidthViewportColumns, gridRef]);
+  }, [isWidthInitialized,gridRef,flexWidthViewportColumns]);
+
 
   useImperativeHandle(ref, () => ({
     element: gridRef.current,
@@ -995,7 +970,6 @@ console.log("viewportColumns",viewportColumns)
     }
 
     const column = columns[selectedPosition.idx];
-    console.log("cccccc",column)
     column.editorOptions?.onCellKeyDown?.(event);
     if (event.isDefaultPrevented()) return;
 
@@ -1007,7 +981,6 @@ console.log("viewportColumns",viewportColumns)
         row,
         originalRow: row,
       }));
-      
     }
   }
 
@@ -1015,9 +988,7 @@ console.log("viewportColumns",viewportColumns)
    * utils
    */
   function isColIdxWithinSelectionBounds(idx) {
-    console.log("minColIdx",maxColIdx)
     return idx >= minColIdx && idx <= maxColIdx;
-    
   }
 
   function isRowIdxWithinViewportBounds(rowIdx) {
@@ -1051,24 +1022,20 @@ console.log("viewportColumns",viewportColumns)
   }
 
   function selectCell(position, enableEditor) {
-    console.log("position7",position)
     if (!isCellWithinSelectionBounds(position)) return;
     commitEditorChanges();
 
     if (enableEditor && isCellEditable(position)) {
       const row = rows[position.rowIdx];
       setSelectedPosition({ ...position, mode: "EDIT", row, originalRow: row });
-    } 
-    else 
-    if (isSamePosition(selectedPosition, position)) {
+    } else if (isSamePosition(selectedPosition, position)) {
       // Avoid re-renders if the selected cell state is the same
       scrollIntoView(gridRef.current?.querySelector('[tabindex="0"]'));
-    } 
-    else {
-      setSelectedPosition({ ...position, mode: "SELECT" });  //imp
+    } else {
+      setSelectedPosition({ ...position, mode: "SELECT" }); //imp
     }
   }
-console.log("selectedpos",selectedPosition)
+
   function scrollToColumn(idx) {
     const { current } = gridRef;
     if (!current) return;
@@ -1233,7 +1200,7 @@ console.log("selectedpos",selectedPosition)
 
     return isDraggedOver ? selectedPosition.idx : undefined;
   }
-  
+
   function getLayoutCssVars() {
     if (flexWidthViewportColumns.length === 0) return layoutCssVars;
     // const newTemplateColumns = [...templateColumns];
@@ -1376,7 +1343,7 @@ console.log("selectedpos",selectedPosition)
     let startRowIndex = 0;
 
     const { idx: selectedIdx, rowIdx: selectedRowIdx } = selectedPosition;
-    console.log("selectedIdx2",selectedIdx)
+
     const startRowIdx =
       selectedCellIsWithinViewportBounds && selectedRowIdx < rowOverscanStartIdx
         ? rowOverscanStartIdx - 1
@@ -1398,7 +1365,7 @@ console.log("selectedpos",selectedPosition)
 
       let rowColumns = viewportColumnss; //need to be added
       const selectedColumn = columns[selectedIdx];
-      console.log("selectedIdx1",selectedColumn)
+
       // selectedIdx can be -1 if grouping is enabled
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (selectedColumn !== undefined) {
@@ -1414,7 +1381,7 @@ console.log("selectedpos",selectedPosition)
       const row = rows[rowIdx];
 
       const gridRowStart = topSummaryRowsCount + rowIdx + 1; //need to be added
-     
+
       if (isGroupRow(row)) {
         ({ startRowIndex } = row);
         const isGroupRowSelected =
@@ -1548,7 +1515,7 @@ console.log("selectedpos",selectedPosition)
       target?.removeEventListener("paste", () => {})
     );
   }, [1]);
-  console.log("selectedPosition11",selectedPosition)
+
   return (
     <>
       <div
@@ -1578,7 +1545,7 @@ console.log("selectedpos",selectedPosition)
             )}
             style={{
               ...style,
-              width: "max-content",
+              // width: "max-content",
               gridTemplateColumns: finalArray,
               // set scrollPadding to correctly position non-sticky cells after scrolling
               scrollPaddingInlineStart:
@@ -1589,7 +1556,8 @@ console.log("selectedpos",selectedPosition)
                 selectedPosition.rowIdx >= 0 &&
                 selectedPosition.rowIdx < rows.length
                   ? `${
-                    totalHeaderRowHeight + topSummaryRowsCount * summaryRowHeight
+                      totalHeaderRowHeight +
+                      topSummaryRowsCount * summaryRowHeight
                     }px ${bottomSummaryRowsCount * summaryRowHeight}px`
                   : undefined,
               gridTemplateRows: `${rawHeaderRowHeight}px`,
@@ -1662,7 +1630,7 @@ console.log("selectedpos",selectedPosition)
             )}
             style={{
               ...style,
-              width: "max-content",
+              // width: "max-content",
               gridTemplateColumns: ColGridTemplateCol,
               // // set scrollPadding to correctly position non-sticky cells after scrolling
               scrollPaddingInlineStart:
@@ -1673,7 +1641,8 @@ console.log("selectedpos",selectedPosition)
                 selectedPosition.rowIdx >= 0 &&
                 selectedPosition.rowIdx < rows.length
                   ? `${
-                    totalHeaderRowHeight + topSummaryRowsCount * summaryRowHeight
+                      totalHeaderRowHeight +
+                      topSummaryRowsCount * summaryRowHeight
                     }px ${bottomSummaryRowsCount * summaryRowHeight}px`
                   : undefined,
               gridTemplateRows: templateRows,
@@ -1717,7 +1686,8 @@ console.log("selectedpos",selectedPosition)
                       const summaryRowIdx = rowIdx + minRowIdx + 1;
                       const isSummaryRowSelected =
                         selectedPosition.rowIdx === summaryRowIdx;
-                      const top = totalHeaderRowHeight + summaryRowHeight * rowIdx;
+                      const top =
+                        totalHeaderRowHeight + summaryRowHeight * rowIdx;
 
                       return (
                         <SummaryRow

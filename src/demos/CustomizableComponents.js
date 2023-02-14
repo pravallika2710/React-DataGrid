@@ -51,7 +51,7 @@ const columns = [
     field: "id",
     topHeader: "id",
     headerName: "ID",
-    cellWidth: 100,
+    width: 100,
   },
   {
     field: "task",
@@ -59,28 +59,28 @@ const columns = [
     headerName: "Title",
     cellEditor: textEditor,
     sortable: true,
-    cellWidth: 100,
+    width: 100,
   },
   {
     field: "priority",
     topHeader: "priority",
     headerName: "Priority",
     sortable: true,
-    cellWidth: 100,
+    width: 100,
   },
   {
     field: "issueType",
     topHeader: "issueType",
     headerName: "Issue Type",
     sortable: true,
-    cellWidth: 100,
+    width: 100,
   },
   {
     field: "complete",
     topHeader: "complete",
     headerName: "% Complete",
     sortable: true,
-    cellWidth: 100,
+    width: 100,
   },
 ];
 

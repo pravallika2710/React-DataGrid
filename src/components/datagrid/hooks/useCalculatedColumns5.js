@@ -89,7 +89,6 @@ export function useCalculatedColumns5({
                 children:
                   child.haveChildren === true &&
                   child?.children.map((subChild, index2) => {
-                    console.log(subChild,index2, "pravallika")
                     const rawChild1 = {
                       ...subChild,
                       topHeader: rawColumn.field,

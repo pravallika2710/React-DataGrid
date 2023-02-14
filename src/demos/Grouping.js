@@ -61,31 +61,27 @@ const columns = [
     field: "country",
     topHeader: "country",
     headerName: "Country",
-    cellWidth: 100,
   },
   {
     field: "year",
     topHeader: "year",
     headerName: "Year",
-    cellWidth: 100,
   },
   {
     field: "sport",
     topHeader: "sport",
     headerName: "Sport",
-    cellWidth: 100,
   },
   {
     field: "athlete",
     topHeader: "athlete",
     headerName: "Athlete",
-    cellWidth: 100,
   },
   {
     field: "gold",
     topHeader: "gold",
     headerName: "Gold",
-    cellWidth: 100,
+
     groupFormatter({ childRows }) {
       return <>{childRows.reduce((prev, { gold }) => prev + gold, 0)}</>;
     },
@@ -94,7 +90,7 @@ const columns = [
     field: "silver",
     topHeader: "silver",
     headerName: "Silver",
-    cellWidth: 100,
+
     groupFormatter({ childRows }) {
       return <>{childRows.reduce((prev, { silver }) => prev + silver, 0)}</>;
     },
@@ -103,7 +99,7 @@ const columns = [
     field: "bronze",
     topHeader: "bronze",
     headerName: "Bronze",
-    cellWidth: 100,
+
     groupFormatter({ childRows }) {
       return <>{childRows.reduce((prev, { silver }) => prev + silver, 0)}</>;
     },
@@ -112,7 +108,7 @@ const columns = [
     field: "total",
     topHeader: "total",
     headerName: "Total",
-    cellWidth: 100,
+
     valueFormatter({ row }) {
       return <>{row.gold + row.silver + row.bronze}</>;
     },

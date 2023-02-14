@@ -53,12 +53,12 @@ function CurrencyFormatter({ value }) {
 
 function getColumns(countries, direction) {
   return [
-    { ...SelectColumn, cellWidth: 80 },
+    { ...SelectColumn, width: 80 },
     {
       field: "id",
       topHeader: "id",
       headerName: "ID",
-      cellWidth: 60,
+      width: 60,
       frozen: true,
       resizable: false,
       summaryFormatter() {
@@ -69,7 +69,7 @@ function getColumns(countries, direction) {
       field: "title",
       topHeader: "title",
       headerName: "Task",
-      cellWidth: 120,
+      width: 120,
       frozen: true,
       cellRenderer: textEditor,
       summaryFormatter({ row }) {
@@ -80,22 +80,22 @@ function getColumns(countries, direction) {
       field: "client",
       topHeader: "client",
       headerName: "Client",
-      cellWidth: "max-content",
+      width: "max-content",
       cellRenderer: textEditor,
-      cellWidth: 150,
+      width: 150,
     },
     {
       field: "area",
       topHeader: "area",
       headerName: "Area",
-      cellWidth: 120,
+      width: 120,
       cellRenderer: textEditor,
     },
     {
       field: "country",
       topHeader: "country",
       headerName: "Country",
-      cellWidth: 180,
+      width: 180,
       cellRenderer: (p) => (
         <select
           className={textEditorClassname}
@@ -117,21 +117,21 @@ function getColumns(countries, direction) {
       field: "contact",
       topHeader: "contact",
       headerName: "Contact",
-      cellWidth: 160,
+      width: 160,
       cellRenderer: textEditor,
     },
     {
       field: "assignee",
       topHeader: "assignee",
       headerName: "Assignee",
-      cellWidth: 150,
+      width: 150,
       cellRenderer: textEditor,
     },
     {
       field: "progress",
       topHeader: "progress",
       headerName: "Completion",
-      cellWidth: 110,
+      width: 110,
       valueFormatter(props) {
         const value = props.row.progress;
         return (
@@ -179,7 +179,7 @@ function getColumns(countries, direction) {
       field: "startTimestamp",
       topHeader: "startTimestamp",
       headerName: "Start date",
-      cellWidth: 100,
+      width: 100,
       valueFormatter(props) {
         return <TimestampFormatter timestamp={props.row.startTimestamp} />;
       },
@@ -188,7 +188,7 @@ function getColumns(countries, direction) {
       field: "endTimestamp",
       topHeader: "endTimestamp",
       headerName: "Deadline",
-      cellWidth: 100,
+      width: 100,
       valueFormatter(props) {
         return <TimestampFormatter timestamp={props.row.endTimestamp} />;
       },
@@ -197,7 +197,7 @@ function getColumns(countries, direction) {
       field: "budget",
       topHeader: "budget",
       headerName: "Budget",
-      cellWidth: 100,
+      width: 100,
       valueFormatter(props) {
         return <CurrencyFormatter value={props.row.budget} />;
       },
@@ -206,26 +206,26 @@ function getColumns(countries, direction) {
       field: "transaction",
       topHeader: "transaction",
       headerName: "Transaction type",
-      cellWidth: 150,
+      width: 150,
     },
     {
       field: "account",
       topHeader: "account",
       headerName: "Account",
-      cellWidth: 150,
+      width: 150,
     },
     {
       field: "version",
       topHeader: "version",
       headerName: "Version",
       cellRenderer: textEditor,
-      cellWidth: 150,
+      width: 150,
     },
     {
       field: "available",
       topHeader: "available",
       headerName: "Available",
-      cellWidth: 80,
+      width: 80,
       valueFormatter({ row, onRowChange, isCellSelected }) {
         return (
           <SelectCellFormatter

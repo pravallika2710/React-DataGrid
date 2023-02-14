@@ -120,14 +120,13 @@ function createRows() {
 }
 
 const columns = [
-  { field: "id", topHeader: "id", headerName: "ID", cellWidth: 100 },
+  { field: "id", topHeader: "id", headerName: "ID" },
   {
     field: "product",
     topHeader: "product",
     headerName: "Product",
-    cellWidth: 200,
   },
-  { field: "price", topHeader: "price", headerName: "Price", cellWidth: 100 },
+  { field: "price", topHeader: "price", headerName: "Price" },
 ];
 
 function rowKeyGetter(row) {

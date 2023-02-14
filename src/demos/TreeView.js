@@ -110,19 +110,19 @@ export default function TreeView({ direction }) {
         topHeader: "id",
         headerName: "id",
         frozen: true,
-        cellWidth: 100,
+        width: 100,
       },
       {
         field: "name",
         topHeader: "name",
         headerName: "Name",
-        cellWidth: 100,
+        width: 100,
       },
       {
         field: "format",
         topHeader: "format",
         headerName: "format",
-        cellWidth: 200,
+        width: 200,
         valueFormatter({ row, isCellSelected }) {
           const hasChildren = row.children !== undefined;
           const style = !hasChildren ? { marginInlineStart: 30 } : undefined;
@@ -157,13 +157,13 @@ export default function TreeView({ direction }) {
         field: "position",
         topHeader: "position",
         headerName: "position",
-        cellWidth: 200,
+        width: 200,
       },
       {
         field: "price",
         topHeader: "price",
         headerName: "price",
-        cellWidth: 200,
+        width: 200,
       },
     ];
   }, [allowDelete]);

@@ -32,32 +32,32 @@ const columns = [
     field: "id",
     topHeader: "id",
     headerName: "ID",
-    cellWidth: 80,
+    // width: 80,
   },
   {
     field: "task",
     topHeader: "task",
     headerName: "Title",
     cellEditor: textEditor,
-    cellWidth: 200,
+    // width: 200,
   },
   {
     field: "priority",
     topHeader: "priority",
     headerName: "Priority",
-    cellWidth: 200,
+    // width: 200,
   },
   {
     field: "issueType",
     topHeader: "issueType",
     headerName: "Issue Type",
-    cellWidth: 200,
+    // width: 200,
   },
   {
     field: "complete",
     topHeader: "complete",
     headerName: "% Complete",
-    cellWidth: 200,
+    // width: 200,
   },
 ];
 
