@@ -176,7 +176,7 @@ function DataGrid(props, ref) {
         : { ...o, rawColumns },
     response = rawColumns;
   flattedColumns = response?.flatMap(flat());
-
+const enableFilter = flattedColumns.map(i => i.filter === true ? true : false)
   const defaultComponents = useDefaultComponents();
   const rowHeight = rawRowHeight ?? 24;
   const headerWithFilter = enableFilter ? 70 : undefined;

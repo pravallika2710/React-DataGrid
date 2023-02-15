@@ -189,10 +189,11 @@ export default function headerRenderer({
       return (
         <FilterRenderer column={column} isCellSelected={isCellSelected}>
           {({ filters, ...rest }) => (
-            <div className={filterClassname}>
+            <div className={filterClassname} style={{width: column.width}}>
               <input
                 {...rest}
                 value={filters?.[column.field]}
+                style={{width: '100%'}}
                 onChange={(e) =>
                   setFilters({
                     ...filters,
@@ -222,10 +223,11 @@ export default function headerRenderer({
           </SortableHeaderCell>
           <FilterRenderer column={column} isCellSelected={isCellSelected}>
             {({ filters, ...rest }) => (
-              <div className={filterClassname}>
+              <div className={filterClassname} style={{width: column.width}}>
                 <input
                   {...rest}
                   value={filters?.[column.field]}
+                  style={{width: '100%'}}
                   onChange={(e) =>
                     setFilters({
                       ...filters,
@@ -379,10 +381,11 @@ const RecursiveScan = (masterData, subData, cellHeight, index, onSort, sortDirec
         >
           <FilterRenderer column={subData} isCellSelected={isCellSelected}>
             {({ filters, ...rest }) => (
-              <div className={filterClassname} style={{borderBlockStart: '1px solid var(--rdg-border-color)'}}>
+              <div className={filterClassname} style={{borderBlockStart: '1px solid var(--rdg-border-color)', width: subData.width}}>
                 <input
                   {...rest}
                   value={filters?.[subData.field]}
+                  style={{width: '100%'}}
                   onChange={(e) =>
                     setFilters({
                       ...filters,
@@ -417,10 +420,11 @@ const RecursiveScan = (masterData, subData, cellHeight, index, onSort, sortDirec
           </SortableHeaderCell>
           <FilterRenderer column={subData} isCellSelected={isCellSelected}>
             {({ filters, ...rest }) => (
-              <div className={filterClassname} style={{borderBlockStart: '1px solid var(--rdg-border-color)'}}>
+              <div className={filterClassname} style={{borderBlockStart: '1px solid var(--rdg-border-color)', width: subData.width}}>
                 <input
                   {...rest}
                   value={filters?.[subData.field]}
+                  style={{width: '100%'}}
                   onChange={(e) =>
                     setFilters({
                       ...filters,
