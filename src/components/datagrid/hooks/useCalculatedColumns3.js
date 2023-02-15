@@ -11,7 +11,7 @@ export function useCalculatedColumns3({
      
     
 
-        const columns3 = rawColumns.map((rawColumn, pos) => {
+        const columns3 = rawColumns?.map((rawColumn, pos) => {
             //need to be changed
             var recursiveChild = (subChild, rawColumn) => {
               return (

@@ -107,20 +107,17 @@ export default function TreeView({ direction }) {
     return [
       {
         field: "id",
-        topHeader: "id",
         headerName: "id",
         frozen: true,
         width: 100,
       },
       {
         field: "name",
-        topHeader: "name",
         headerName: "Name",
         width: 100,
       },
       {
         field: "format",
-        topHeader: "format",
         headerName: "format",
         width: 200,
         valueFormatter({ row, isCellSelected }) {
@@ -155,13 +152,11 @@ export default function TreeView({ direction }) {
       },
       {
         field: "position",
-        topHeader: "position",
         headerName: "position",
         width: 200,
       },
       {
         field: "price",
-        topHeader: "price",
         headerName: "price",
         width: 200,
       },

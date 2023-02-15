@@ -30,7 +30,6 @@ const columns = [
   {
     field: "id",
     headerName: "ID",
-    topHeader: "id",
     width: 80,
     frozen: true,
   },
@@ -39,7 +38,6 @@ const columns = [
     headerName: "Avatar",
     width: 80,
     frozen: true,
-    topHeader: "avatar",
     headerRenderer: () => <ImageFormatter value={faker.image.cats()} />,
     valueFormatter: ({ row }) => <ImageFormatter value={row.avatar} />,
   },
@@ -47,7 +45,6 @@ const columns = [
     field: "title",
     headerName: "Title",
     width: 200,
-    topHeader: "title",
     valueFormatter(props) {
       return <>{props.row.title}</>;
     },
@@ -60,7 +57,6 @@ const columns = [
     field: "firstName",
     headerName: "First Name",
     width: 200,
-    topHeader: "firstName",
     frozen: true,
     cellRenderer: (props) => {
       return textEditor(props);
@@ -70,7 +66,6 @@ const columns = [
     field: "lastName",
     headerName: "Last Name",
     width: 200,
-    topHeader: "lastName",
     frozen: true,
     cellRenderer: textEditor,
   },
@@ -78,56 +73,48 @@ const columns = [
     field: "email",
     headerName: "Email",
     width: 100,
-    topHeader: "email",
     cellRenderer: textEditor,
   },
   {
     field: "street",
     headerName: "Street",
     width: 200,
-    topHeader: "street",
     cellRenderer: textEditor,
   },
   {
     field: "zipCode",
     headerName: "ZipCode",
     width: 200,
-    topHeader: "zipCode",
     cellRenderer: textEditor,
   },
   {
     field: "date",
     headerName: "Date",
     width: 200,
-    topHeader: "date",
     cellRenderer: textEditor,
   },
   {
     field: "bs",
     headerName: "bs",
     width: 200,
-    topHeader: "bs",
     cellRenderer: textEditor,
   },
   {
     field: "catchPhrase",
     headerName: "Catch Phrase",
     width: 200,
-    topHeader: "catchPhrase",
     cellRenderer: textEditor,
   },
   {
     field: "companyName",
     headerName: "Company Name",
     width: 200,
-    topHeader: "companyName",
     cellRenderer: textEditor,
   },
   {
     field: "sentence",
     headerName: "Sentence",
     width: 100,
-    topHeader: "sentence",
     cellRenderer: textEditor,
   },
 ];

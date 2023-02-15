@@ -154,14 +154,14 @@ function DataGrid(props, ref) {
 
   // ---------------------Need to be added-Start--------------------------------------------------------------------
 
-  const arr3 = rawColumns.slice();
+  const arr3 = rawColumns?.slice();
 
   const getArrayDepth = (arr) => {
     if (Array.isArray(arr)) {
       // if arr is an array, recurse over it
       return 1 + Math.max(...arr.map(getArrayDepth));
     }
-    if (arr.children && arr.children.length) {
+    if (arr?.children && arr.children.length) {
       // if arr is an object with a children property, recurse over the children
       return 1 + Math.max(...arr.children.map(getArrayDepth));
     }
@@ -222,7 +222,7 @@ function DataGrid(props, ref) {
         ? o.children.flatMap(flat(rawColumns || o.headerName))
         : { ...o, rawColumns },
     response = rawColumns;
-  flattedColumns = response.flatMap(flat());
+  flattedColumns = response?.flatMap(flat());
 
   var defaultFilters = {};
   flattedColumns?.map((i) => (defaultFilters[i.field] = ""));
@@ -304,8 +304,8 @@ function DataGrid(props, ref) {
 
   // ---------------------------Need to be added-Start--------------------------------------------------------
 
-  var cloneArray = rawColumns.slice();
-  var newArray = rawColumns.slice();
+  var cloneArray = rawColumns?.slice();
+  var newArray = rawColumns?.slice();
 
   // const getMembers = (members) => {
   //   let children = [];
@@ -353,7 +353,7 @@ function DataGrid(props, ref) {
 
   var rowArray = flatten([], columns3);
 
-  for (var i = 0; i < cloneArray.length; i++) {
+  for (var i = 0; i < cloneArray?.length; i++) {
     if (!cloneArray[i].hasChildren) {
       cloneArray.splice(i, 1);
       i--;
@@ -374,7 +374,6 @@ function DataGrid(props, ref) {
   rowCol = rowCol.filter(function (item) {
     return item !== value;
   });
-
 
   const arr = rowCol.slice();
   const mapToPair = () => {
@@ -410,8 +409,6 @@ function DataGrid(props, ref) {
 
   var arr5 = arr2.slice();
 
-
-
   // --------------------------------End------------------------------------------------------------
   const {
     columns,
@@ -426,13 +423,13 @@ function DataGrid(props, ref) {
     groupBy,
   } = useCalculatedColumns({
     rawColumns,
+    arr5, //need to be added
     columnWidths,
     scrollLeft,
     viewportWidth: gridWidth, //need to be added
     defaultColumnOptions,
     rawGroupBy: rowGrouper ? rawGroupBy : undefined,
     enableVirtualization,
-    arr5, //need to be added
   });
 
   const { columns5 } = useCalculatedColumns5({
@@ -485,8 +482,6 @@ function DataGrid(props, ref) {
     rowCol2, //need to be added
   });
 
-
-
   let merged = [];
 
   for (let i = 0; i < rowCol1.length; i++) {
@@ -495,7 +490,6 @@ function DataGrid(props, ref) {
       ...columns4.find((itmInner) => itmInner.field === rowCol1[i].field),
     });
   }
-
 
   for (var i = 0, len = merged.length; i < len; i++) {
     delete merged[i].children;
@@ -514,13 +508,6 @@ function DataGrid(props, ref) {
     });
     return array.filter((item) => item.parent === null);
   };
-
-  for (var i = 0, len = regroupArray(merged).length; i < len; i++) {
-    if (regroupArray(merged)[i].haveChildren === true)
-      regroupArray(merged)[i].idx =
-        regroupArray(merged)[i].index + columns4.length;
-  }
- 
   // ---------------------------Need to be added-Start--------------------------------------------------------
 
   const {
@@ -565,7 +552,6 @@ function DataGrid(props, ref) {
   });
 
   // ---------------------------End--------------------------------------------------------
-
   const {
     rowOverscanStartIdx,
     rowOverscanEndIdx,
@@ -590,6 +576,7 @@ function DataGrid(props, ref) {
 
   const { viewportColumns, flexWidthViewportColumns } = useViewportColumns({
     columns,
+
     colSpanColumns,
     colOverscanStartIdx,
     colOverscanEndIdx,
@@ -600,9 +587,8 @@ function DataGrid(props, ref) {
     topSummaryRows,
     bottomSummaryRows,
     columnWidths,
-    isGroupRow
+    isGroupRow,
   });
-
   const hasGroups = groupBy.length > 0 && typeof rowGrouper === "function";
   const minColIdx = hasGroups ? -1 : 0;
   const maxColIdx = columnss.length - 1;
@@ -666,11 +652,9 @@ function DataGrid(props, ref) {
   });
 
   useLayoutEffect(() => {
-
     if (!isWidthInitialized || flexWidthViewportColumns.length === 0) return;
 
     setColumnWidths((columnWidths) => {
-
       const newColumnWidths = new Map(columnWidths);
       const grid = gridRef.current;
 
@@ -685,8 +669,7 @@ function DataGrid(props, ref) {
 
       return newColumnWidths;
     });
-  }, [isWidthInitialized,gridRef,flexWidthViewportColumns]);
-
+  }, [isWidthInitialized, flexWidthViewportColumns, gridRef]);
 
   useImperativeHandle(ref, () => ({
     element: gridRef.current,
@@ -1035,7 +1018,6 @@ function DataGrid(props, ref) {
       setSelectedPosition({ ...position, mode: "SELECT" }); //imp
     }
   }
-
   function scrollToColumn(idx) {
     const { current } = gridRef;
     if (!current) return;
@@ -1343,7 +1325,6 @@ function DataGrid(props, ref) {
     let startRowIndex = 0;
 
     const { idx: selectedIdx, rowIdx: selectedRowIdx } = selectedPosition;
-
     const startRowIdx =
       selectedCellIsWithinViewportBounds && selectedRowIdx < rowOverscanStartIdx
         ? rowOverscanStartIdx - 1
@@ -1362,10 +1343,8 @@ function DataGrid(props, ref) {
         viewportRowIdx === rowOverscanStartIdx - 1 ||
         viewportRowIdx === rowOverscanEndIdx + 1;
       const rowIdx = isRowOutsideViewport ? selectedRowIdx : viewportRowIdx;
-
       let rowColumns = viewportColumnss; //need to be added
       const selectedColumn = columns[selectedIdx];
-
       // selectedIdx can be -1 if grouping is enabled
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
       if (selectedColumn !== undefined) {
@@ -1444,7 +1423,7 @@ function DataGrid(props, ref) {
           rowIdx,
           row,
           rows, //need to be added
-          headerHeight: rawHeaderRowHeight, //need to be added
+          rowHeight: rowHeight, //need to be added
           viewportColumns: rowColumns,
           isRowSelected,
           onRowClick: onRowClickLatest,
@@ -1515,7 +1494,7 @@ function DataGrid(props, ref) {
       target?.removeEventListener("paste", () => {})
     );
   }, [1]);
-
+  console.log("selectedPosition11", selectedPosition);
   return (
     <>
       <div

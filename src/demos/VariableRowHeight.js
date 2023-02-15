@@ -25,7 +25,7 @@ export default function VariableRowHeight({ direction }) {
         name: key,
         frozen: i < 5,
         resizable: true,
-        formatter: cellFormatter
+        valueFormatter: cellFormatter
       });
     }
 
@@ -34,8 +34,8 @@ export default function VariableRowHeight({ direction }) {
 
   return (
     <DataGrid
-      columns={columns}
-      rows={rows}
+      columnData={columns}
+      rowData={rows}
       rowHeight={rowHeight}
       className="fill-grid"
       direction={direction}

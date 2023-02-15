@@ -65,9 +65,9 @@ const rowFridge1 = css`
 
 function Cell({
   column,
-  headerHeight, //need to be addaed
+  rowHeight,//need to be addaed
   allrow, //need to be changed
-  rowFridgeIndexEnd, //need to be addaed
+  rowFridgeIndexEnd,//need to be addaed
   singleRowFridgeIndex, //need to be addaed
   summaryRowHeight, //need to be changed
   rowIndex, //need to be changed
@@ -84,7 +84,7 @@ function Cell({
   ...props
 }) {
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
-
+ 
   const { cellClass } = column;
   const className = getCellClassname(
     column,
@@ -101,6 +101,8 @@ function Cell({
     },
     typeof cellClass === "function" ? cellClass(row) : cellClass
   );
+
+
 
   function selectCellWrapper(openEditor) {
     selectCell(row, column, openEditor);
@@ -128,8 +130,8 @@ function Cell({
     //need to be changed
     ...getCellStyle(column, colSpan, row), //need to be changed
     "--rdg-summary-row-top": singleRowFridgeIndex
-      ? `${headerHeight + summaryRowHeight}px`
-      : `${headerHeight + summaryRowHeight + rowIndex * 24}px`, //need to be changed
+      ? `${rowHeight + summaryRowHeight}px`
+      : `${rowHeight + summaryRowHeight + rowIndex * 24}px`, //need to be changed
   };
   const rowSpan = column.rowSpan?.({ type: "ROW", row }) ?? undefined;
 

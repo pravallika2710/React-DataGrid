@@ -56,7 +56,6 @@ function getColumns(countries, direction) {
     { ...SelectColumn, width: 80 },
     {
       field: "id",
-      topHeader: "id",
       headerName: "ID",
       width: 60,
       frozen: true,
@@ -67,7 +66,6 @@ function getColumns(countries, direction) {
     },
     {
       field: "title",
-      topHeader: "title",
       headerName: "Task",
       width: 120,
       frozen: true,
@@ -78,7 +76,6 @@ function getColumns(countries, direction) {
     },
     {
       field: "client",
-      topHeader: "client",
       headerName: "Client",
       width: "max-content",
       cellRenderer: textEditor,
@@ -86,14 +83,12 @@ function getColumns(countries, direction) {
     },
     {
       field: "area",
-      topHeader: "area",
       headerName: "Area",
       width: 120,
       cellRenderer: textEditor,
     },
     {
       field: "country",
-      topHeader: "country",
       headerName: "Country",
       width: 180,
       cellRenderer: (p) => (
@@ -115,21 +110,18 @@ function getColumns(countries, direction) {
     },
     {
       field: "contact",
-      topHeader: "contact",
       headerName: "Contact",
       width: 160,
       cellRenderer: textEditor,
     },
     {
       field: "assignee",
-      topHeader: "assignee",
       headerName: "Assignee",
       width: 150,
       cellRenderer: textEditor,
     },
     {
       field: "progress",
-      topHeader: "progress",
       headerName: "Completion",
       width: 110,
       valueFormatter(props) {
@@ -177,7 +169,6 @@ function getColumns(countries, direction) {
     },
     {
       field: "startTimestamp",
-      topHeader: "startTimestamp",
       headerName: "Start date",
       width: 100,
       valueFormatter(props) {
@@ -186,7 +177,6 @@ function getColumns(countries, direction) {
     },
     {
       field: "endTimestamp",
-      topHeader: "endTimestamp",
       headerName: "Deadline",
       width: 100,
       valueFormatter(props) {
@@ -195,7 +185,6 @@ function getColumns(countries, direction) {
     },
     {
       field: "budget",
-      topHeader: "budget",
       headerName: "Budget",
       width: 100,
       valueFormatter(props) {
@@ -204,26 +193,22 @@ function getColumns(countries, direction) {
     },
     {
       field: "transaction",
-      topHeader: "transaction",
       headerName: "Transaction type",
       width: 150,
     },
     {
       field: "account",
-      topHeader: "account",
       headerName: "Account",
       width: 150,
     },
     {
       field: "version",
-      topHeader: "version",
       headerName: "Version",
       cellRenderer: textEditor,
       width: 150,
     },
     {
       field: "available",
-      topHeader: "available",
       headerName: "Available",
       width: 80,
       valueFormatter({ row, onRowChange, isCellSelected }) {

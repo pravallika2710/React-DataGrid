@@ -1,5 +1,5 @@
-import React from 'react';
-import { css } from "@linaria/core"
+import React from "react";
+import { css } from "@linaria/core";
 
 export const cell = css`
   @layer rdg.Cell {
@@ -11,13 +11,12 @@ export const cell = css`
     contain: style;
     position: relative; /* needed for absolute positioning to work */
     padding-block: 0;
-    padding-inline: 0px;     
+    padding-inline: 0px;
     border-inline-end: 1px solid var(--rdg-border-color);
     border-block-end: 1px solid var(--rdg-border-color);
     grid-row-start: var(--rdg-grid-row-start);
     background-color: inherit;
-    text-align:center;
-
+    text-align: center;
     white-space: nowrap;
     overflow: hidden;
     overflow: clip;
@@ -29,11 +28,9 @@ export const cell = css`
       outline-offset: -2px;
     }
   }
-`
+`;
 //Line No -14//need to bechanged
-export const cellClassname = `rdg-cell ${cell}`
-
-
+export const cellClassname = `rdg-cell ${cell}`;
 
 export const cellFrozen = css`
   @layer rdg.Cell {
@@ -41,23 +38,23 @@ export const cellFrozen = css`
     /* Should have a higher value than 0 to show up above unfrozen cells */
     z-index: 1;
   }
-`
+`;
 
-export const cellFrozenClassname = `rdg-cell-frozen ${cellFrozen}`
+export const cellFrozenClassname = `rdg-cell-frozen ${cellFrozen}`;
 
 export const cellFrozenLast = css`
   @layer rdg.Cell {
     box-shadow: calc(2px * var(--rdg-sign)) 0 5px -2px rgba(136, 136, 136, 0.3);
   }
-`
+`;
 
-export const cellFrozenLastClassname = `rdg-cell-frozen-last ${cellFrozenLast}`
+export const cellFrozenLastClassname = `rdg-cell-frozen-last ${cellFrozenLast}`;
 
-export const cellEditorClassname = css`	
-  @layer rdg.Cell {	
-    display: flex;	
-    align-items: center;	
-    justify-content: center;	
-    height: 100%;	
-  }	
+export const cellEditorClassname = css`
+  @layer rdg.Cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
 `;

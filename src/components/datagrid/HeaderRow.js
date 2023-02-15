@@ -55,10 +55,8 @@ function HeaderRow({
 }) {
  
   const cells = [];
-  
   for (let index = 0; index < columns.length; index++) {
     const column = columns[index];
-
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "HEADER",
     });

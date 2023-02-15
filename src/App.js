@@ -25,7 +25,7 @@ import RowsReordering from "./demos/RowsReordering";
 import ScrollToRow from "./demos/ScrollToRow";
 import TreeView from "./demos/TreeView";
 import VariableRowHeight from "./demos/VariableRowHeight";
-
+import Animation from "./demos/Animation";
 css`
   @at-root {
     :root,
@@ -144,7 +144,10 @@ function App() {
             path="variable-row-height"
             element={<VariableRowHeight direction={direction} />}
           />
-          {/* <Route path="animation" element={<Animation direction={direction} />} /> */}
+          <Route
+            path="animation"
+            element={<Animation direction={direction} />}
+          />
           <Route path="*" element="Nothing to see here" />
         </Routes>
       </main>

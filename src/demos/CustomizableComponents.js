@@ -49,13 +49,11 @@ const columns = [
   },
   {
     field: "id",
-    topHeader: "id",
     headerName: "ID",
     width: 100,
   },
   {
     field: "task",
-    topHeader: "task",
     headerName: "Title",
     cellEditor: textEditor,
     sortable: true,
@@ -63,21 +61,18 @@ const columns = [
   },
   {
     field: "priority",
-    topHeader: "priority",
     headerName: "Priority",
     sortable: true,
     width: 100,
   },
   {
     field: "issueType",
-    topHeader: "issueType",
     headerName: "Issue Type",
     sortable: true,
     width: 100,
   },
   {
     field: "complete",
-    topHeader: "complete",
     headerName: "% Complete",
     sortable: true,
     width: 100,

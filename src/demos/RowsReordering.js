@@ -30,34 +30,29 @@ function createRows() {
 const columns = [
   {
     field: "id",
-    topHeader: "id",
     headerName: "ID",
-    // width: 80,
+    width: 80,
   },
   {
     field: "task",
-    topHeader: "task",
     headerName: "Title",
     cellEditor: textEditor,
-    // width: 200,
+    width: 200,
   },
   {
     field: "priority",
-    topHeader: "priority",
     headerName: "Priority",
-    // width: 200,
+    width: 200,
   },
   {
     field: "issueType",
-    topHeader: "issueType",
     headerName: "Issue Type",
-    // width: 200,
+    width: 200,
   },
   {
     field: "complete",
-    topHeader: "complete",
     headerName: "% Complete",
-    // width: 200,
+    width: 200,
   },
 ];
 

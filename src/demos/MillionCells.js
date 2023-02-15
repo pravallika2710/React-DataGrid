@@ -19,7 +19,6 @@ export default function MillionCells({ direction }) {
       const key = String(i);
       columns.push({
         field: key,
-        topHeader: key,
         headerName: key,
         frozen: i < 5,
         valueFormatter: cellFormatter,

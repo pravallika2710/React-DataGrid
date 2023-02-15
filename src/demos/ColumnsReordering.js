@@ -29,13 +29,11 @@ function createColumns() {
   return [
     {
       field: "id",
-      topHeader: "id",
       headerName: "ID",
       width: 80,
     },
     {
       field: "task",
-      topHeader: "task",
       headerName: "Title",
       resizable: true,
       sortable: true,
@@ -43,7 +41,6 @@ function createColumns() {
     },
     {
       field: "priority",
-      topHeader: "priority",
       headerName: "Priority",
       resizable: true,
       sortable: true,
@@ -51,7 +48,6 @@ function createColumns() {
     },
     {
       field: "issueType",
-      topHeader: "issueType",
       headerName: "Issue Type",
       resizable: true,
       sortable: true,
@@ -59,7 +55,6 @@ function createColumns() {
     },
     {
       field: "complete",
-      topHeader: "complete",
       headerName: "% Complete",
       resizable: true,
       sortable: true,

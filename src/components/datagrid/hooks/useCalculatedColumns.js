@@ -26,14 +26,14 @@ export function useCalculatedColumns({
   const defaultSortable = defaultColumnOptions?.sortable ?? false;
   const defaultResizable = defaultColumnOptions?.resizable ?? false;
   const defaultFilter = defaultColumnOptions?.dilter ?? false;
-
+ 
   const { columns, colSpanColumns, lastFrozenColumnIndex, groupBy } =
     useMemo(() => {
       // Filter rawGroupBy and ignore keys that do not match the columns prop
       const groupBy = [];
       let lastFrozenColumnIndex = -1;
 
-      const columns = rawColumns.map((rawColumn, pos) => {
+      const columns = rawColumns?.map((rawColumn, pos) => {
         //need to be changed
         const rowGroup = rawGroupBy?.includes(rawColumn.field) ?? false;
         const frozen = rowGroup || rawColumn.frozen;
@@ -48,25 +48,25 @@ export function useCalculatedColumns({
                 topHeader: rawColumn.field,
                 children: recursiveChild(subChild2, rawColumn),
                 idx: index1,
-                key: subChild2.field,
+                 key: subChild2.field
               };
               return rawChild2;
             })
           );
         };
 
+ 
+
         const column = {
           ...rawColumn,
           idx: 0,
-          parent: null,
+          parent:null,
           index: pos,
           key: rawColumn.field,
           frozen,
           isLastFrozenColumn: false,
           rowGroup,
-          width: rawColumn.width
-            ? Number(arr5.filter((arr, index) => index === rawColumn.index))
-            : defaultWidth,
+          width: rawColumn.width ?  Number(arr5.filter((arr, index) => index === rawColumn.index)):defaultWidth,
           minWidth: rawColumn.minWidth ?? defaultMinWidth,
           // minWidth:one(),
           maxWidth: rawColumn.maxWidth ?? defaultMaxWidth,
@@ -80,6 +80,7 @@ export function useCalculatedColumns({
           children:
             rawColumn.haveChildren === true &&
             rawColumn?.children.map((child, index1) => {
+
               const rawChild = {
                 ...child,
                 parent: rawColumn.field,
@@ -103,7 +104,8 @@ export function useCalculatedColumns({
             }),
         };
 
-        column.width = Number(arr5.filter((arr, index) => index === pos)) - 1;
+        
+        column.width =   Number(arr5.filter((arr, index) => index === pos)) - 1;
 
         if (rowGroup) {
           column.groupFormatter ??= toggleGroupFormatter;
@@ -115,8 +117,8 @@ export function useCalculatedColumns({
 
         return column;
       });
-
-      columns.sort(
+      
+      columns?.sort(
         ({ key: aKey, frozen: frozenA }, { key: bKey, frozen: frozenB }) => {
           // Sort select column first:
           if (aKey === SELECT_COLUMN_KEY) return -1;
@@ -187,12 +189,13 @@ export function useCalculatedColumns({
     let left = 0;
     let totalFrozenColumnWidth = 0;
     const templateColumns = [];
-
+  
     for (const column of columns) {
       let width = columnWidths.get(column.key) ?? column.width; //need to be changed
-
+     
       if (typeof width === "number") {
         width = clampColumnWidth(width, column);
+     
       } else {
         // This is a placeholder width so we can continue to use virtualization.
         // The actual value is set after the column is rendered
@@ -216,12 +219,12 @@ export function useCalculatedColumns({
     for (let i = 0; i <= lastFrozenColumnIndex; i++) {
       const column = columns[i];
       // columns[i].cellWidth=rowArray.cellWidth
-
+   
       layoutCssVars[`--rdg-frozen-left-${column.idx}`] = `${
         columnMetrics.get(column).left
       }px`;
     }
-
+    
     return {
       templateColumns,
       layoutCssVars,
@@ -286,6 +289,7 @@ export function useCalculatedColumns({
     viewportWidth,
     enableVirtualization,
   ]);
+ 
 
   return {
     columns,

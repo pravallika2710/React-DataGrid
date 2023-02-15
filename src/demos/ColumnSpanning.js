@@ -29,7 +29,6 @@ export default function ColumnSpanning({ direction }) {
       columns.push({
         field:key,
         headerName: key,
-        topHeader:key,
         width:200,
         frozen: i < 5,
         // resizable: true,

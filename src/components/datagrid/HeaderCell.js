@@ -180,7 +180,7 @@ export default function HeaderCell({
       return;
     }
 
-    onColumnResize(column);
+    onColumnResize(column, "max-content");
   }
 
   function handleFocus(event) {
@@ -217,7 +217,7 @@ export default function HeaderCell({
   selectedCellHeaderStyle,
         cellHeight, selectCell,             //need to be chnaged
         sortDirection,shouldFocusGrid,
-        priority,handleFocus,onClick,onDoubleClick,onpointerdown,
+        priority,onpointerdown,
         onSort,
         allRowsSelected,
         onAllRowsSelectionChange,

@@ -35,20 +35,18 @@ function getProducts(parentId) {
 }
 
 const productColumns = [
-  { field: "id", topHeader: "id", headerName: "ID", width: 35 },
+  { field: "id", headerName: "ID", width: 35 },
   {
     field: "product",
-    topHeader: "product",
     headerName: "Product",
     width: 100,
   },
   {
     field: "description",
-    topHeader: "description",
     headerName: "Description",
     width: 100,
   },
-  { field: "price", topHeader: "price", headerName: "Price", width: 100 },
+  { field: "price", headerName: "Price", width: 100 },
 ];
 
 export default function MasterDetail({ direction }) {
@@ -56,7 +54,6 @@ export default function MasterDetail({ direction }) {
     return [
       {
         field: "expanded",
-        topHeader: "expanded",
         headerName: "",
         minWidth: 30,
         width: 30,
@@ -94,10 +91,9 @@ export default function MasterDetail({ direction }) {
           );
         },
       },
-      { field: "id", topHeader: "id", headerName: "ID", width: 100 },
+      { field: "id", headerName: "ID", width: 100 },
       {
         field: "department",
-        topHeader: "department",
         headerName: "Department",
         width: 400,
       },
@@ -127,7 +123,7 @@ export default function MasterDetail({ direction }) {
       columnData={columns}
       rowData={rows}
       onRowsChange={onRowsChange}
-      headerRowHeight={45}
+      headerRowHeight={25}
       rowHeight={(args) =>
         args.type === "ROW" && args.row.type === "DETAIL" ? 300 : 45
       }
@@ -160,7 +156,8 @@ function ProductGrid({ parentId, isCellSelected, direction }) {
       <DataGrid
         ref={gridRef}
         rowData={products}
-        headerRowHeight={45}
+        headerRowHeight={25}
+        rowHeight={25}
         columnData={productColumns}
         rowKeyGetter={rowKeyGetter}
         style={{ blockSize: 250 }}

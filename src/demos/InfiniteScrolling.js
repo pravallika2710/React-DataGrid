@@ -23,31 +23,28 @@ function rowKeyGetter(row) {
 const columns = [
   {
     field: "id",
-    topHeader: "id",
     headerName: "ID",
+
     // width: 200,
   },
   {
     field: "title",
-    topHeader: "title",
     headerName: "Title",
+    // resizable: true,
     // width: 200,
   },
   {
     field: "firstName",
-    topHeader: "firstName",
     headerName: "First Name",
     // width: 200,
   },
   {
     field: "lastName",
-    topHeader: "lastName",
     headerName: "Last Name",
     // width: 200,
   },
   {
     field: "email",
-    topHeader: "email",
     headerName: "Email",
     // width: 200,
   },

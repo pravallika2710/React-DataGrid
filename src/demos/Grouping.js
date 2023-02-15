@@ -56,59 +56,55 @@ const sports = [
 ];
 
 const columns = [
-  SelectColumn,
+  { ...SelectColumn, width: 80 },
   {
     field: "country",
-    topHeader: "country",
     headerName: "Country",
+    width: 150,
   },
   {
     field: "year",
-    topHeader: "year",
     headerName: "Year",
+    width: 150,
   },
   {
     field: "sport",
-    topHeader: "sport",
     headerName: "Sport",
+    width: 150,
   },
   {
     field: "athlete",
-    topHeader: "athlete",
     headerName: "Athlete",
+    width: 150,
   },
   {
     field: "gold",
-    topHeader: "gold",
     headerName: "Gold",
-
+    width: 150,
     groupFormatter({ childRows }) {
       return <>{childRows.reduce((prev, { gold }) => prev + gold, 0)}</>;
     },
   },
   {
     field: "silver",
-    topHeader: "silver",
     headerName: "Silver",
-
+    width: 150,
     groupFormatter({ childRows }) {
       return <>{childRows.reduce((prev, { silver }) => prev + silver, 0)}</>;
     },
   },
   {
     field: "bronze",
-    topHeader: "bronze",
     headerName: "Bronze",
-
+    width: 150,
     groupFormatter({ childRows }) {
       return <>{childRows.reduce((prev, { silver }) => prev + silver, 0)}</>;
     },
   },
   {
     field: "total",
-    topHeader: "total",
     headerName: "Total",
-
+    width: 150,
     valueFormatter({ row }) {
       return <>{row.gold + row.silver + row.bronze}</>;
     },
