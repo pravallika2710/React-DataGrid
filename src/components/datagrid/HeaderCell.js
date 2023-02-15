@@ -1,10 +1,11 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { css } from "@linaria/core";
 
 import defaultHeaderRenderer from "./headerRenderer";
 import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks";
-import { filterColumnClassName } from './style'
+import { filterColumnClassName } from "./style";
+import { useDrag, useDrop } from "react-dnd";
 
 const cellResizable = css`
   @layer rdg.HeaderCell {
@@ -25,9 +26,11 @@ const cellResizable = css`
 const cellResizableClassname = `rdg-cell-resizable ${cellResizable}`;
 
 export default function HeaderCell({
-  column,rowArray,
+  column,
+  rowArray,
   rows,
-  colSpan,headerRowHeight,
+  colSpan,
+  headerRowHeight,
   cellHeight,
   isCellSelected,
   onColumnResize,
@@ -40,14 +43,15 @@ export default function HeaderCell({
   selectedPosition,
   selectedCellHeaderStyle,
   direction,
-  setFilters
+  setFilters,
+  handleReorderColumn,
+  columns,
 }) {
- 
   const isRtl = direction === "rtl";
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
-  const [sortableColumnKey, setSortableColumnKey] = useState()
+  const [sortableColumnKey, setSortableColumnKey] = useState();
   const sortIndex = sortColumns?.findIndex(
-    (sort) => sort.columnKey ===sortableColumnKey
+    (sort) => sort.columnKey === sortableColumnKey
   );
   const sortColumn =
     sortIndex !== undefined && sortIndex > -1
@@ -78,7 +82,6 @@ export default function HeaderCell({
     },
     `rdg-header-column-${column.idx % 2 === 0 ? "even" : "odd"}`
   );
- 
 
   const headerRenderer = column.headerRenderer ?? defaultHeaderRenderer;
 
@@ -122,12 +125,16 @@ export default function HeaderCell({
   }
   function onSort(ctrlClick, name) {
     var matches = [];
-    column.haveChildren ? column?.children.forEach(function (e) {
-      matches = matches.concat(e.children.filter(function (c) {
-        return (c.headerName === name && c.sortable === true);
-      }))
-    }) : matches.push(column)
-    setSortableColumnKey(matches[0].key)
+    column.haveChildren
+      ? column?.children.forEach(function (e) {
+          matches = matches.concat(
+            e.children.filter(function (c) {
+              return c.headerName === name && c.sortable === true;
+            })
+          );
+        })
+      : matches.push(column);
+    setSortableColumnKey(matches[0].key);
 
     if (onSortColumnsChange == null) return;
     const { sortDescendingFirst } = matches[0];
@@ -190,8 +197,40 @@ export default function HeaderCell({
       selectCell(0);
     }
   }
-  
 
+  function handleColumnsReorder(sourceKey, targetKey) {
+    console.log("sourceKey", sourceKey, " targetKey", targetKey);
+    const sourceColumnIndex = columns.findIndex((c) => c.field === sourceKey);
+    const targetColumnIndex = columns.findIndex((c) => c.field === targetKey);
+    const reorderedColumns = [...columns];
+    console.log("reorderedColumns", reorderedColumns);
+    reorderedColumns.splice(
+      targetColumnIndex,
+      0,
+      reorderedColumns.splice(sourceColumnIndex, 1)[0]
+    );
+
+    handleReorderColumn([...reorderedColumns]);
+  }
+
+  const [{ isDragging }, drag] = useDrag({
+    type: "COLUMN_DRAG",
+    item: { key: column.key },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  const [{ isOver }, drop] = useDrop({
+    accept: "COLUMN_DRAG",
+    drop({ key }) {
+      handleColumnsReorder(key, column.key);
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  });
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
@@ -200,29 +239,37 @@ export default function HeaderCell({
       aria-selected={isCellSelected}
       aria-sort={ariaSort}
       aria-colspan={colSpan}
-      
-      ref={ref}
-      // // set the tabIndex to 0 when there is no selected cell so grid can receive focus
+      ref={(ele) => {
+        drag(ele);
+        drop(ele);
+      }}
+      // set the tabIndex to 0 when there is no selected cell so grid can receive focus
       tabIndex={shouldFocusGrid ? 0 : tabIndex}
       className={className}
       style={style}
-      // onFocus={handleFocus}
-      // onClick={onClick}
-      // onDoubleClick={column.resizable ? onDoubleClick : undefined}
-      // onPointerDown={column.resizable ? onPointerDown : undefined}
+      onFocus={handleFocus}
+      onClick={onClick}
+      onDoubleClick={column.resizable ? onDoubleClick : undefined}
+      onPointerDown={column.resizable ? onPointerDown : undefined}
     >
       {headerRenderer({
-        column,rows,rowArray,
-        selectedPosition,headerRowHeight,
-  selectedCellHeaderStyle,
-        cellHeight, selectCell,             //need to be chnaged
-        sortDirection,shouldFocusGrid,
-        priority,onpointerdown,
+        column,
+        rows,
+        rowArray,
+        selectedPosition,
+        headerRowHeight,
+        selectedCellHeaderStyle,
+        cellHeight,
+        selectCell, //need to be chnaged
+        sortDirection,
+        shouldFocusGrid,
+        priority,
+        onpointerdown,
         onSort,
         allRowsSelected,
         onAllRowsSelectionChange,
         isCellSelected,
-        setFilters
+        setFilters,
       })}
     </div>
   );

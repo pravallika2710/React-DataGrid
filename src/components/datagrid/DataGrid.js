@@ -113,6 +113,7 @@ function DataGrid(props, ref) {
     onFill,
     onCopy,
     onPaste,
+    columnReordering,
     // Toggles and modes
     cellNavigationMode: rawCellNavigationMode,
     enableVirtualization: rawEnableVirtualization,
@@ -213,6 +214,7 @@ function DataGrid(props, ref) {
   const [draggedOverRowIdx, setOverRowIdx] = useState(undefined);
   const [sortColumns, setSortColumns] = useState([]);
   const [rawRows, setRawRows] = useState(raawRows);
+  // const [rawColumns, setRawColumns] = useState([]);
   const onSortColumnsChange = (sortColumns) => {
     return setSortColumns(sortColumns.slice(-1));
   };
@@ -242,7 +244,7 @@ function DataGrid(props, ref) {
         : a[columnKey].localeCompare(b[columnKey])
     );
     return direction === "DESC" ? sortedRows.reverse() : sortedRows;
-  }, [raawRows, sortColumns, filters,rawRows]);
+  }, [raawRows, sortColumns, filters, rawRows]);
 
   function filterFunction(props) {
     return raawRows?.filter(function (val) {
@@ -254,7 +256,7 @@ function DataGrid(props, ref) {
 
   useEffect(() => {
     return setRawRows(sortedRows);
-  },[sortedRows]);
+  }, [sortedRows]);
 
   /**
    * refs
@@ -631,11 +633,14 @@ function DataGrid(props, ref) {
   });
   const toggleGroupLatest = useLatestFunc(toggleGroup);
 
-
   const handleReorderRow = (value) => {
     setRawRows(value);
   };
-
+  const handleReorderColumn = (value) => {
+    if (columnReordering) {
+      // setRawColumns(value);
+    }
+  };
   /**
    * effects
    */
@@ -1501,7 +1506,7 @@ function DataGrid(props, ref) {
       target?.removeEventListener("paste", () => {})
     );
   }, [1]);
-  console.log("selectedPosition11", selectedPosition);
+
   return (
     <>
       <div
@@ -1590,12 +1595,11 @@ function DataGrid(props, ref) {
                   headerHeight={rawHeaderRowHeight}
                   direction={direction}
                   setFilters={setFilters}
+                  handleReorderColumn={handleReorderColumn}
                 />
               </DataGridDefaultComponentsProvider>
             </FilterContext.Provider>
           </div>
-
-       
 
           <div
             role={hasGroups ? "treegrid" : "grid"}

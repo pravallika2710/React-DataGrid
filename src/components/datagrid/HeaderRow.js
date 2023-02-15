@@ -2,7 +2,8 @@ import React from "react";
 import { memo } from "react";
 import clsx from "clsx";
 import { css } from "@linaria/core";
-
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import HeaderCell from "./HeaderCell";
 import { getColSpan, getRowStyle } from "./utils";
 import { cell, cellFrozen, rowSelectedClassname } from "./style";
@@ -29,7 +30,7 @@ const headerRow = css`
     }
   }
 `;
-//need to change line-16-18
+
 const headerRowClassname = `rdg-header-row ${headerRow}`;
 
 function HeaderRow({
@@ -52,8 +53,8 @@ function HeaderRow({
   direction,
   setFilters,
   selectCell,
+  handleReorderColumn
 }) {
- 
   const cells = [];
   for (let index = 0; index < columns.length; index++) {
     const column = columns[index];
@@ -63,11 +64,12 @@ function HeaderRow({
     if (colSpan !== undefined) {
       index += colSpan - 1;
     }
-    
+
     cells.push(
       <HeaderCell
         key={column.key}
         column={column}
+        columns={columns}
         cellHeight={headerHeight}
         headerRowHeight={headerRowHeight} //need to be changed
         cellData={headerData} //need to be changed
@@ -85,22 +87,25 @@ function HeaderRow({
         shouldFocusGrid={shouldFocusGrid && index === 0}
         direction={direction}
         setFilters={setFilters}
+        handleReorderColumn={handleReorderColumn}
       />
     );
   }
 
   return (
-    <div
-      role="row"
-      // aria-rowindex is 1 based
-      aria-rowindex={1}
-      className={clsx(headerRowClassname, {
-        [rowSelectedClassname]: selectedCellIdx === 1, //need to be changed
-      })}
-      style={getRowStyle(1)}
-    >
-      {cells}
-    </div>
+    <DndProvider backend={HTML5Backend}>
+      <div
+        role="row"
+        // aria-rowindex is 1 based
+        aria-rowindex={1}
+        className={clsx(headerRowClassname, {
+          [rowSelectedClassname]: selectedCellIdx === -1,
+        })}
+        style={getRowStyle(1)}
+      >
+        {cells}
+      </div>
+    </DndProvider>
   );
 }
 

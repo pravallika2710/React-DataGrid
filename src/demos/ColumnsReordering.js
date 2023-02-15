@@ -1,8 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-
-import DraggableHeaderRenderer from "./DraggableHeaderRenderer";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import DataGrid from "../components/datagrid/DataGrid";
 
 function createRows() {
@@ -71,40 +67,10 @@ export default function ColumnsReordering({ direction }) {
     setSortColumns(sortColumns.slice(-1));
   }, []);
 
-  const draggableColumns = useMemo(() => {
-    function headerRenderer(props) {
-      return (
-        <DraggableHeaderRenderer
-          {...props}
-          onColumnsReorder={handleColumnsReorder}
-        />
-      );
-    }
-
-    function handleColumnsReorder(sourceKey, targetKey) {
-      const sourceColumnIndex = columns.findIndex((c) => c.key === sourceKey);
-      const targetColumnIndex = columns.findIndex((c) => c.key === targetKey);
-      const reorderedColumns = [...columns];
-
-      reorderedColumns.splice(
-        targetColumnIndex,
-        0,
-        reorderedColumns.splice(sourceColumnIndex, 1)[0]
-      );
-
-      setColumns(reorderedColumns);
-    }
-
-    return columns.map((c) => {
-      if (c.key === "id") return c;
-      return { ...c, headerRenderer };
-    });
-  }, [columns]);
 
   const sortedRows = useMemo(() => {
     if (sortColumns.length === 0) return rows;
     const { columnKey, direction } = sortColumns[0];
-
     let sortedRows = [...rows];
 
     switch (columnKey) {
@@ -124,16 +90,16 @@ export default function ColumnsReordering({ direction }) {
   }, [rows, sortColumns]);
 
   return (
-    <DndProvider backend={HTML5Backend}>
+
       <DataGrid
-        columnData={draggableColumns}
+        columnData={columns}
         rowData={sortedRows}
+        columnReordering={true}
         headerRowHeight={24}
         sortColumns={sortColumns}
         onSortColumnsChange={onSortColumnsChange}
         direction={direction}
         defaultColumnOptions={{ width: "1fr" }}
       />
-    </DndProvider>
   );
 }
