@@ -4,7 +4,8 @@ import clsx from "clsx"
 import {
   cellClassname,
   cellFrozenClassname,
-  cellFrozenLastClassname
+  cellFrozenLastClassname,
+  row
 } from "../style"
 
 export function getRowStyle(rowIdx, height) {
@@ -18,13 +19,15 @@ export function getRowStyle(rowIdx, height) {
     "--rdg-grid-row-start": rowIdx
   }
 }
-export function getCellStyle(column, colSpan, rowSpan) {
+
+export function getCellStyle(column, colSpan) {
+
   return {
-    gridColumnStart: column.idx + 1,
+    // zIndex:2,
+    gridColumnStart: column.index + 1,
     gridColumnEnd: colSpan !== undefined ? `span ${colSpan}` : undefined,
-    gridRowEnd: rowSpan !== undefined ? `span ${rowSpan}` : undefined,
     insetInlineStart: column.frozen
-      ? `var(--rdg-frozen-left-${column.idx})`
+      ? `var(--rdg-frozen-left-${column.index})`
       : undefined
   }
 }

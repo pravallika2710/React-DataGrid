@@ -1,6 +1,6 @@
 import React from 'react';
 import { css } from "@linaria/core"
-import { useFocusRef } from "../../hooks/useFocusRef"
+import { useFocusRef } from "../../../../src"
 
 const childRowActionCrossClassname = css`
   &::before,

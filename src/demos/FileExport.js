@@ -3,7 +3,11 @@ import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 
 import DataGrid from "../components/datagrid/DataGrid";
-
+import {
+  exportToCsv,
+  exportToPdf,
+  exportToXlsx,
+} from "../components/exportUtils";
 const loadMoreRowsClassname = css`
   inline-size: 180px;
   padding-block: 8px;
@@ -89,7 +93,7 @@ function loadMoreRows(newRowsCount, length) {
   });
 }
 
-export default function InfiniteScrolling({ direction }) {
+export default function FileExport({ direction }) {
   const [rows, setRows] = useState(() => createRows(50));
   const [isLoading, setIsLoading] = useState(false);
 
@@ -106,6 +110,30 @@ export default function InfiniteScrolling({ direction }) {
 
   return (
     <>
+      <div>
+        <button
+          onClick={() => {
+            exportToXlsx(rows, columns, "TableData");
+          }}
+        >
+          Export Excel
+        </button>
+        <button
+          onClick={() => {
+            exportToCsv(rows, columns, "TableData");
+          }}
+        >
+          Export CSV
+        </button>
+        <button
+          onClick={() => {
+            exportToPdf(rows, columns, "TableData");
+          }}
+        >
+          Export PDF
+        </button>
+      </div>
+
       <DataGrid
         columnData={columns}
         rowData={rows}

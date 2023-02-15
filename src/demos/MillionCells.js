@@ -1,7 +1,5 @@
-import { useMemo } from 'react';
-import DataGrid from '../components/datagrid/DataGrid';
-
-
+import { useMemo } from "react";
+import DataGrid from "../components/datagrid/DataGrid";
 
 const rows = [...Array(1000).keys()];
 
@@ -20,12 +18,10 @@ export default function MillionCells({ direction }) {
     for (let i = 0; i < 1000; i++) {
       const key = String(i);
       columns.push({
-       field: key,
+        field: key,
         headerName: key,
         frozen: i < 5,
-        width: 80,
-        resizable: true,
-        valueFormatter: cellFormatter
+        valueFormatter: cellFormatter,
       });
     }
 
@@ -36,7 +32,9 @@ export default function MillionCells({ direction }) {
     <DataGrid
       columnData={columns}
       rowData={rows}
-      rowHeight={22}
+      rowHeight={30}
+      headerRowHeight={24}
+      summaryRowHeight={24}
       className="fill-grid"
       direction={direction}
     />

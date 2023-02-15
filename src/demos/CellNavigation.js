@@ -11,22 +11,27 @@ const columns = [
   {
     field: "task",
     headerName: "Title",
+    width: 200,
   },
   {
     field: "priority",
     headerName: "Priority",
+    width: 200,
   },
   {
     field: "issueType",
     headerName: "Issue Type",
+    width: 200,
   },
   {
     field: "complete",
     headerName: "% Complete",
+    width: 200,
   },
   {
     field: "startDate",
     headerName: "Start Date",
+    width: 200,
   },
   {
     field: "completeDate",
@@ -101,6 +106,7 @@ export default function CellNavigation({ direction }) {
       <DataGrid
         columnData={columns}
         rowData={rows}
+        headerRowHeight={24}
         cellNavigationMode={cellNavigationMode}
         direction={direction}
       />

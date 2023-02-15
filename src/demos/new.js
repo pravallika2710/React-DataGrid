@@ -2,12 +2,12 @@ import { useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
 
-import { SelectColumn } from "../components/datagrid/Columns";
-import textEditor from "../components/datagrid/editors/textEditor";
+import { SelectColumn } from ".../components/datagrid/Columns";
+import textEditor from ".../components/datagrid/editors/textEditor";
 
-import DataGrid from "../components/datagrid/DataGrid";
+import DataGrid from ".../components/datagrid/DataGrid";
 
-import dropDownEditor from "../components/datagrid/editors/textEditor";
+import dropDownEditor from ".../components/datagrid/editors/textEditor";
 import ImageFormatter from "./ImageFormatter";
 
 const highlightClassname = css`
@@ -31,13 +31,14 @@ const columns = [
     field: "id",
     headerName: "ID",
     width: 80,
+    resizable: true,
     frozen: true,
   },
   {
     field: "avatar",
     headerName: "Avatar",
-    width: 80,
-    frozen: true,
+    width: 40,
+    resizable: true,
     headerRenderer: () => <ImageFormatter value={faker.image.cats()} />,
     valueFormatter: ({ row }) => <ImageFormatter value={row.avatar} />,
   },
@@ -45,7 +46,8 @@ const columns = [
     field: "title",
     headerName: "Title",
     width: 200,
-    valueFormatter(props) {
+    resizable: true,
+    formatter(props) {
       return <>{props.row.title}</>;
     },
     cellRenderer: dropDownEditor,
@@ -57,64 +59,93 @@ const columns = [
     field: "firstName",
     headerName: "First Name",
     width: 200,
+    resizable: true,
     frozen: true,
     cellRenderer: (props) => {
       return textEditor(props);
     },
+    // cellRenderer: (props) => {
+    //   console.log("propss", props);
+    //   // return <input value={props.row.firstName} onChange={(e)=> { ...props.row, [props.column.key]: e.target.value }} />
+    //   return (
+    //     <input
+    //       value={props.row.firstName}
+    //       onChange={(e) => {
+    //         console.log("e.target.value", e.target.value);
+    //         setRows([
+    //           ...props.allrow,
+    //           (props.allrow[props.rowIndex] = {
+    //             ...props.row,
+    //             [props.column.key]: e.target.value,
+    //           }),
+    //         ]);
+    //       }}
+    //     />
+    //   );
+    // },
   },
   {
     field: "lastName",
     headerName: "Last Name",
     width: 200,
+    resizable: true,
     frozen: true,
     cellRenderer: textEditor,
   },
   {
     field: "email",
     headerName: "Email",
-    width: 100,
+    width: "max-content",
+    resizable: true,
     cellRenderer: textEditor,
   },
   {
     field: "street",
     headerName: "Street",
     width: 200,
+    resizable: true,
     cellRenderer: textEditor,
   },
   {
     field: "zipCode",
     headerName: "ZipCode",
     width: 200,
+    resizable: true,
     cellRenderer: textEditor,
   },
   {
     field: "date",
     headerName: "Date",
     width: 200,
+    resizable: true,
     cellRenderer: textEditor,
   },
   {
     field: "bs",
     headerName: "bs",
     width: 200,
+    resizable: true,
     cellRenderer: textEditor,
   },
   {
     field: "catchPhrase",
     headerName: "Catch Phrase",
-    width: 200,
+    width: "max-content",
+    resizable: true,
     cellRenderer: textEditor,
   },
   {
     field: "companyName",
     headerName: "Company Name",
     width: 200,
+    resizable: true,
     cellRenderer: textEditor,
   },
   {
     field: "sentence",
     headerName: "Sentence",
-    width: 100,
+    width: "max-content",
+    resizable: true,
     cellRenderer: textEditor,
   },
 ];
@@ -122,7 +153,7 @@ const columns = [
 function createRows() {
   const rows = [];
 
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 2000; i++) {
     rows.push({
       id: `id_${i}`,
       avatar: faker.image.avatar(),
@@ -147,11 +178,11 @@ function createRows() {
 export default function AllFeatures({ direction }) {
   const [rows, setRows] = useState(createRows);
   const [selectedRows, setSelectedRows] = useState(() => new Set());
-
+  
   const selectedCellHeaderStyle = {
-    backgroundColor: "red",
-    fontSize: "12px",
-  };
+    backgroundColor: 'red',
+    fontSize: "12px"
+  }
   function handlePaste({
     sourceColumnKey,
     sourceRow,
@@ -187,16 +218,15 @@ export default function AllFeatures({ direction }) {
       onFill={true}
       onCopy={handleCopy}
       onPaste={handlePaste}
-      // rowHeight={30}
-      headerRowHeight={24}
-      summaryRowHeight={24}
+      rowHeight={30}
       selectedCellHeaderStyle={selectedCellHeaderStyle}
       selectedRows={selectedRows}
       onSelectedRowsChange={setSelectedRows}
       className="fill-grid"
-      // rowClass={(row) =>
-      //   row.id.includes("7") ? highlightClassname : undefined
-      // }
+      headerRowHeight={24}
+      rowClass={(row) =>
+        row.id.includes("7") ? highlightClassname : undefined
+      }
       direction={direction}
     />
   );

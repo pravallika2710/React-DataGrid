@@ -4,11 +4,17 @@ import clsx from "clsx";
 import Cell from "./Cell";
 import { RowSelectionProvider, useLatestFunc } from "./hooks";
 import { getColSpan, getRowStyle } from "./utils";
-import { rowClassname, rowSelectedClassname } from "./style";
-
+import { rowClassname, rowSelectedClassname, wholeRowFridge } from "./style";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 function Row(
   {
     className,
+    headerHeight,
+    singleRowFridgeIndex,
+    summaryRowHeight,
+    rows,
+    rowFridgeIndexEnd, //need to be changed
     rowIdx,
     gridRowStart,
     height,
@@ -18,7 +24,7 @@ function Row(
     draggedOverCellIdx,
     lastFrozenColumnIndex,
     row,
-    rows,
+
     viewportColumns,
     selectedCellEditor,
     selectedCellDragHandle,
@@ -29,6 +35,8 @@ function Row(
     onMouseEnter,
     onRowChange,
     selectCell,
+    handleReorderRow,
+    selectedCellRowStyle,
     ...props
   },
   ref
@@ -53,7 +61,7 @@ function Row(
   );
 
   const cells = [];
-
+  var selectedCellRowIndex;
   for (let index = 0; index < viewportColumns.length; index++) {
     const column = viewportColumns[index];
     const { idx } = column;
@@ -76,8 +84,12 @@ function Row(
           column={column}
           colSpan={colSpan}
           row={row}
-          allrow={rows}
-          rowIndex={rowIdx}
+          rowFridgeIndexEnd={rowFridgeIndexEnd} //need to be changed
+          singleRowFridgeIndex={singleRowFridgeIndex} //need to be changed
+          summaryRowHeight={summaryRowHeight} //need to be changed
+          headerHeight={headerHeight} //need to be changed
+          allrow={rows} //need to be changed
+          rowIndex={rowIdx} //need to be changed
           isCopied={copiedCellIdx === idx}
           isDraggedOver={draggedOverCellIdx === idx}
           isCellSelected={isCellSelected}
@@ -86,24 +98,27 @@ function Row(
           onRowDoubleClick={onRowDoubleClick}
           onRowChange={handleRowChange}
           selectCell={selectCell}
+          handleReorderRow={handleReorderRow}
         />
       );
     }
   }
 
   return (
-    <RowSelectionProvider value={isRowSelected}>
-      <div
-        role="row"
-        ref={ref}
-        className={className}
-        onMouseEnter={handleDragEnter}
-        style={getRowStyle(gridRowStart, height)}
-        {...props}
-      >
-        {cells}
-      </div>
-    </RowSelectionProvider>
+    <DndProvider backend={HTML5Backend}>
+      <RowSelectionProvider value={isRowSelected}>
+        <div
+          role="row"
+          ref={ref}
+          className={className}
+          onMouseEnter={handleDragEnter}
+          style={{ ...getRowStyle(gridRowStart, height) }}
+          {...props}
+        >
+          {cells}
+        </div>
+      </RowSelectionProvider>
+    </DndProvider>
   );
 }
 

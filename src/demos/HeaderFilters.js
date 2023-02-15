@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { css } from '@linaria/core';
 import { faker } from '@faker-js/faker';
-import DataGrid from '../components/datagrid/DataGrid';
+import DataGrid from "../components/datagrid/DataGrid";
 import { Parser, SUPPORTED_FORMULAS } from 'hot-formula-parser';
 
 const rootClassname = css`
@@ -20,7 +20,7 @@ const rootClassname = css`
 
 export default function HeaderFilters({ direction }) {
   const [rows] = useState(createRows);
-  
+
   const columns = useMemo(() => {
     return [
       {
@@ -33,20 +33,24 @@ export default function HeaderFilters({ direction }) {
         headerName: 'Title',
         sortable: true,
         filter: true,
+        width: 260,
       },
       {
         field: 'priority',
         headerName: 'Priority',
-        filter: true
+        filter: true,
+        width: 250,
       },
       {
         field: 'issueType',
         headerName: 'Issue Type',
-        sortable: true
+        sortable: true,
+        width: 150
       },
       {
         field: 'complete',
         headerName: '% Complete',
+        width: 150
       }
     ];
   }, []);
@@ -56,6 +60,9 @@ export default function HeaderFilters({ direction }) {
       <DataGrid
         columnData={columns}
         rowData={rows}
+        rowHeight={25}
+        headerRowHeight={24}
+        summaryRowHeight={24}
         direction={direction}
       />
     </div>

@@ -21,8 +21,8 @@ export default function VariableRowHeight({ direction }) {
     for (let i = 0; i < 30; i++) {
       const key = String(i);
       columns.push({
-        field:key,
-        headerName: key,
+        key,
+        name: key,
         frozen: i < 5,
         resizable: true,
         valueFormatter: cellFormatter

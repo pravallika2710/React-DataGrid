@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { css } from "@linaria/core";
 
 import defaultHeaderRenderer from "./headerRenderer";
 import { getCellStyle, getCellClassname } from "./utils";
 import { useRovingCellRef } from "./hooks";
-import { filterColumnClassName } from './style'
+import { filterColumnClassName } from "./style";
+import { useDrag, useDrop } from "react-dnd";
 
 const cellResizable = css`
   @layer rdg.HeaderCell {
@@ -26,8 +27,11 @@ const cellResizableClassname = `rdg-cell-resizable ${cellResizable}`;
 
 export default function HeaderCell({
   column,
+  rowArray,
   rows,
   colSpan,
+  headerRowHeight,
+  cellHeight,
   isCellSelected,
   onColumnResize,
   allRowsSelected,
@@ -39,12 +43,15 @@ export default function HeaderCell({
   selectedPosition,
   selectedCellHeaderStyle,
   direction,
-  setFilters
+  setFilters,
+  handleReorderColumn,
+  columns,
 }) {
   const isRtl = direction === "rtl";
   const { ref, tabIndex, onFocus } = useRovingCellRef(isCellSelected);
+  const [sortableColumnKey, setSortableColumnKey] = useState();
   const sortIndex = sortColumns?.findIndex(
-    (sort) => sort.columnKey === column.key
+    (sort) => sort.columnKey === sortableColumnKey
   );
   const sortColumn =
     sortIndex !== undefined && sortIndex > -1
@@ -62,9 +69,9 @@ export default function HeaderCell({
         : "descending"
       : undefined;
   var style = getCellStyle(column, colSpan);
-  selectedCellHeaderStyle && selectedPosition.idx === column.idx
-    ? (style = { ...style, ...selectedCellHeaderStyle })
-    : style;
+  // selectedCellHeaderStyle && selectedPosition.idx === column.idx
+  //   ? (style = { ...style, ...selectedCellHeaderStyle })
+  //   : style;
 
   const className = getCellClassname(
     column,
@@ -116,14 +123,25 @@ export default function HeaderCell({
     currentTarget.addEventListener("pointermove", onPointerMove);
     currentTarget.addEventListener("lostpointercapture", onLostPointerCapture);
   }
+  function onSort(ctrlClick, name) {
+    var matches = [];
+    column.haveChildren
+      ? column?.children.forEach(function (e) {
+          matches = matches.concat(
+            e.children.filter(function (c) {
+              return c.headerName === name && c.sortable === true;
+            })
+          );
+        })
+      : matches.push(column);
+    setSortableColumnKey(matches[0].key);
 
-  function onSort(ctrlClick) {
     if (onSortColumnsChange == null) return;
-    const { sortDescendingFirst } = column;
+    const { sortDescendingFirst } = matches[0];
     if (sortColumn === undefined) {
       // not currently sorted
       const nextSort = {
-        columnKey: column.key,
+        columnKey: matches[0].field,
         direction: sortDescendingFirst ? "DESC" : "ASC",
       };
       onSortColumnsChange(
@@ -136,7 +154,7 @@ export default function HeaderCell({
         (sortDescendingFirst !== true && sortDirection === "ASC")
       ) {
         nextSortColumn = {
-          columnKey: column.key,
+          columnKey: matches[0].field,
           direction: sortDirection === "ASC" ? "DESC" : "ASC",
         };
       }
@@ -180,6 +198,39 @@ export default function HeaderCell({
     }
   }
 
+  function handleColumnsReorder(sourceKey, targetKey) {
+    console.log("sourceKey", sourceKey, " targetKey", targetKey);
+    const sourceColumnIndex = columns.findIndex((c) => c.field === sourceKey);
+    const targetColumnIndex = columns.findIndex((c) => c.field === targetKey);
+    const reorderedColumns = [...columns];
+    console.log("reorderedColumns", reorderedColumns);
+    reorderedColumns.splice(
+      targetColumnIndex,
+      0,
+      reorderedColumns.splice(sourceColumnIndex, 1)[0]
+    );
+
+    handleReorderColumn([...reorderedColumns]);
+  }
+
+  const [{ isDragging }, drag] = useDrag({
+    type: "COLUMN_DRAG",
+    item: { key: column.key },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+
+  const [{ isOver }, drop] = useDrop({
+    accept: "COLUMN_DRAG",
+    drop({ key }) {
+      handleColumnsReorder(key, column.key);
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  });
   return (
     // rome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
     <div
@@ -188,7 +239,10 @@ export default function HeaderCell({
       aria-selected={isCellSelected}
       aria-sort={ariaSort}
       aria-colspan={colSpan}
-      ref={ref}
+      ref={(ele) => {
+        drag(ele);
+        drop(ele);
+      }}
       // set the tabIndex to 0 when there is no selected cell so grid can receive focus
       tabIndex={shouldFocusGrid ? 0 : tabIndex}
       className={className}
@@ -201,13 +255,21 @@ export default function HeaderCell({
       {headerRenderer({
         column,
         rows,
+        rowArray,
+        selectedPosition,
+        headerRowHeight,
+        selectedCellHeaderStyle,
+        cellHeight,
+        selectCell, //need to be chnaged
         sortDirection,
+        shouldFocusGrid,
         priority,
+        onpointerdown,
         onSort,
         allRowsSelected,
         onAllRowsSelectionChange,
         isCellSelected,
-        setFilters
+        setFilters,
       })}
     </div>
   );
