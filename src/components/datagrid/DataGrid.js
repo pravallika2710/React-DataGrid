@@ -134,10 +134,6 @@ function DataGrid(props, ref) {
    * defaults
    */
 
-  const enableColumnSort = rawColumns
-    ?.map((i) => i.sortable === true)
-    .includes(true);
-  const enableFilter = rawColumns?.map((i) => i.filter === true).includes(true);
   const contextMenuItems =
     getContextMenuItems !== undefined ? getContextMenuItems() : [];
   function contextMenuRowRenderer(key, props) {
@@ -173,6 +169,14 @@ function DataGrid(props, ref) {
   const rawHeaderRowHeight = headerRowHeight * arrayDepth;
 
   // ---------------------------------End----------------------------------------------------
+  var flattedColumns;
+  const flat = (rawColumns) => (o) =>
+      o.children
+        ? o.children.flatMap(flat(rawColumns || o.headerName))
+        : { ...o, rawColumns },
+    response = rawColumns;
+  flattedColumns = response?.flatMap(flat());
+
   const defaultComponents = useDefaultComponents();
   const rowHeight = rawRowHeight ?? 24;
   const headerWithFilter = enableFilter ? 70 : undefined;
@@ -216,14 +220,7 @@ function DataGrid(props, ref) {
   const onSortColumnsChange = (sortColumns) => {
     return setSortColumns(sortColumns.slice(-1));
   };
-  var flattedColumns;
-  const flat = (rawColumns) => (o) =>
-      o.children
-        ? o.children.flatMap(flat(rawColumns || o.headerName))
-        : { ...o, rawColumns },
-    response = rawColumns;
-  flattedColumns = response?.flatMap(flat());
-
+  
   var defaultFilters = {};
   flattedColumns?.map((i) => (defaultFilters[i.field] = ""));
 

@@ -61,7 +61,7 @@ export default function HeaderFilters({ direction }) {
         columnData={columns}
         rowData={rows}
         rowHeight={25}
-        headerRowHeight={24}
+        headerRowHeight={70}
         summaryRowHeight={24}
         direction={direction}
       />
