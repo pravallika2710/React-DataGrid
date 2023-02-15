@@ -2,9 +2,9 @@ import { useCallback, useState } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 
-// import { DraggableRowRenderer } from './components/RowRenderers';
-import textEditor from './components/datagrid/editors/textEditor';
-import DataGrid from './components/datagrid/DataGrid';
+// import { DraggableRowRenderer } from '../components/RowRenderers';
+import textEditor from '../components/datagrid/editors/textEditor';
+import DataGrid from '../components/datagrid/DataGrid';
 import { DraggableRowRenderer } from './DraggableRowRenderer';
 
 

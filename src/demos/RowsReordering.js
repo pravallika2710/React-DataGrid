@@ -1,12 +1,11 @@
-import { useCallback, useState } from 'react';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useCallback, useState } from "react";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
-// import { DraggableRowRenderer } from './components/RowRenderers';
-import textEditor from '../components/datagrid/editors/textEditor';
-import DataGrid from '../components/datagrid/DataGrid';
-import { DraggableRowRenderer } from './DraggableRowRenderer';
-
+// import { DraggableRowRenderer } from '../components/RowRenderers';
+import textEditor from "../components/datagrid/editors/textEditor";
+import DataGrid from "../components/datagrid/DataGrid";
+import { DraggableRowRenderer } from "./DraggableRowRenderer";
 
 function createRows() {
   const rows = [];
@@ -16,8 +15,12 @@ function createRows() {
       id: i,
       task: `Task ${i}`,
       complete: Math.min(100, Math.round(Math.random() * 110)),
-      priority: ['Critical', 'High', 'Medium', 'Low'][Math.round(Math.random() * 3)],
-      issueType: ['Bug', 'Improvement', 'Epic', 'Story'][Math.round(Math.random() * 3)]
+      priority: ["Critical", "High", "Medium", "Low"][
+        Math.round(Math.random() * 3)
+      ],
+      issueType: ["Bug", "Improvement", "Epic", "Story"][
+        Math.round(Math.random() * 3)
+      ],
     });
   }
 
@@ -26,27 +29,31 @@ function createRows() {
 
 const columns = [
   {
-    field: 'id',
-    headerName: 'ID',
-    width: 80
+    field: "id",
+    headerName: "ID",
+    width: 80,
   },
   {
-    field: 'task',
-    headerName: 'Title',
-    editor: textEditor
+    field: "task",
+    headerName: "Title",
+    cellEditor: textEditor,
+    width: 200,
   },
   {
-    field: 'priority',
-    headerName: 'Priority'
+    field: "priority",
+    headerName: "Priority",
+    width: 200,
   },
   {
-    field: 'issueType',
-    headerName: 'Issue Type'
+    field: "issueType",
+    headerName: "Issue Type",
+    width: 200,
   },
   {
-    field: 'complete',
-    headerName: '% Complete'
-  }
+    field: "complete",
+    headerName: "% Complete",
+    width: 200,
+  },
 ];
 
 export default function RowsReordering({ direction }) {
@@ -61,7 +68,9 @@ export default function RowsReordering({ direction }) {
       });
     }
 
-    return <DraggableRowRenderer key={key} {...props} onRowReorder={onRowReorder} />;
+    return (
+      <DraggableRowRenderer key={key} {...props} onRowReorder={onRowReorder} />
+    );
   }, []);
 
   return (
@@ -69,6 +78,7 @@ export default function RowsReordering({ direction }) {
       <DataGrid
         columnData={columns}
         rowData={rows}
+        headerRowHeight={25}
         onRowsChange={setRows}
         renderers={{ rowRenderer }}
         direction={direction}

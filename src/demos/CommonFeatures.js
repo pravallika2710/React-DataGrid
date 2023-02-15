@@ -50,18 +50,10 @@ function TimestampFormatter({ timestamp }) {
 function CurrencyFormatter({ value }) {
   return <>{currencyFormatter.format(value)}</>;
 }
-const selectCellClassname = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
 
-  > input {
-    margin: 0;
-  }
-`;
 function getColumns(countries, direction) {
   return [
-    { ...SelectColumn, headerCellClass: selectCellClassname, cellClass: selectCellClassname },
+    { ...SelectColumn, width: 80 },
     {
       field: "id",
       headerName: "ID",
@@ -87,6 +79,7 @@ function getColumns(countries, direction) {
       headerName: "Client",
       width: "max-content",
       cellRenderer: textEditor,
+      width: 150,
     },
     {
       field: "area",
@@ -131,7 +124,7 @@ function getColumns(countries, direction) {
       field: "progress",
       headerName: "Completion",
       width: 110,
-      formatter(props) {
+      valueFormatter(props) {
         const value = props.row.progress;
         return (
           <>
@@ -140,7 +133,7 @@ function getColumns(countries, direction) {
           </>
         );
       },
-      editor({ row, onRowChange, onClose }) {
+      cellEditor({ row, onRowChange, onClose }) {
         return createPortal(
           <div
             dir={direction}
@@ -178,7 +171,7 @@ function getColumns(countries, direction) {
       field: "startTimestamp",
       headerName: "Start date",
       width: 100,
-      formatter(props) {
+      valueFormatter(props) {
         return <TimestampFormatter timestamp={props.row.startTimestamp} />;
       },
     },
@@ -186,7 +179,7 @@ function getColumns(countries, direction) {
       field: "endTimestamp",
       headerName: "Deadline",
       width: 100,
-      formatter(props) {
+      valueFormatter(props) {
         return <TimestampFormatter timestamp={props.row.endTimestamp} />;
       },
     },
@@ -194,13 +187,14 @@ function getColumns(countries, direction) {
       field: "budget",
       headerName: "Budget",
       width: 100,
-      formatter(props) {
+      valueFormatter(props) {
         return <CurrencyFormatter value={props.row.budget} />;
       },
     },
     {
       field: "transaction",
       headerName: "Transaction type",
+      width: 150,
     },
     {
       field: "account",
@@ -211,12 +205,13 @@ function getColumns(countries, direction) {
       field: "version",
       headerName: "Version",
       cellRenderer: textEditor,
+      width: 150,
     },
     {
       field: "available",
       headerName: "Available",
       width: 80,
-      formatter({ row, onRowChange, isCellSelected }) {
+      valueFormatter({ row, onRowChange, isCellSelected }) {
         return (
           <SelectCellFormatter
             value={row.available}
@@ -343,18 +338,17 @@ export default function CommonFeatures({ direction }) {
       rowData={sortedRows}
       // defaultColumnOptions={{
       //   sortable: true,
-      //   resizable: true
+      //   resizable: true,
       // }}
-      // onRowClicked={(e) => {
-      //   console.log("Row Clicked", e);
-      // }}
-      // selectedRows={selectedRows}
-      // onSelectedRowsChange={setSelectedRows}
+      headerRowHeight={24}
+      summaryRowHeight={24}
+      selectedRows={selectedRows}
+      onSelectedRowsChange={setSelectedRows}
       onRowsChange={setRows}
-      // sortColumns={sortColumns}
-      // onSortColumnsChange={setSortColumns}
-      // topSummaryRows={summaryRows}
-      // bottomSummaryRows={summaryRows}
+      sortColumns={sortColumns}
+      onSortColumnsChange={setSortColumns}
+      topSummaryRows={summaryRows}
+      bottomSummaryRows={summaryRows}
       className="fill-grid"
       direction={direction}
     />

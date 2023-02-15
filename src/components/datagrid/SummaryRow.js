@@ -9,7 +9,7 @@ import SummaryCell from "./SummaryCell"
 
 const summaryRow = css`
   @layer rdg.SummaryRow {
-    line-height: var(--rdg-sumary-row-height);
+    line-height: var(--rdg-summary-row-height);
 
     > .${cell} {
       position: sticky;
@@ -95,7 +95,7 @@ function SummaryRow({
       aria-rowindex={ariaRowIndex}
       className={clsx(
         rowClassname,
-        `rdg-row-summary-row-${rowIdx % 2 === 0 ? "even" : "odd"}`,
+        `rdg-row-summary-row-${rowIdx % 2 === 0 ? "even" : "odd"}`,               //need to be changed
         summaryRowClassname,
         {
           [rowSelectedClassname]: selectedCellIdx === -1,

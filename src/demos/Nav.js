@@ -123,11 +123,11 @@ export default function Nav({ direction, onDirectionChange }) {
       <NavLink to="/variable-row-height" end className={getActiveClassname}>
         Variable Row Height
       </NavLink>
-      {/* <NavLink to="/animation" end className={getActiveClassname}>
+      <NavLink to="/animation" end className={getActiveClassname}>
         Animation
-      </NavLink> */}
+      </NavLink>
 
-      {/* <h2>Direction</h2>
+      <h2>Direction</h2>
       <label className={rtlCheckboxClassname}>
         <input
           type="checkbox"
@@ -135,7 +135,7 @@ export default function Nav({ direction, onDirectionChange }) {
           onChange={() => onDirectionChange(direction === 'rtl' ? 'ltr' : 'rtl')}
         />
         Right to left
-      </label> */}
+      </label>
     </nav>
   );
 }

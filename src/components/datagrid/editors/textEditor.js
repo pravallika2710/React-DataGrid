@@ -32,7 +32,6 @@ const textEditorInternalClassname = css`
 
 export const textEditorClassname = `rdg-text-editor ${textEditorInternalClassname}`;
 
-
 export default function textEditor({
   row,
   column,
@@ -54,9 +53,10 @@ export default function textEditor({
       disabled={column.editable ? column.editable : false}
       value={row[column.key]}
       {...column.inputProps}
-      onChange={(event) =>
-        onRowChange({ ...row, [column.key]: event.target.value })
-      }
+      onChange={(event) => {
+        console.log(row, "---");
+        onRowChange({ ...row, [column.key]: event.target.value });
+      }}
       onBlur={() => onClose(true)}
     />
   );

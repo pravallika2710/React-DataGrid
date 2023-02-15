@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
-import textEditor from "../components/datagrid/editors/textEditor";
+
 import DataGrid from "../components/datagrid/DataGrid";
 
 const loadMoreRowsClassname = css`
@@ -24,39 +24,39 @@ const columns = [
   {
     field: "id",
     headerName: "ID",
-    width: 30,
+
+    // width: 200,
   },
   {
     field: "title",
     headerName: "Title",
-    editable: true,
+    // resizable: true,
+    // width: 200,
   },
   {
     field: "firstName",
     headerName: "First Name",
-    cellRenderer: (props) => {
-      console.log(props);
-      return textEditor(props);
-    },
+    // width: 200,
   },
   {
     field: "lastName",
     headerName: "Last Name",
+    // width: 200,
   },
   {
     field: "email",
     headerName: "Email",
-    valueFormatter: ({ row, column }) => `Email: ${row[column.key]}`,
+    // width: 200,
   },
 ];
 
 function createFakeRowObjectData(index) {
   return {
     id: `id_${index}`,
-    email: faker.name.firstName(),
+    email: faker.internet.email(),
     title: faker.name.prefix(),
     firstName: faker.name.firstName(),
-    lastName: faker.name.firstName(),
+    lastName: faker.name.lastName(),
   };
 }
 
@@ -90,7 +90,7 @@ function loadMoreRows(newRowsCount, length) {
 }
 
 export default function InfiniteScrolling({ direction }) {
-  const [rows, setRows] = useState(() => createRows(10));
+  const [rows, setRows] = useState(() => createRows(50));
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleScroll(event) {
@@ -112,13 +112,15 @@ export default function InfiniteScrolling({ direction }) {
         rowKeyGetter={rowKeyGetter}
         onRowsChange={setRows}
         rowHeight={25}
+        headerRowHeight={24}
+        summaryRowHeight={24}
         onScroll={handleScroll}
         className="fill-grid"
         direction={direction}
       />
-      {/* {isLoading && (
+      {isLoading && (
         <div className={loadMoreRowsClassname}>Loading more rows...</div>
-      )} */}
+      )}
     </>
   );
 }

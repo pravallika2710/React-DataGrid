@@ -29,26 +29,31 @@ const headerRow = css`
     }
   }
 `;
-
+//need to change line-16-18
 const headerRowClassname = `rdg-header-row ${headerRow}`;
 
 function HeaderRow({
   columns,
-  rows,
+  headerHeight, //need to be changed
+  headerData, //need to be changed
   allRowsSelected,
+  rows,
+  lastColumnCell,
+  headerRowHeight,
   onAllRowsSelectionChange,
   onColumnResize,
   sortColumns,
   onSortColumnsChange,
   lastFrozenColumnIndex,
   selectedCellIdx,
-  selectCell,
   selectedCellHeaderStyle,
   selectedPosition,
   shouldFocusGrid,
   direction,
-  setFilters
+  setFilters,
+  selectCell,
 }) {
+ 
   const cells = [];
   for (let index = 0; index < columns.length; index++) {
     const column = columns[index];
@@ -58,11 +63,14 @@ function HeaderRow({
     if (colSpan !== undefined) {
       index += colSpan - 1;
     }
-
+    
     cells.push(
       <HeaderCell
         key={column.key}
         column={column}
+        cellHeight={headerHeight}
+        headerRowHeight={headerRowHeight} //need to be changed
+        cellData={headerData} //need to be changed
         rows={rows}
         colSpan={colSpan}
         selectedPosition={selectedPosition}
@@ -87,7 +95,7 @@ function HeaderRow({
       // aria-rowindex is 1 based
       aria-rowindex={1}
       className={clsx(headerRowClassname, {
-        [rowSelectedClassname]: selectedCellIdx === -1,
+        [rowSelectedClassname]: selectedCellIdx === 1, //need to be changed
       })}
       style={getRowStyle(1)}
     >
