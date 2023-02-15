@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import { css } from "@linaria/core";
 import { faker } from "@faker-js/faker";
@@ -8,7 +8,11 @@ import textEditor from "../components/datagrid/editors/textEditor";
 import { SelectCellFormatter } from "../components/datagrid/formatters/SelectCellFormatter";
 import DataGrid from "../components/datagrid/DataGrid";
 
-import { exportToCsv, exportToXlsx, exportToPdf } from "./UtilityExport";
+import {
+  exportToCsv,
+  exportToPdf,
+  exportToXlsx,
+} from "../components/exportUtils";
 import textEditorClassname from "../components/datagrid/editors/textEditor";
 
 const toolbarClassname = css`
@@ -50,10 +54,23 @@ function TimestampFormatter({ timestamp }) {
 function CurrencyFormatter({ value }) {
   return <>{currencyFormatter.format(value)}</>;
 }
+const selectCellClassname = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
+  > input {
+    margin: 0;
+  }
+`;
 function getColumns(countries, direction) {
   return [
-    { ...SelectColumn, width: 80 },
+    {
+      ...SelectColumn,
+      headerCellClass: selectCellClassname,
+      cellClass: selectCellClassname,
+      width: 80,
+    },
     {
       field: "id",
       headerName: "ID",
@@ -78,7 +95,7 @@ function getColumns(countries, direction) {
       field: "client",
       headerName: "Client",
       width: "max-content",
-      cellRenderer: textEditor,
+      cellEditor: textEditor,
       width: 150,
     },
     {
@@ -95,6 +112,7 @@ function getColumns(countries, direction) {
         <select
           className={textEditorClassname}
           value={p.row.country}
+          style={{ width: "100%" }}
           onChange={(e) =>
             p.onRowChange({ ...p.row, country: e.target.value }, true)
           }
@@ -194,7 +212,7 @@ function getColumns(countries, direction) {
     {
       field: "transaction",
       headerName: "Transaction type",
-      width: 150,
+      width: 100,
     },
     {
       field: "account",
@@ -205,7 +223,7 @@ function getColumns(countries, direction) {
       field: "version",
       headerName: "Version",
       cellRenderer: textEditor,
-      width: 150,
+      width: 100,
     },
     {
       field: "available",
@@ -330,7 +348,7 @@ export default function CommonFeatures({ direction }) {
       return 0;
     });
   }, [rows, sortColumns]);
-
+  const gridRef = useRef(null);
   const gridElement = (
     <DataGrid
       rowKeyGetter={rowKeyGetter}
@@ -338,37 +356,49 @@ export default function CommonFeatures({ direction }) {
       rowData={sortedRows}
       // defaultColumnOptions={{
       //   sortable: true,
-      //   resizable: true,
+      //   resizable: true
       // }}
+      // onRowClicked={(e) => {
+      //   console.log("Row Clicked", e);
+      // }}
+      // selectedRows={selectedRows}
+      // onSelectedRowsChange={setSelectedRows}
+      onRowsChange={setRows}
       headerRowHeight={24}
       summaryRowHeight={24}
-      selectedRows={selectedRows}
-      onSelectedRowsChange={setSelectedRows}
-      onRowsChange={setRows}
-      sortColumns={sortColumns}
-      onSortColumnsChange={setSortColumns}
+      // sortColumns={sortColumns}
+      // onSortColumnsChange={setSortColumns}
       topSummaryRows={summaryRows}
       bottomSummaryRows={summaryRows}
       className="fill-grid"
       direction={direction}
+      ref={gridRef}
     />
   );
-
+  var fileData = sortedRows;
+  var fileName = "NEwFILE.xlsx";
   return (
     <>
       <div className={toolbarClassname}>
+        <button
+          onClick={() => {
+            exportToXlsx(fileData, columns, fileName);
+          }}
+        >
+          Export Excel
+        </button>
+
         <ExportButton
-          onExport={() => exportToCsv(gridElement, "CommonFeatures.csv")}
+          onExport={() => {
+            exportToCsv(sortedRows, columns, "CommonFeatures.xlsx");
+          }}
         >
           Export to CSV
         </ExportButton>
         <ExportButton
-          onExport={() => exportToXlsx(gridElement, "CommonFeatures.xlsx")}
-        >
-          Export to XSLX
-        </ExportButton>
-        <ExportButton
-          onExport={() => exportToPdf(gridElement, "CommonFeatures.pdf")}
+          onExport={() =>
+            exportToPdf(sortedRows, columns, "CommonFeatures.pdf")
+          }
         >
           Export to PDF
         </ExportButton>

@@ -96,6 +96,9 @@ export default function Nav({ direction, onDirectionChange }) {
       <NavLink to="/header-filters" end className={getActiveClassname}>
         Header Filters
       </NavLink>
+      <NavLink to="/file-export" end className={getActiveClassname}>
+        File export
+      </NavLink>
       <NavLink to="/infinite-scrolling" end className={getActiveClassname}>
         Infinite Scrolling
       </NavLink>

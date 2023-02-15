@@ -1,11 +1,5 @@
 import { useCallback, useState } from "react";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-
-// import { DraggableRowRenderer } from '../components/RowRenderers';
-import textEditor from "../components/datagrid/editors/textEditor";
 import DataGrid from "../components/datagrid/DataGrid";
-import { DraggableRowRenderer } from "./DraggableRowRenderer";
 
 function createRows() {
   const rows = [];
@@ -36,7 +30,7 @@ const columns = [
   {
     field: "task",
     headerName: "Title",
-    cellEditor: textEditor,
+    rowDrag: true,
     width: 200,
   },
   {
@@ -59,30 +53,14 @@ const columns = [
 export default function RowsReordering({ direction }) {
   const [rows, setRows] = useState(createRows);
 
-  const rowRenderer = useCallback((key, props) => {
-    function onRowReorder(fromIndex, toIndex) {
-      setRows((rows) => {
-        const newRows = [...rows];
-        newRows.splice(toIndex, 0, newRows.splice(fromIndex, 1)[0]);
-        return newRows;
-      });
-    }
-
-    return (
-      <DraggableRowRenderer key={key} {...props} onRowReorder={onRowReorder} />
-    );
-  }, []);
 
   return (
-    <DndProvider backend={HTML5Backend}>
-      <DataGrid
-        columnData={columns}
-        rowData={rows}
-        headerRowHeight={25}
-        onRowsChange={setRows}
-        renderers={{ rowRenderer }}
-        direction={direction}
-      />
-    </DndProvider>
+    <DataGrid
+      columnData={columns}
+      rowData={rows}
+      headerRowHeight={25}
+      onRowsChange={setRows}
+      direction={direction}
+    />
   );
 }

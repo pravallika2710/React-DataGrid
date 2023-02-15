@@ -242,7 +242,7 @@ function DataGrid(props, ref) {
         : a[columnKey].localeCompare(b[columnKey])
     );
     return direction === "DESC" ? sortedRows.reverse() : sortedRows;
-  }, [raawRows, sortColumns, filters]);
+  }, [raawRows, sortColumns, filters,rawRows]);
 
   function filterFunction(props) {
     return raawRows?.filter(function (val) {
@@ -254,7 +254,7 @@ function DataGrid(props, ref) {
 
   useEffect(() => {
     return setRawRows(sortedRows);
-  });
+  },[sortedRows]);
 
   /**
    * refs
@@ -630,6 +630,11 @@ function DataGrid(props, ref) {
     selectCell({ rowIdx, idx: column.idx });
   });
   const toggleGroupLatest = useLatestFunc(toggleGroup);
+
+
+  const handleReorderRow = (value) => {
+    setRawRows(value);
+  };
 
   /**
    * effects
@@ -1288,6 +1293,7 @@ function DataGrid(props, ref) {
         rowIndex={rowIdx}
         onRowChange={onRowChange}
         closeEditor={closeEditor}
+        handleReorderRow={handleReorderRow}
       />
     );
   }
@@ -1447,6 +1453,7 @@ function DataGrid(props, ref) {
           selectCell: selectViewportCellLatest,
           selectedCellDragHandle: getDragHandle(rowIdx),
           selectedCellEditor: getCellEditor(rowIdx),
+          handleReorderRow: handleReorderRow,
         })
       );
     }
@@ -1588,7 +1595,7 @@ function DataGrid(props, ref) {
             </FilterContext.Provider>
           </div>
 
-          {/* <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike"/> */}
+       
 
           <div
             role={hasGroups ? "treegrid" : "grid"}

@@ -26,6 +26,8 @@ import ScrollToRow from "./demos/ScrollToRow";
 import TreeView from "./demos/TreeView";
 import VariableRowHeight from "./demos/VariableRowHeight";
 import Animation from "./demos/Animation";
+import FileExport from "./demos/FileExport";
+
 css`
   @at-root {
     :root,
@@ -127,6 +129,10 @@ function App() {
           <Route
             path="resizable-grid"
             element={<ResizableGrid direction={direction} />}
+          />
+          <Route
+            path="file-export"
+            element={<FileExport direction={direction} />}
           />
           <Route
             path="rows-reordering"

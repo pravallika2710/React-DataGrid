@@ -5,7 +5,8 @@ import Cell from "./Cell";
 import { RowSelectionProvider, useLatestFunc } from "./hooks";
 import { getColSpan, getRowStyle } from "./utils";
 import { rowClassname, rowSelectedClassname, wholeRowFridge } from "./style";
-
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 function Row(
   {
     className,
@@ -34,6 +35,8 @@ function Row(
     onMouseEnter,
     onRowChange,
     selectCell,
+    handleReorderRow,
+    selectedCellRowStyle,
     ...props
   },
   ref
@@ -53,18 +56,14 @@ function Row(
     {
       [rowSelectedClassname]: selectedCellIdx === -1,
     },
-
     rowClass?.(row),
     className
   );
 
   const cells = [];
-
+  var selectedCellRowIndex;
   for (let index = 0; index < viewportColumns.length; index++) {
     const column = viewportColumns[index];
-    // const column = viewportColumns[3].children[0]
-    // const column = viewportColumns.haveChildren===true?viewportColumns.children[index]:viewportColumns[index]
-
     const { idx } = column;
     const colSpan = getColSpan(column, lastFrozenColumnIndex, {
       type: "ROW",
@@ -99,24 +98,27 @@ function Row(
           onRowDoubleClick={onRowDoubleClick}
           onRowChange={handleRowChange}
           selectCell={selectCell}
+          handleReorderRow={handleReorderRow}
         />
       );
     }
   }
 
   return (
-    <RowSelectionProvider value={isRowSelected}>
-      <div
-        role="row"
-        ref={ref}
-        className={className}
-        onMouseEnter={handleDragEnter}
-        style={{ ...getRowStyle(gridRowStart, height) }}
-        {...props}
-      >
-        {cells}
-      </div>
-    </RowSelectionProvider>
+    <DndProvider backend={HTML5Backend}>
+      <RowSelectionProvider value={isRowSelected}>
+        <div
+          role="row"
+          ref={ref}
+          className={className}
+          onMouseEnter={handleDragEnter}
+          style={{ ...getRowStyle(gridRowStart, height) }}
+          {...props}
+        >
+          {cells}
+        </div>
+      </RowSelectionProvider>
+    </DndProvider>
   );
 }
 
