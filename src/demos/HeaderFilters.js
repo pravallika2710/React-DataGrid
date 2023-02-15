@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { css } from '@linaria/core';
 import { faker } from '@faker-js/faker';
-import DataGrid from '../components/datagrid/DataGrid';
+import DataGrid from "../components/datagridTest2/DataGrid";
 import { Parser, SUPPORTED_FORMULAS } from 'hot-formula-parser';
 
 const rootClassname = css`
@@ -19,34 +19,43 @@ const rootClassname = css`
 // re-created when filters are changed and filter loses focus
 
 export default function HeaderFilters({ direction }) {
-  const [rows] = useState(createRows);
-  
+  const [rows, setRows] = useState(createRows);
+
   const columns = useMemo(() => {
     return [
       {
-        field: 'id',
-        headerName: 'ID',
-        width: 50
+        field: "id",
+        headerName: "ID",
+        sortable: true,
+        filter: true,
+        haveChildren: false,
+        width: 200,
       },
       {
         field: 'task',
         headerName: 'Title',
         sortable: true,
         filter: true,
+        haveChildren: false,
+        width: 260,
       },
       {
         field: 'priority',
         headerName: 'Priority',
-        filter: true
+        filter: true,
+        haveChildren: false,
+        width: 250,
       },
       {
         field: 'issueType',
         headerName: 'Issue Type',
-        sortable: true
+        sortable: true,
+        width: 150
       },
       {
         field: 'complete',
         headerName: '% Complete',
+        width: 150
       }
     ];
   }, []);
