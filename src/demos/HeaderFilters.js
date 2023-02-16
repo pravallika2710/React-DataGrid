@@ -9,7 +9,7 @@ const rootClassname = css`
   flex-direction: column;
   block-size: 100%;
   gap: 10px;
-
+  height: 500px;
   > .rdg {
     flex: 1;
   }
@@ -64,6 +64,8 @@ export default function HeaderFilters({ direction }) {
         headerRowHeight={70}
         summaryRowHeight={24}
         direction={direction}
+        pagination={true}
+        paginationPageSize={10}
       />
     </div>
   );

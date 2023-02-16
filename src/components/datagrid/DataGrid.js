@@ -11,6 +11,8 @@ import { flushSync } from "react-dom";
 import clsx from "clsx";
 import { groupBy as rowGrouper } from "lodash";
 import { createPortal } from "react-dom";
+import Pagination from 'rc-pagination';
+import './PaginationHandler.css'
 import {
   ContextMenu,
   MenuItem,
@@ -124,6 +126,8 @@ function DataGrid(props, ref) {
     rowClass,
     direction: rawDirection,
     getContextMenuItems,
+    pagination,
+    paginationPageSize,
     // ARIA
     "aria-label": ariaLabel,
     "aria-labelledby": ariaLabelledBy,
@@ -218,6 +222,10 @@ const enableFilter = flattedColumns.map(i => i.filter === true ? true : false)
   const [draggedOverRowIdx, setOverRowIdx] = useState(undefined);
   const [sortColumns, setSortColumns] = useState([]);
   const [rawRows, setRawRows] = useState(raawRows);
+  const [perPage, setPerPage] = useState(paginationPageSize);
+  const [size, setSize] = useState(perPage);
+  const [current, setCurrent] = useState(1);
+
   // const [rawColumns, setRawColumns] = useState([]);
   const onSortColumnsChange = (sortColumns) => {
     return setSortColumns(sortColumns.slice(-1));
@@ -253,8 +261,34 @@ const enableFilter = flattedColumns.map(i => i.filter === true ? true : false)
 
   useEffect(() => {
     return setRawRows(sortedRows);
-  }, [sortedRows]);
+  }, [sortColumns, filters, size]);
 
+  const PerPageChange = (value) => {
+    setSize(value);
+    const newPerPage = Math.ceil(rawRows.length / value);
+    if (current > newPerPage) {
+      setCurrent(newPerPage);
+    }
+  }
+  var data = rawRows.slice((current - 1) * size, current * size)
+  // useEffect(() => {
+  //   return setRawRows(data)
+  // }, [paginationPageSize, current])
+console.log(data);
+  const PaginationChange = (page, pageSize) => {
+    setCurrent(page);
+    setSize(pageSize)
+  }
+  const PrevNextArrow = (current, type, originalElement) => {
+    if (type === 'prev') {
+      return <button><i className="fa fa-angle-double-left"></i></button>;
+    }
+    if (type === 'next') {
+      return <button><i className="fa fa-angle-double-right"></i></button>;
+    }
+    return originalElement;
+  }
+    
   /**
    * refs
    */
@@ -304,39 +338,6 @@ const enableFilter = flattedColumns.map(i => i.filter === true ? true : false)
   // ---------------------------Need to be added-Start--------------------------------------------------------
 
   var cloneArray = rawColumns?.slice();
-  var newArray = rawColumns?.slice();
-
-  // const getMembers = (members) => {
-  //   let children = [];
-  //   const flattenMembers = members.map(m => {
-  //     if (m.children && m.children.length) {
-  //       children = [...children, ...m.children];
-  //     }
-  //     return m;
-  //   });
-
-  //   return flattenMembers.concat(children.length ? getMembers(children) : children);
-  // };
-
-  // const rowArray=getMembers(newArray)
-
-  // function getDepth(arr) {
-  //   let maxDepth = 1;
-
-  //   function recurse(arr, depth) {
-  //     for (let i = 0; i < arr.length; i++) {
-  //       if (Array.isArray(arr[i])) {
-  //         recurse(arr[i], depth + 1);
-  //       } else if (typeof arr[i] === 'object') {
-  //         recurse(Object.values(arr[i]), depth + 1);
-  //       }
-  //       maxDepth = Math.max(maxDepth, depth);
-  //     }
-  //   }
-
-  //   recurse(arr, 1);
-  //   return maxDepth;
-  // }
 
   const { columns3 } = useCalculatedColumns3({
     rawColumns, //need to be added
@@ -1328,6 +1329,7 @@ const enableFilter = flattedColumns.map(i => i.filter === true ? true : false)
     return viewportColumnss;
   }
 
+  
   function getViewportRows() {
     const rowElements = [];
     let startRowIndex = 0;
@@ -1784,6 +1786,19 @@ const enableFilter = flattedColumns.map(i => i.filter === true ? true : false)
           </div>
         </div>
       </div>
+      {pagination && 
+        <Pagination
+        className="pagination-data"
+        showTotal={(total, range) => `Showing ${range[0]}-${range[1]} of ${total}`}
+        onChange={PaginationChange}
+        total={rawRows.length}
+        current={current}
+        pageSize={size}
+        showSizeChanger={false}
+        itemRender={PrevNextArrow}
+        onShowSizeChange={PerPageChange}
+      />
+      }
     </>
   );
 }
